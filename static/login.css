@@ -1,0 +1,90 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+}
+
+main {
+  min-height: 100vh;
+  background: linear-gradient(to right top, #3494e6, #ec6ead);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  width: 420px;
+  height: 48vh;
+  border-radius: 1rem;
+}
+
+h1 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  text-align: center;
+  color: #333; /* Dark gray color */
+}
+
+.glass .input-box {
+  position: relative;
+  width: 80%;
+  height: 50px;
+  margin: 30px 35px;
+}
+
+.glass .input-box input {
+  width: 100%;
+  height: 100%;
+  border-radius: 40px;
+  border: none;
+  font-size: 16px;
+  padding: 20px 45px 20px 20px;
+}
+
+.glass .input-box input:focus {
+  outline: none;
+}
+
+.input-box i {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+}
+
+.glass button {
+  width: 80%;
+  height: 55px;
+  border-radius: 40px;
+  border: none;
+  outline: none;
+  margin: 0 35px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  background: #333; /* Dark gray background */
+  color: #fff; /* White text color */
+}
+
+.glass .register-link {
+  text-align: center;
+  margin-top: 15px;
+}
+.flash ul li {
+  color: #ff0000; /* Set the color of the flashed messages */
+  text-align: center;
+  font-size: 16px; /* Set the font size of the flashed messages */
+  margin-bottom: 5px; /* Set the margin between each flashed message */
+}
+.flash ul {
+  list-style: none;
+  padding: 5px;
+  margin: 10px;
+}
