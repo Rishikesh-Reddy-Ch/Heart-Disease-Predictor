@@ -19,7 +19,7 @@
                 <div class="inputBox"><input type="tel" name="phoneNum" placeholder="Phone Number" required><i class='bx
                 bx-phone'></i></div>
                 <div class="regFlash">
-                    {% with messages = get_flashed_messages() %} {% if messages %}
+                    {% if messages %}
                     <script src="scrypts/allign.js">
                     </script>
                     <ul>
@@ -34,11 +34,11 @@
                             };
                             Object.assign(ele.style, glassStyle);
                           </script>
-                      {% for message in messages %}
-                      <li>{{ message }}</li>
+                      {% for msg in messages %}
+                      <li>{{ msg[1] }}</li>
                       {% endfor %}
                     </ul>
-                    {% endif %} {% endwith %}
+                    {% endif %}
                   </div>
                 <div class="btn-login"><button type="submit" name="login">Register</button></div>
                 
