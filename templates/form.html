@@ -1,0 +1,146 @@
+<body>
+    <fieldset class="fieldset">
+        <legend style="font-style: italic;">FORM</legend>
+
+    <form class="form" method="post">
+
+        <section class="profile">
+            <h2>Profile</h2>
+        <div>
+            <label  for="">Name :</label>
+            <input name="Name" type="text" required>
+        </div>
+        <div>
+            <label for="">Gender<span class="requiredstar"> *</span> :</label>
+            <input type="radio" value="1" name="Gender" required>male
+            <input type="radio" value="2" name="Gender" required>female
+        </div>
+        <div>
+            <label for="">DOB<span class="requiredstar"> *</span> :</label>
+            <input type="date" id="DOB" onfocus="Blur.call(this)" name="DateOfBirth" >
+        </div>
+        </section>
+
+        <section class="info" >
+            <h2>Informatin</h2>
+        <div>
+            <label for="">Height<span class="requiredstar"> *</span> :</label>
+            <input type="number" name="Height" max="244" min="91" required>centimeters
+        </div>
+        <div>
+            <label for="">Weight<span class="requiredstar"> *</span> :</label>
+            <input type="number" name="Weight" min="23" max="295" required>kilograms
+        </div>
+    </section>
+    <section class="health">
+        <h2>Chronic Health Condition</h2>
+        <div>
+            <label for="">HighBloodPressure<span class="requiredstar"> *</span> :</label>
+            <select name="HighBloodPressure" id="highBp"  required>
+                <option value="" disabled selected></option>
+                <option value="1">Yes</option>
+                <option value="3">No</option>
+                <option value="4">borderline high/pre-hypertensive </option>
+            </select>
+        </div>
+        <div>
+            <label for="">HighCholLevel<span class="requiredstar"> *</span> :</label>
+            <select name="HighCholLevel" id="highChl" required>
+                <option value="" disabled selected></option>
+                <option value="1">Yes</option>
+                <option value="2">No</option>
+            </select>
+        </div>
+        <div>
+            <label for="">Kidney Disease<span class="requiredstar"> *</span> :</label>
+            <select name="KidneyDisease" id="kidneyDisease" required>
+                <option value="" disabled selected></option>
+                <option value="1">Yes</option>
+                <option value="2">No</option>
+                <option value="999">Don't Know</option>
+            </select>
+        </div>
+        <div>
+            <label for="HadHeartAttack">Had Heart Attack<span class="requiredstar"> *</span> :</label>
+            <select name="HadHeartAttack" id="hadHeartAttack" required>
+                <option value="" disabled selected></option>
+                <option value="1">YES</option>
+                <option value="2">NO</option>
+            </select>
+        </div>
+        <div>
+            <label for="AnyHeartStroke">Any_Heart_Stroke <span class="requiredstar"> *</span> :</label>
+            <select name="AnyHeartStroke" id="anyHeartStroke" required>
+                <option value="" disabled selected></option>
+                <option value="1">YES</option>
+                <option value="2">NO</optioon>
+            </select>
+        </div>
+        <div>
+            <label for="">Diabetes <span class="requiredstar"> *</span> :</label>
+            <select name="Diabetis" id="anyDiabetis" onclick=enable() required>
+                <option value="" disabled selected></option>
+                <option value="1">Yes</option>
+                <option value="3">No</option>
+                <option value="4">Pre Diabetes</option>
+                <option value="999">Don't Know</option>
+            </select>
+        </div>
+        <div id="DiabetisAge" hidden>
+            <label for="" >Diabetes Age:</label>
+            <input name="DiabetesAge" type="number" id="DiabetesAge-input" style="width: 40px;" min="1" max="97">
+        </div>
+            <script>
+                function enable(){
+                    element=document.getElementById("DiabetesAge");
+                    if (document.getElementById("anyDiabetis").value==1){
+                        element.hidden=false;
+                }
+                else{
+                    element.hidden=true;
+                    document.getElementById("DiabetisAge-input").value="";
+                }
+                }
+                function Blur(){
+                    this.blur();
+                }
+            </script>
+        
+    </section>
+    <section class="activity">
+        <h2>Activity</h2>
+        <div>
+            <label for="">Exercise<span class="requiredstar"> *</span> </label>
+            <select name="exercise" id="exercise">
+                <option value="" disabled selected></option>
+                <option value="1">Yes</option>
+                <option value="2">No</option>
+            </select>
+        </div>
+        <div>
+            <label for="">Smoker?<span class="requiredstar"> *</span> :</label>
+            <select name="smoking" id="" required>
+                <option value="" disabled selected></option>
+                <option value="1" >Every Day</option>
+                <option value="2">Some times</option>
+                <option value="3">Former Smoker</option>
+                <option value="4">Not Smoker</option>
+            </select>
+        </div>
+        <div>
+            <label for="">Drinker?<span class="requiredstar"> *</span> :</label>
+            <select name="Drinker" id="drinking" required>
+                <option value="" disabled selected></option>
+                <option value="1">Yes</option>
+                <option value="2">No</option>
+                <!-- <option value="2">Not want to tell</option> -->
+            </select>
+        </div>
+    </section>
+
+    <div>
+    <input type="submit" name="" id="">
+    </div>
+    </form>
+</fieldset>
+</body>
