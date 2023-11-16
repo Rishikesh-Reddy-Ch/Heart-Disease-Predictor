@@ -8,7 +8,7 @@ app.secret_key = 'secret-key'
 
 @app.route('/')
 def index():
-  return render_template('app.html')
+  return render_template('home.html')
 
 @app.route('/register',methods=['POST','GET'])
 def register():
@@ -63,9 +63,17 @@ def form():
     formdata={}
     for i in names:
       formdata[i]=request.form[i]
-    if not fn.process_data(formdata,names,session["Username"]):
-       flash("Unable to access the dataBase","error")
-       return redirect(url_for("form"))
+    flag,predictionVal=fn.process_data(formdata,names,session["Username"])
+    if (not flag):
+      flash("Unable to access the dataBase","error")
+      return redirect(url_for("form"))
+    # fn.predic()
+    return redirect(url_for('prediction',value=int(predictionVal)))
   return render_template("form.html")
+@app.route('/prediction/', methods=['GET'])
+def prediction(value):
+  return render_template('prediction.html', value=value)
+
+
 if __name__ == "__main__":
   app.run(debug=True)
