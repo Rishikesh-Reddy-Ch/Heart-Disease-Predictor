@@ -3,6 +3,7 @@ import re
 import pymongo
 import pandas as pd
 import pickle as pkl
+import numpy as np
 from email_validator import validate_email
 from sklearn.ensemble import  GradientBoostingClassifier
 from datetime import datetime
@@ -90,7 +91,37 @@ def age_cal(dob):
             age = today.year - year
     else:
         age = today.year - year - 1
-    return age
+    
+    if age>=18 and age<=24:
+        age_cat = 1
+    elif age>=25 and age<=29:
+        age_cat = 2
+    elif age>=30 and age<=34:
+        age_cat =3
+    elif age>=35 and age<=39:
+        age_cat = 4
+    elif age>=40 and age<=44:
+        age_cat = 5
+    elif age>=45 and age<=49:
+        age_cat = 6
+    elif age>=50 and age<=54:
+        age_cat = 7
+    elif age>=55 and age<=59:
+        age_cat = 8
+    elif age>=60 and age<=64:
+        age_cat = 9
+    elif age>=65 and age<=69:
+        age_cat = 10
+    elif age>=70 and age<=74:
+        age_cat = 11
+    elif age>=75 and age<=79:
+        age_cat = 12
+    elif age>=80:
+        age_cat = 13
+    else:
+        age_cat = 14
+    
+    return age_cat,age
 
 def BMI_cat(height,weight):
     height,weight = int(height),int(weight)*100
@@ -125,7 +156,7 @@ def record(data,user):
 
 def process_data(form_data,names,user):
     try:
-        form_data['age'] = age_cal(form_data['DateOfBirth'])
+        form_data['Age Cat'],form_data['Age'] = age_cal(form_data['DateOfBirth'])
         # del form_data['DateOfBirth']
         form_data['DiabetesAge']=dia_age_cal(form_data['DiabetesAge'])
         for i in names:
@@ -135,16 +166,25 @@ def process_data(form_data,names,user):
         form_data["Weight"]=float(form_data["Weight"])
         # print("Upto here is Fine!")
         form_data['bmi'] = BMI_cat(form_data['Height'],form_data['Weight'])
-        if record(form_data,user):
-            return True
-        return False
+        prdictionVal,predicted=prediction(form_data)
+        print("fine")
+        if record(form_data,user) and predicted:
+            print(prdictionVal[0])
+            return True,prdictionVal[0]
+        return False,np.NaN
     except:
-        return False
-# def prediction(formData,user):
-#     df=pd.dataframe(formData)
-#     print(df)
-#     df.to_csv("temp.csv")
-#     with open("HeartHealth_classifier_model.pkl","rb") as f:
-#         model=pkl.load(f)
-#     model.predict_proba
+        return False,np.NaN
+def prediction(formData):
+    try:
+        with open("HeartHealth_classifier_model.pkl","rb") as f:
+            model=pkl.load(f)
+        names=['HighBloodPressure','HadHeartAttack','AnyHeartStroke','KidneyDisease','Diabetis','DiabetesAge','smoking','exercise','HighCholLevel','Gender','Age Cat','bmi','Drinker']
+        record=[]
+        for i in names:
+            record.append(int(formData[i]))
+        record=np.array(record).reshape((1,-1))
+        print(record,"fine")
+        return model.predict_proba(record)[:,1],True
+    except:
+        return np.NaN,False
 

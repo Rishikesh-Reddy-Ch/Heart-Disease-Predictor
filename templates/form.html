@@ -1,146 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form</title>
+  <link rel="stylesheet" href="../static/form.css">
+</head>
 <body>
-    <fieldset class="fieldset">
-        <legend style="font-style: italic;">FORM</legend>
+  <div class="container">
+      <!-- <form id="form1">
+        <h3>Profile</h3>
+        <input type="text" placeholder="Name" required>
+        <input type="password" placeholder="Password" required>
+        <input type="password" placeholder="Confirm Password" required>
 
-    <form class="form" method="post">
-
-        <section class="profile">
-            <h2>Profile</h2>
-        <div>
-            <label  for="">Name :</label>
-            <input name="Name" type="text" required>
+        <div class="btn-box">
+          <button type="button" id="next1">Next</button> 
         </div>
-        <div>
-            <label for="">Gender<span class="requiredstar"> *</span> :</label>
-            <input type="radio" value="1" name="Gender" required>male
-            <input type="radio" value="2" name="Gender" required>female
-        </div>
-        <div>
-            <label for="">DOB<span class="requiredstar"> *</span> :</label>
-            <input type="date" id="DOB" onfocus="Blur.call(this)" name="DateOfBirth" >
-        </div>
-        </section>
-
-        <section class="info" >
-            <h2>Informatin</h2>
-        <div>
-            <label for="">Height<span class="requiredstar"> *</span> :</label>
-            <input type="number" name="Height" max="244" min="91" required>centimeters
-        </div>
-        <div>
-            <label for="">Weight<span class="requiredstar"> *</span> :</label>
-            <input type="number" name="Weight" min="23" max="295" required>kilograms
-        </div>
-    </section>
-    <section class="health">
-        <h2>Chronic Health Condition</h2>
-        <div>
-            <label for="">HighBloodPressure<span class="requiredstar"> *</span> :</label>
-            <select name="HighBloodPressure" id="highBp"  required>
-                <option value="" disabled selected></option>
-                <option value="1">Yes</option>
-                <option value="3">No</option>
-                <option value="4">borderline high/pre-hypertensive </option>
-            </select>
-        </div>
-        <div>
-            <label for="">HighCholLevel<span class="requiredstar"> *</span> :</label>
-            <select name="HighCholLevel" id="highChl" required>
-                <option value="" disabled selected></option>
-                <option value="1">Yes</option>
-                <option value="2">No</option>
-            </select>
-        </div>
-        <div>
-            <label for="">Kidney Disease<span class="requiredstar"> *</span> :</label>
-            <select name="KidneyDisease" id="kidneyDisease" required>
-                <option value="" disabled selected></option>
-                <option value="1">Yes</option>
-                <option value="2">No</option>
-                <option value="999">Don't Know</option>
-            </select>
-        </div>
-        <div>
-            <label for="HadHeartAttack">Had Heart Attack<span class="requiredstar"> *</span> :</label>
-            <select name="HadHeartAttack" id="hadHeartAttack" required>
-                <option value="" disabled selected></option>
-                <option value="1">YES</option>
-                <option value="2">NO</option>
-            </select>
-        </div>
-        <div>
-            <label for="AnyHeartStroke">Any_Heart_Stroke <span class="requiredstar"> *</span> :</label>
-            <select name="AnyHeartStroke" id="anyHeartStroke" required>
-                <option value="" disabled selected></option>
-                <option value="1">YES</option>
-                <option value="2">NO</optioon>
-            </select>
-        </div>
-        <div>
-            <label for="">Diabetes <span class="requiredstar"> *</span> :</label>
-            <select name="Diabetis" id="anyDiabetis" onclick=enable() required>
-                <option value="" disabled selected></option>
-                <option value="1">Yes</option>
-                <option value="3">No</option>
-                <option value="4">Pre Diabetes</option>
-                <option value="999">Don't Know</option>
-            </select>
-        </div>
-        <div id="DiabetisAge" hidden>
-            <label for="" >Diabetes Age:</label>
-            <input name="DiabetesAge" type="number" id="DiabetesAge-input" style="width: 40px;" min="1" max="97">
-        </div>
-            <script>
-                function enable(){
-                    element=document.getElementById("DiabetesAge");
-                    if (document.getElementById("anyDiabetis").value==1){
-                        element.hidden=false;
-                }
-                else{
-                    element.hidden=true;
-                    document.getElementById("DiabetisAge-input").value="";
-                }
-                }
-                function Blur(){
-                    this.blur();
-                }
-            </script>
         
-    </section>
-    <section class="activity">
-        <h2>Activity</h2>
-        <div>
-            <label for="">Exercise<span class="requiredstar"> *</span> </label>
-            <select name="exercise" id="exercise">
-                <option value="" disabled selected></option>
-                <option value="1">Yes</option>
-                <option value="2">No</option>
-            </select>
-        </div>
-        <div>
-            <label for="">Smoker?<span class="requiredstar"> *</span> :</label>
-            <select name="smoking" id="" required>
-                <option value="" disabled selected></option>
-                <option value="1" >Every Day</option>
-                <option value="2">Some times</option>
-                <option value="3">Former Smoker</option>
-                <option value="4">Not Smoker</option>
-            </select>
-        </div>
-        <div>
-            <label for="">Drinker?<span class="requiredstar"> *</span> :</label>
-            <select name="Drinker" id="drinking" required>
-                <option value="" disabled selected></option>
-                <option value="1">Yes</option>
-                <option value="2">No</option>
-                <!-- <option value="2">Not want to tell</option> -->
-            </select>
-        </div>
-    </section>
+      </form> -->
 
-    <div>
-    <input type="submit" name="" id="">
+
+      <form id="form2">
+        <h3>Information</h3>
+        <input type="number" placeholder="Height" required>
+        <input type="number" placeholder="Weight" required>
+        
+
+        <div class="btn-box">
+          <button type="button" id="back1">Back</button>
+          <button type="button"id="next2">Next</button> 
+        </div>
+        
+      </form>
+
+      <form id="form3">
+        <h3>Chronic Health Conditions</h3>
+        
+        <div class="select-container1">
+          <select name="HighBloodPressure" id="highBp" class="select-box" required >
+            <option value="" hidden disabled selected>Do you have high blood pressure?</option>
+            <option value="1">Yes</option>
+            <option value="3">No</option>
+            <option value="4">Borderline high/Pre-hypertensive </option>
+          </select>
+        </div>
+
+        <div class="select-container2">
+          <select name="HadHeartAttack" id="hadHeartAttack" class="select-box" required>
+            <option value="" disabled hidden selected>Are you a victim of a heart attack?</option>
+            <option value="1">Yes</option>
+            <option value="2">No</option>
+          </select>
+        </div>
+
+        <div class="select-container3">
+          <select name="Diabetis" id="anyDiabetis" class="select-box" required>
+            <option value="" disabled hidden selected>Do you have Diabetes?</option>
+            <option value="1">Yes</option>
+            <option value="3">No</option>
+            <option value="4">Pre Diabetes</option>
+            <option value="999">Don't Know</option>
+        </select>
+        </div>
+        
+        
+
+        <div class="btn-box">
+          <button type="button" id="back2">Back</button>
+          <button type="button" id="next3">Next</button> 
+        </div>
+        
+      </form>
+
+      <form id="form4">
+        <h3>Chronic Health Conditions</h3>
+        
+        <div class="select-container1">
+          <select name="HighCholLevel" id="highChl" class="select-box" required>
+            <option value="" disabled hidden   selected >Do you have high Cholestrol Levels?</option>
+            <option value="1">Yes</option>
+            <option value="2">No</option>
+        </select>
+        </div>
+
+        <div class="select-container2">
+          <select name="KidneyDisease" id="kidneyDisease" required class="select-box">
+            <option value="" disabled hidden selected>Did you have any kidney disease</option>
+            <option value="1">Yes</option>
+            <option value="2">No</option>
+            <option value="999">Don't Know</option>
+        </select>
+        </div>
+
+        <div class="select-container3">
+          <select name="AnyHeartStroke" id="anyHeartStroke" required class="select-box">
+            <option value="" disabled hidden selected>Have you been a victim of a stroke?</option>
+            <option value="1">Yes</option>
+            <option value="2">No</optioon>
+        </select>
+        </div>
+        
+        
+
+        <div class="btn-box">
+          <button type="button" id="back3">Back</button>
+          <button type="button" id="next4">Next</button> 
+        </div>
+        
+      </form>
+
+      <form id="form5">
+        <h3>Exercise Activity</h3>
+        
+        <div class="select-container1">
+          <select name="exercise" id="exercise" class="select-box" required>
+            <option value="" disabled hidden selected>Do you exercise?</option>
+            <option value="1">Yes</option>
+            <option value="2">No</option>
+        </select>
+        </div>
+
+        <div class="select-container2">
+          <select name="smoking" id="" required class="select-box">
+            <option value="" disabled hidden selected>Have you had any past of smoking?</option>
+            <option value="1" >Every Day</option>
+            <option value="2">Some times</option>
+            <option value="3">Former Smoker</option>
+            <option value="4">Not Smoker</option>
+          </select>
+        </div>
+
+        <div class="select-container3">
+          <select name="Drinker" id="drinking" class="select-box" required>
+            <option value="" disabled hidden selected>Do you drink?</option>
+            <option value="1">Yes</option>
+            <option value="2">No</option>
+            <!-- <option value="2">Not want to tell</option> -->
+          </select>
+        </div>
+        
+        
+
+        <div class="btn-box">
+          <button type="button" id="back4">Back</button>
+          <button type="Submit">Submit</button> 
+        </div>
+        
+      </form>
+
+
+    <div class="step-row">
+      <div id="progress"></div>
+        <!-- <div class="step-col"><small>Profile</small></div> -->
+        <div class="step-col"><small>Information</small></div>
+        <div class="step-col"><small>Data</small></div>
+        <div class="step-col"><small>Data</small></div>
+        <div class="step-col"><small>Exercise</small></div>
+
     </div>
-    </form>
-</fieldset>
-</body>
+  </div>
+  <script>
+    //var form1 = document.getElementById("form1");
+    var form2 = document.getElementById("form2");
+    var form3 = document.getElementById("form3");
+    var form4 = document.getElementById("form4");
+    var form5 = document.getElementById("form5");
+
+   // var next1 = document.getElementById("next1");
+    var next2 = document.getElementById("next2");
+    var next3 = document.getElementById("next3");
+    var next4 = document.getElementById("next4");
+    var back3 = document.getElementById("back3");
+    var back4 = document.getElementById("back4");
+    var back1 = document.getElementById("back1");
+    var back2 = document.getElementById("back2");
+
+    var progress = document.getElementById("progress");
+
+    /* next1.onclick = function () {
+      if (form1.checkValidity()){
+        form1.style.left = "-550px";
+        form2.style.left = "50px";
+        progress.style.width = "240px";
+      }else{
+        form1.reportValidity();
+        return false;
+      }
+    }; */
+
+    next2.onclick = function () {
+        if (form2.checkValidity()){
+            form2.style.left = "-550px";
+            form3.style.left = "50px";
+            progress.style.width = "240px";
+        }
+        else{
+        form2.reportValidity();
+        return false;
+      }
+    };
+
+    next3.onclick = function () {
+        if (form3.checkValidity()){
+            form3.style.left = "-550px";
+            form4.style.left = "50px";
+            progress.style.width = "360px";
+        }
+        else{
+        form3.reportValidity();
+        return false;
+      }
+    };
+
+    next4.onclick = function () {
+        if (form4.checkValidity()){
+            form4.style.left = "-550px";
+            form5.style.left = "50px";
+            progress.style.width = "480px";
+        }
+        else{
+        form4.reportValidity();
+        return false;
+      }
+
+    };
+
+    
+
+    back2.onclick = function () {
+      form2.style.left = "40px";
+      form3.style.left = "650px";
+      progress.style.width = "240px";
+    };
+
+    back3.onclick = function () {
+      form3.style.left = "40px";
+      form4.style.left = "650px";
+      progress.style.width = "360px";
+    };
+
+    back4.onclick = function () {
+      form4.style.left = "40px";
+      form5.style.left = "650px";
+      progress.style.width = "480px";
+    };
+
+  </script>
+
+  
+  </body>
+</html>

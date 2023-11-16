@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../static/home.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <h2 class="logo">Logo</h2>
+        <nav class="navigation">
+          <a style="pointer-events: none; color: gray">Home</a>
+          <a href="">About</a>
+          <a href="">Services</a>
+          <a href="">Contact</a>
+          <button onclick="Loginredirect()" class="btn-logo">login</button>
+        </nav>
+      </header>
+      <h1>Check your <span class="auto-type"></span></h1>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias
+        exercitationem blanditiis consequatur dolorum delectus sunt ratione
+        odit, rerum quidem in, illum vitae. Architecto quam fugiat, dolorem
+        assumenda ipsam asperiores at dicta id aspernatur est quidem
+        consequuntur non nobis tempore, facere exercitationem quod quaerat
+        distinctio quae voluptas praesentium excepturi sit! Numquam?
+      </p>
+      <button class="btn-check">check here</button>
+
+      <button class="learn-more">Learn more</button>
+    </div>
+    <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+    <script>
+      var typed = new Typed(".auto-type", {
+        strings: ["heart health", "heart fitness", "cardiovascular well being"],
+        typeSpeed: 100,
+        backSpeed: 100,
+        loop: true,
+      });
+      function Loginredirect() {
+        window.location.href = "{{url_for('login')}}";
+      }
+    </script>
+  </body>
+</html>
