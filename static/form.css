@@ -33,7 +33,6 @@ h3 {
   left: 40px;
   transition: 0.7s;
 }
-
 form input {
   width: 100%;
   padding: 10px 5px;
@@ -58,12 +57,19 @@ form button {
   width: 110px;
   height: 35px;
   margin: 0 10px;
-  background: linear-gradient(to right, #ff105f, #ffad06);
+  background: linear-gradient(to right, #a3ec61, #00ff0a);
   border-radius: 30px;
   border: 0px;
   outline: none;
   color: #fff;
+  transition: transform 0.3s ease;
   cursor: pointer;
+}
+button {
+  transition: transform 0.3s ease;
+}
+button:active {
+  transform: scale(0.9);
 }
 
 /* #form2{
@@ -97,12 +103,17 @@ form button {
   text-align: center;
   color: #333;
   position: relative;
+  transition: transform 0.3s ease;
+  cursor: default;
+}
+.step-col:active {
+  transform: scale(0.9); /* Example: scales down on click */
 }
 #progress {
   position: absolute;
   height: 100%;
   width: 120px;
-  background: linear-gradient(to right, #ff105f, #ffad06);
+  background: linear-gradient(to right, #a3ec61, #00ff0a);
 }
 
 #progress::after {
@@ -114,7 +125,7 @@ form button {
   position: absolute;
   right: -20px;
   top: 0;
-  border-left: 20px solid #ffad06;
+  border-left: 20px solid #06ff44;
 }
 
 .select-container1,
@@ -140,4 +151,22 @@ form button {
   font-size: 12px;
   margin: 0 0; /* Add margin for spacing */
   border-bottom: 1px solid #999;
+}
+
+.select-box1 {
+  border: none;
+  appearance: none;
+  padding: 5px 15px 0 5px;
+  padding-top: 17px;
+  width: 103%;
+  color: #777;
+  outline: none;
+  background-color: white;
+  font-size: 12px;
+  margin: 0 0; /* Add margin for spacing */
+  border-bottom: 1px solid #999;
+}
+
+.op {
+  padding-bottom: 10px;
 }

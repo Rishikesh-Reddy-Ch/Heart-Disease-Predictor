@@ -27,7 +27,14 @@
         consequuntur non nobis tempore, facere exercitationem quod quaerat
         distinctio quae voluptas praesentium excepturi sit! Numquam?
       </p>
-      <button class="btn-check">check here</button>
+      <button
+        onclick="form_redirect()"
+        disabled
+        style="cursor: not-allowed"
+        class="btn-check"
+      >
+        check here
+      </button>
 
       <button class="learn-more">Learn more</button>
     </div>
@@ -39,8 +46,22 @@
         backSpeed: 100,
         loop: true,
       });
+      if ("{{session['Username']}}") {
+        button = document.querySelector(".btn-check");
+        button.style.cursor = "pointer";
+        console.log(button);
+        button.disabled = false;
+        document.querySelector(".btn-logo").textContent = "Logout";
+      }
       function Loginredirect() {
-        window.location.href = "{{url_for('login')}}";
+        if (document.querySelector(".btn-logo").textContent == "login") {
+          window.location.href = "{{url_for('login')}}";
+        } else {
+          window.location.href = "{{url_for('logout')}}";
+        }
+      }
+      function form_redirect() {
+        window.location.href = "{{url_for('form')}}";
       }
     </script>
   </body>

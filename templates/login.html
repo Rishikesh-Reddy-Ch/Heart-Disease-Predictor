@@ -1,65 +1,84 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link type="text/css" rel="stylesheet" href="../static/login.css" />
+    <title>Login</title>
     <link
-      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+      type="text/css"
+      href="../static/login_register.css  "
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap"
       rel="stylesheet"
     />
+    <script
+      src="https://kit.fontawesome.com/7027708486.js"
+      crossorigin="anonymous"
+    ></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
   <body>
-    <main>
-      <section class="glass">
-        <h1>Login</h1>
+    <img class="wave" src="../static/wave.png" />
+    <div class="container">
+      <div class="img">
+        <img src="../static/undraw_medical_care_movn.png" />
+      </div>
+      <div class="login-content">
         <form method="post">
-          <div class="input-box">
-            <input
-              type="text"
-              name="username"
-              placeholder="Username"
-              required
-            /><i class="bx bxs-user"></i>
+          <img src="../static/undraw_Male_avatar_g98d.png" />
+          <h2 class="title">Login</h2>
+          <div class="input-div one">
+            <div class="i">
+              <i class="fas fa-user"></i>
+            </div>
+            <div class="div">
+              <input
+                placeholder="Username"
+                type="text"
+                class="input"
+                name="Username"
+                required
+              />
+            </div>
           </div>
-          <div class="input-box">
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              required
-            /><i class="bx bxs-lock-alt"></i>
-          </div>
-          <div id="flash-messages" class="flash">
-            {% if messages %}
-            <ul>
-              <script>
-                "use strict";
-                const ele = document.querySelector(".glass");
-                const glassStyle = {
-                  background: "rgba(255, 255, 255, 0.1)",
-                  width: "420px",
-                  height: "54vh",
-                  borderRadius: "1rem",
-                };
-                Object.assign(ele.style, glassStyle);
-              </script>
-              {% for message in messages %}
-              <li>{{ message }}</li>
-              {% endfor %}
-            </ul>
-            {% endif %}
-          </div>
-          <div class="btn-login">
-            <button type="submit" name="login">Login</button>
+          <div class="input-div pass">
+            <div class="i">
+              <i class="fas fa-lock"></i>
+            </div>
+            <div class="div">
+              <input
+                placeholder="Password"
+                type="password"
+                name="password"
+                class="input"
+                required
+              />
+              <div class="i-eye">
+                <i
+                  id="password"
+                  onclick="showpassword('password')"
+                  class="fa-regular fa-eye-slash eventPassword"
+                  style="color: rgb(157, 149, 149); position: relative"
+                ></i>
+              </div>
+            </div>
           </div>
 
+          <div>{% if messages%} {{messages[-1]}} {% endif %}</div>
+
+          <input type="submit" class="btn" value="Login" />
           <div class="register-link">
-            <p>Don't have an account? <a href="#">Register</a></p>
+            <p>
+              Don't have an account?
+              <a href="{{ url_for('register') }}">Sign Up</a>
+            </p>
           </div>
         </form>
-      </section>
-    </main>
+      </div>
+    </div>
+    <script
+      type="text/javascript"
+      src="{{ url_for('static', filename='scripts/login_register.js') }}"
+    ></script>
   </body>
 </html>
