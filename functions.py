@@ -7,9 +7,22 @@ import numpy as np
 from email_validator import validate_email
 from sklearn.ensemble import  GradientBoostingClassifier
 from datetime import datetime
+from geopy.geocoders import Nominatim
+
+
+
+name_values={'HighBloodPressure':{1:"Yes",3:"No",4:"Borderline high/Pre-hypertensive"},'HadHeartAttack':{1:"Yes",2:"No"},
+             'AnyHeartStroke':{1:"Yes",2:"No"},'KidneyDisease':{1:"Yes",2:"No",999:"Don't Know"},
+             'Diabetes':{1:"Yes",3:"No",4:"Pre Diabetes",999:"Don't Know"},
+             'smoking':{1:"Yes",2:"Some times",3:"Former Smoker",4:"Not Smoker"},
+             'exercise':{1:"Yes",2:"No"},'HighCholLevel':{1:"Yes",2:"No"},
+             'Gender':{1:"Male",2:"Female"},'Drinker':{1:"Yes",2:"No"}}
+
+
+
 def user_idCheck(Username):
     try:
-        client=pymongo.MongoClient("mongodb://localhost:27017/")
+        client=pymongo.MongoClient("mongodb+srv://heart_health-G64:heart_health-G64@cluster0.2tz5hzd.mongodb.net/")
         db=client["Heart-health-dataBase"]
         coll=db["Users"]
         user=coll.find({'Username':Username})
@@ -35,14 +48,32 @@ def passwordCheck(password):
         return False
     
     return True
-def numCheck(num):
-    if not re.search(r"[6-9]\d{9}$",num):
-        return False
-    return True
+# def numCheck(num):
+#     if not re.search(r"[6-9]\d{9}$",num):
+#         return False
+#     return True
+def pinCodeFind(address):
+    pin_code=re.findall(r"\d{6}",address)
+    if len(pin_code)==1:
+        return pin_code[0]
+    return False
+def addressCheck(address):
+    pin_code=pinCodeFind(address=address)
+    if pin_code:
+        print(pin_code)
+        geolocator=Nominatim(user_agent="address_validator")
+        try:
+            location=geolocator.geocode(pin_code)
+            if location:
+                return True
+        except:
+            return False
+    return False
+
 
 def verify_credentials(username, password):
     try:
-        client=pymongo.MongoClient("mongodb://localhost:27017/")
+        client=pymongo.MongoClient("mongodb+srv://heart_health-G64:heart_health-G64@cluster0.2tz5hzd.mongodb.net/")
         db=client["Heart-health-dataBase"]
         coll=db["Users"]
         user=coll.find({'Username':username,'password':password})
@@ -51,17 +82,19 @@ def verify_credentials(username, password):
         return False
     except:
         return False
-def updateCredentials(Username,password,phoneNum,email):
+
+def updateCredentials(user):
     try:
-        client=pymongo.MongoClient("mongodb://localhost:27017/")
+        client=pymongo.MongoClient("mongodb+srv://heart_health-G64:heart_health-G64@cluster0.2tz5hzd.mongodb.net/")
         db=client["Heart-health-dataBase"]
         coll=db["Users"]
         user={
-                "Username":Username,
-                "password":password,
-                "phoneNum":phoneNum,
-                "email":email,
-                "record":{} 
+                "Username":user["Username"],
+                "password":user["password"],
+                "date-of-birth":user["dob"],
+                "email":user["email"],
+                'address':user['address'],
+                'pin-code':pinCodeFind(user["address"]),
         }
         coll.insert_one(user)
         return True
@@ -76,8 +109,13 @@ def emailValidate(email):
     except:
         return False
 
-def age_cal(dob):
-    dob='2004-12-07'
+def age_cal(username):
+    client=pymongo.MongoClient("mongodb+srv://heart_health-G64:heart_health-G64@cluster0.2tz5hzd.mongodb.net/")
+    db=client["Heart-health-dataBase"]
+    coll=db["Users"]
+    user=coll.find_one({"Username":username})
+
+    dob=user["date-of-birth"]
     year,month,day = map(int,dob.split('-'))
     # print(year,month,day)
     today = datetime.today()
@@ -144,19 +182,25 @@ def dia_age_cal(dia_age):
 def record(data,user):
     # print("Hello",user)
     try:
-        client = pymongo.MongoClient('mongodb://localhost:27017/')
+        client = pymongo.MongoClient('mongodb+srv://heart_health-G64:heart_health-G64@cluster0.2tz5hzd.mongodb.net/')
         db = client['Heart-health-dataBase']
         cl=db['Users']
-        user_cal={"Username":"Rishi"}
+        user_cal={"Username":user}
+        if data['DiabetesAge']==999:
+            data["DiabetesAge"]="dont know"
         # print(user_cal)
-        cl.update_one(user_cal,{"$push":{"record":data}})
+        for name in name_values:
+            data[name]=name_values[name][data[name]]
+        # print(data)
+        cl.update_one(user_cal,{"$set":{"record":data}})
         return True
     except:
         return False
 
 def process_data(form_data,names,user):
     try:
-        form_data['Age Cat'],form_data['Age'] = age_cal(form_data['DateOfBirth'])
+        
+        form_data['Age Cat'],form_data['Age'] = age_cal(user)
         # del form_data['DateOfBirth']
         form_data['DiabetesAge']=dia_age_cal(form_data['DiabetesAge'])
         for i in names:
@@ -166,25 +210,55 @@ def process_data(form_data,names,user):
         form_data["Weight"]=float(form_data["Weight"])
         # print("Upto here is Fine!")
         form_data['bmi'] = BMI_cat(form_data['Height'],form_data['Weight'])
-        prdictionVal,predicted=prediction(form_data)
-        print("fine")
+        predictionVal,predicted=prediction(form_data,user)
+        # print("fine")
+        # print(form_data)
         if record(form_data,user) and predicted:
-            print(prdictionVal[0])
-            return True,prdictionVal[0]
+            # print(predictionVal[0])
+            return True,prediction_cat(predictionVal[0],user)
         return False,np.NaN
     except:
         return False,np.NaN
-def prediction(formData):
+def prediction(formData,username):
     try:
         with open("HeartHealth_classifier_model.pkl","rb") as f:
             model=pkl.load(f)
-        names=['HighBloodPressure','HadHeartAttack','AnyHeartStroke','KidneyDisease','Diabetis','DiabetesAge','smoking','exercise','HighCholLevel','Gender','Age Cat','bmi','Drinker']
+        names=['HighBloodPressure','HadHeartAttack','AnyHeartStroke','KidneyDisease','Diabetes','DiabetesAge','smoking','exercise','HighCholLevel','Gender','Age Cat','bmi','Drinker']
         record=[]
         for i in names:
             record.append(int(formData[i]))
         record=np.array(record).reshape((1,-1))
-        print(record,"fine")
-        return model.predict_proba(record)[:,1],True
+        # print(record,"fine")
+        predictionval=model.predict_proba(record)[:,1]
+        # print(prediction)
+        return predictionval,True
     except:
         return np.NaN,False
+def prediction_cat(value,username):
+    if value==np.NaN:
+        cat= ""
+    elif value<0.047638726968383435:
+        cat= 'Low'
+    elif value<0.19207434261195536:
+        cat= 'Medium'
+    else:
+        cat='High'
+    client=pymongo.MongoClient("mongodb+srv://heart_health-G64:heart_health-G64@cluster0.2tz5hzd.mongodb.net/")
+    db=client["Heart-health-dataBase"]
+    coll=db["Users"]
+    user=coll.find_one({"Username":username})
+    coll.update_one(user,{"$set":{"prediction":value}})
+    coll.update_one(user,{"$set":{"prediction-category":cat}})
+    return cat
+    
 
+def dob_validate(dob):
+    year,month,day=map(int,dob.split('-'))
+    today=datetime.today()
+    if year>today.year:
+        return False
+    if month>today.month:
+        return False
+    if day>today.day:
+        return False
+    return True

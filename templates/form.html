@@ -1,130 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Form</title>
-  <link rel="stylesheet" href="../static/form.css">
-</head>
-<body>
-  <div class="container">
-      <!-- <form id="form1">
-        <h3>Profile</h3>
-        <input type="text" placeholder="Name" required>
-        <input type="password" placeholder="Password" required>
-        <input type="password" placeholder="Confirm Password" required>
-
-        <div class="btn-box">
-          <button type="button" id="next1">Next</button> 
-        </div>
-        
-      </form> -->
-
-
-      <form id="form2">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form</title>
+    <link rel="stylesheet" href="../static/form.css" />
+  </head>
+  <body>
+    <div class="container">
+      <form id="form2" onsubmit="return false;">
         <h3>Information</h3>
-        <input type="number" placeholder="Height" required>
-        <input type="number" placeholder="Weight" required>
-        
+        <input
+          id="heightInput"
+          min="91"
+          max="244"
+          type="number"
+          placeholder="Height"
+          required
+        />
+        <input
+          id="weightInput"
+          min="23"
+          max="295"
+          type="number"
+          placeholder="Weight"
+          required
+        />
+        <select id="genderInput" name="gender" class="select-box1" required>
+          <option value="" disabled selected class="op">Gender</option>
+          <option value="1">Male</option>
+          <option value="2">Female</option>
+        </select>
 
         <div class="btn-box">
-          <button type="button" id="back1">Back</button>
-          <button type="button"id="next2">Next</button> 
+          <button type="button" id="next2">Next</button>
         </div>
-        
       </form>
 
-      <form id="form3">
-        <h3>Chronic Health Conditions</h3>
-        
+      <form id="form3" onsubmit="return false;">
+        <h3 id="chronicHealthConditions">Chronic Health Conditions</h3>
+
         <div class="select-container1">
-          <select name="HighBloodPressure" id="highBp" class="select-box" required >
-            <option value="" hidden disabled selected>Do you have high blood pressure?</option>
+          <select
+            name="HighBloodPressure"
+            id="highBloodPressureInput"
+            class="select-box"
+            required
+          >
+            <option value="" disabled selected>
+              Do you have high blood pressure?
+            </option>
             <option value="1">Yes</option>
             <option value="3">No</option>
-            <option value="4">Borderline high/Pre-hypertensive </option>
+            <option value="4">Borderline high/Pre-hypertensive</option>
           </select>
         </div>
 
         <div class="select-container2">
-          <select name="HadHeartAttack" id="hadHeartAttack" class="select-box" required>
-            <option value="" disabled hidden selected>Are you a victim of a heart attack?</option>
+          <select
+            name="HadHeartAttack"
+            id="hadHeartAttackInput"
+            class="select-box"
+            required
+          >
+            <option value="" disabled selected>
+              Are you a victim of a heart attack?
+            </option>
             <option value="1">Yes</option>
             <option value="2">No</option>
           </select>
         </div>
 
         <div class="select-container3">
-          <select name="Diabetis" id="anyDiabetis" class="select-box" required>
-            <option value="" disabled hidden selected>Do you have Diabetes?</option>
+          <select
+            name="Diabetes"
+            id="diabetesInput"
+            class="select-box"
+            required
+          >
+            <option value="" disabled selected>Do you have Diabetes?</option>
             <option value="1">Yes</option>
             <option value="3">No</option>
             <option value="4">Pre Diabetes</option>
             <option value="999">Don't Know</option>
-        </select>
+          </select>
         </div>
-        
-        
+        <input
+          id="diabetesAgeInput"
+          min="1"
+          max="97"
+          type="number"
+          style="cursor: not-allowed; filter: blur(0.63px)"
+          placeholder="Age When Told Had Diabetes"
+          disabled
+        />
 
         <div class="btn-box">
           <button type="button" id="back2">Back</button>
-          <button type="button" id="next3">Next</button> 
+          <button type="button" id="next3">Next</button>
         </div>
-        
       </form>
 
-      <form id="form4">
+      <form id="form4" onsubmit="return false;">
         <h3>Chronic Health Conditions</h3>
-        
+
         <div class="select-container1">
-          <select name="HighCholLevel" id="highChl" class="select-box" required>
-            <option value="" disabled hidden   selected >Do you have high Cholestrol Levels?</option>
+          <select
+            name="HighCholLevel"
+            id="highCholLevelInput"
+            class="select-box"
+            required
+          >
+            <option value="" disabled selected>
+              Do you have high Cholestrol Levels?
+            </option>
             <option value="1">Yes</option>
             <option value="2">No</option>
-        </select>
+          </select>
         </div>
 
         <div class="select-container2">
-          <select name="KidneyDisease" id="kidneyDisease" required class="select-box">
-            <option value="" disabled hidden selected>Did you have any kidney disease</option>
+          <select
+            name="KidneyDisease"
+            id="kidneyDiseaseInput"
+            required
+            class="select-box"
+          >
+            <option value="" disabled selected>
+              Did you have any kidney disease
+            </option>
             <option value="1">Yes</option>
             <option value="2">No</option>
             <option value="999">Don't Know</option>
-        </select>
+          </select>
         </div>
 
         <div class="select-container3">
-          <select name="AnyHeartStroke" id="anyHeartStroke" required class="select-box">
-            <option value="" disabled hidden selected>Have you been a victim of a stroke?</option>
+          <select
+            name="AnyHeartStroke"
+            id="anyHeartStrokeInput"
+            required
+            class="select-box"
+          >
+            <option value="" disabled selected>
+              Have you been a victim of a stroke?
+            </option>
             <option value="1">Yes</option>
-            <option value="2">No</optioon>
-        </select>
+            <option value="2">No</option>
+          </select>
         </div>
-        
-        
 
         <div class="btn-box">
           <button type="button" id="back3">Back</button>
-          <button type="button" id="next4">Next</button> 
+          <button type="button" id="next4">Next</button>
         </div>
-        
       </form>
 
-      <form id="form5">
+      <form id="form5" onsubmit="return false;">
         <h3>Exercise Activity</h3>
-        
+
         <div class="select-container1">
-          <select name="exercise" id="exercise" class="select-box" required>
-            <option value="" disabled hidden selected>Do you exercise?</option>
+          <select
+            name="exercise"
+            id="exerciseInput"
+            class="select-box"
+            required
+          >
+            <option value="" disabled selected>Do you exercise?</option>
             <option value="1">Yes</option>
             <option value="2">No</option>
-        </select>
+          </select>
         </div>
 
         <div class="select-container2">
-          <select name="smoking" id="" required class="select-box">
-            <option value="" disabled hidden selected>Have you had any past of smoking?</option>
-            <option value="1" >Every Day</option>
+          <select name="smoking" id="smokingInput" required class="select-box">
+            <option value="" disabled selected>
+              Have you had any past of smoking?
+            </option>
+            <option value="1">Every Day</option>
             <option value="2">Some times</option>
             <option value="3">Former Smoker</option>
             <option value="4">Not Smoker</option>
@@ -132,122 +185,248 @@
         </div>
 
         <div class="select-container3">
-          <select name="Drinker" id="drinking" class="select-box" required>
-            <option value="" disabled hidden selected>Do you drink?</option>
+          <select name="Drinker" id="drinkingInput" class="select-box" required>
+            <option value="" disabled selected>Do you drink?</option>
             <option value="1">Yes</option>
             <option value="2">No</option>
             <!-- <option value="2">Not want to tell</option> -->
           </select>
         </div>
-        
-        
 
         <div class="btn-box">
           <button type="button" id="back4">Back</button>
-          <button type="Submit">Submit</button> 
+          <button type="button" id="next5">submit</button>
         </div>
-        
+      </form>
+      <form id="finalForm" method="post">
+        <!-- Hidden fields to store the collected form data -->
+        <input type="hidden" name="Height" id="height" />
+        <input type="hidden" name="Weight" id="weight" />
+        <input type="hidden" name="Gender" id="gender" />
+        <input type="hidden" name="HighBloodPressure" id="highBloodPressure" />
+        <input type="hidden" name="HadHeartAttack" id="hadHeartAttack" />
+        <input type="hidden" name="Diabetes" id="diabetes" />
+        <input type="hidden" name="DiabetesAge" id="diabetesAge" />
+        <input type="hidden" name="HighCholLevel" id="highCholLevel" />
+        <input type="hidden" name="KidneyDisease" id="kidneyDisease" />
+        <input type="hidden" name="AnyHeartStroke" id="anyHeartStroke" />
+        <input type="hidden" name="exercise" id="exercise" />
+        <input type="hidden" name="smoking" id="smoking" />
+        <input type="hidden" name="Drinker" id="drinker" />
+        <!-- Add more hidden fields as needed to collect all form data -->
       </form>
 
-
-    <div class="step-row">
-      <div id="progress"></div>
+      <div class="step-row">
+        <div id="progress"></div>
         <!-- <div class="step-col"><small>Profile</small></div> -->
-        <div class="step-col"><small>Information</small></div>
-        <div class="step-col"><small>Data</small></div>
-        <div class="step-col"><small>Data</small></div>
-        <div class="step-col"><small>Exercise</small></div>
-
+        <div class="step-col 1" id="userInformation">
+          <small>User Information</small>
+        </div>
+        <div class="step-col 2" id="data1"><small>Data</small></div>
+        <div class="step-col 3" id="data2">
+          <small>Data</small>
+        </div>
+        <div class="step-col 4" id="activity"><small>Exercise</small></div>
+      </div>
     </div>
-  </div>
-  <script>
-    //var form1 = document.getElementById("form1");
-    var form2 = document.getElementById("form2");
-    var form3 = document.getElementById("form3");
-    var form4 = document.getElementById("form4");
-    var form5 = document.getElementById("form5");
+    <script>
+      //var form1 = document.getElementById("form1");
+      var form2 = document.getElementById("form2");
+      var form3 = document.getElementById("form3");
+      var form4 = document.getElementById("form4");
+      var form5 = document.getElementById("form5");
 
-   // var next1 = document.getElementById("next1");
-    var next2 = document.getElementById("next2");
-    var next3 = document.getElementById("next3");
-    var next4 = document.getElementById("next4");
-    var back3 = document.getElementById("back3");
-    var back4 = document.getElementById("back4");
-    var back1 = document.getElementById("back1");
-    var back2 = document.getElementById("back2");
+      // var next1 = document.getElementById("next1");
+      var next2 = document.getElementById("next2");
+      var next3 = document.getElementById("next3");
+      var next4 = document.getElementById("next4");
+      var next5 = document.getElementById("next5");
+      var back3 = document.getElementById("back3");
+      var back4 = document.getElementById("back4");
+      var back1 = document.getElementById("back1");
+      var back2 = document.getElementById("back2");
+      var progress = document.getElementById("progress");
+      var userinfo = document.getElementById("userInformation");
+      var data1 = document.getElementById("data1");
+      var data2 = document.getElementById("data2");
+      var activity = document.getElementById("activity");
+      var diabetes = document.getElementById("diabetesInput");
 
-    var progress = document.getElementById("progress");
+      next2.onclick = function () {
+        if (form2.checkValidity()) {
+          saveFormData("form2");
+          formLength_dec();
+          form2.style.left = "-550px";
+          form3.style.left = "50px";
+          progress.style.width = "240px";
+        } else {
+          form2.reportValidity();
+          return false;
+        }
+      };
+      // data1.onclick = function () {
+      //   if (!form2.checkValidity()) {
+      //     form2.reportValidity();
+      //     return false;
+      //   } else {
+      //     saveFormData("form2");
+      //     form2.style.left = "-550px";
+      //     form3.style.left = "50px";
+      //     if (progress.style.width > "240px") {
+      //       form3.style.left = "40px";
+      //       form4.style.left = "650px";
+      //       progress.style.width = "240px";
+      //     }
+      //     progress.style.width = "240px";
+      //   }
+      // };
 
-    /* next1.onclick = function () {
-      if (form1.checkValidity()){
-        form1.style.left = "-550px";
-        form2.style.left = "50px";
+      next3.onclick = function () {
+        if (form3.checkValidity()) {
+          saveFormData("form3");
+          formLength_inc();
+          form3.style.left = "-550px";
+          form4.style.left = "50px";
+          progress.style.width = "360px";
+        } else {
+          form3.reportValidity();
+          return false;
+        }
+      };
+      // data2.onclick = function () {
+      //   if (!form2.checkValidity()) {
+      //     form2.reportValidity();
+      //     return false;
+      //   } else if (!form3.checkValidity()) {
+      //     form3.reportValidity();
+      //     return false;
+      //   } else {
+      //     saveFormData("form2");
+      //     saveFormData("form3");
+      //     saveFormData("form4");
+      //     form3.style.left = "-550px";
+      //     form4.style.left = "50px";
+      //     progress.style.width = "360px";
+      //   }
+      // };
+
+      next4.onclick = function () {
+        if (form2.checkValidity()) {
+          saveFormData("form4");
+          form4.style.left = "-550px";
+          form5.style.left = "50px";
+          progress.style.width = "480px";
+        } else {
+          form4.reportValidity();
+          return false;
+        }
+      };
+
+      // activity.onclick = function () {
+      //   if (!form2.checkValidity()) {
+      //     form2.reportValidity();
+      //     return false;
+      //   } else if (!form3.checkValidity()) {
+      //     form3.reportValidity();
+      //     return false;
+      //   } else if (!form4.checkValidity()) {
+      //     form4.reportValidity();
+      //     return false;
+      //   } else {
+      //     saveFormData("form2");
+      //     saveFormData("form3");
+      //     saveFormData("form4");
+      //     saveFormData("form5");
+      //     form4.style.left = "-550px";
+      //     form5.style.left = "50px";
+      //     progress.style.width = "480px";
+      //   }
+      // };
+
+      next5.onclick = function () {
+        if (form5.checkValidity()) {
+          saveFormData("form5");
+        } else {
+          form5.reportValidity();
+          return false;
+        }
+      };
+
+      back2.onclick = function () {
+        formLength_inc();
+        form2.style.left = "40px";
+        form3.style.left = "650px";
+        progress.style.width = "120px";
+      };
+
+      back3.onclick = function () {
+        formLength_dec();
+        form3.style.left = "40px";
+        form4.style.left = "650px";
         progress.style.width = "240px";
-      }else{
-        form1.reportValidity();
-        return false;
-      }
-    }; */
+      };
 
-    next2.onclick = function () {
-        if (form2.checkValidity()){
-            form2.style.left = "-550px";
-            form3.style.left = "50px";
-            progress.style.width = "240px";
+      back4.onclick = function () {
+        form4.style.left = "40px";
+        form5.style.left = "650px";
+        progress.style.width = "360px";
+      };
+      diabetes.onclick = function () {
+        diabetesage = document.getElementById("diabetesAgeInput");
+        if (diabetes.value === "1") {
+          diabetesage.disabled = false;
+          diabetesage.style.cursor = "auto";
+          diabetesage.style.filter = "blur()";
+        } else {
+          diabetesage.value = "";
+          diabetesage.disabled = true;
+          diabetesage.style.cursor = "not-allowed";
+          diabetesage.style.filter = "blur(0.5px)";
         }
-        else{
-        form2.reportValidity();
-        return false;
-      }
-    };
-
-    next3.onclick = function () {
-        if (form3.checkValidity()){
-            form3.style.left = "-550px";
-            form4.style.left = "50px";
-            progress.style.width = "360px";
+      };
+      function saveFormData(formId) {
+        if (formId === "form2") {
+          document.getElementById("height").value =
+            document.getElementById("heightInput").value;
+          document.getElementById("weight").value =
+            document.getElementById("weightInput").value;
+          document.getElementById("gender").value =
+            document.getElementById("genderInput").value;
+        } else if (formId === "form3") {
+          document.getElementById("highBloodPressure").value =
+            document.getElementById("highBloodPressureInput").value;
+          document.getElementById("hadHeartAttack").value =
+            document.getElementById("hadHeartAttackInput").value;
+          document.getElementById("diabetes").value =
+            document.getElementById("diabetesInput").value;
+          document.getElementById("diabetesAge").value =
+            document.getElementById("diabetesAgeInput").value;
+        } else if (formId === "form4") {
+          document.getElementById("highCholLevel").value =
+            document.getElementById("highCholLevelInput").value;
+          document.getElementById("kidneyDisease").value =
+            document.getElementById("kidneyDiseaseInput").value;
+          document.getElementById("anyHeartStroke").value =
+            document.getElementById("anyHeartStrokeInput").value;
+        } else if (formId === "form5") {
+          document.getElementById("exercise").value =
+            document.getElementById("exerciseInput").value;
+          document.getElementById("smoking").value =
+            document.getElementById("smokingInput").value;
+          document.getElementById("drinker").value =
+            document.getElementById("drinkingInput").value;
+          // Gather all form data and submit it together
+          document.getElementById("finalForm").submit();
         }
-        else{
-        form3.reportValidity();
-        return false;
       }
-    };
-
-    next4.onclick = function () {
-        if (form4.checkValidity()){
-            form4.style.left = "-550px";
-            form5.style.left = "50px";
-            progress.style.width = "480px";
-        }
-        else{
-        form4.reportValidity();
-        return false;
+      function formLength_dec() {
+        form3.style.top = "71px";
+        document.getElementById("chronicHealthConditions").style.marginBottom =
+          "28px";
       }
-
-    };
-
-    
-
-    back2.onclick = function () {
-      form2.style.left = "40px";
-      form3.style.left = "650px";
-      progress.style.width = "240px";
-    };
-
-    back3.onclick = function () {
-      form3.style.left = "40px";
-      form4.style.left = "650px";
-      progress.style.width = "360px";
-    };
-
-    back4.onclick = function () {
-      form4.style.left = "40px";
-      form5.style.left = "650px";
-      progress.style.width = "480px";
-    };
-
-  </script>
-
-  
+      function formLength_inc() {
+        form3.style.top = "100px";
+      }
+    </script>
   </body>
 </html>
