@@ -6,9 +6,16 @@ import pandas as pd
 app = Flask(__name__)
 app.secret_key = 'secret-key'
 
+
 @app.route('/')
 def home():
   return render_template('home.html')
+
+
+@app.route('/about')
+def about():
+  return render_template('about.html')
+
 
 @app.route('/register/',methods=['POST','GET'])
 def register():
@@ -19,7 +26,7 @@ def register():
       return redirect(url_for('register'))
     
     elif not fn.passwordCheck(user["password"]):
-      flash("Password must contain at least one uppercase, lowercase ,digit and a special character",'error')
+      flash("Password needs: Uppercase, Lowercase, Digit, Special Char.",'error')
       return redirect(url_for('register'))
       
     elif not fn.addressCheck(address=user["address"]):
