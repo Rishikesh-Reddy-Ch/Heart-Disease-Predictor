@@ -10,7 +10,7 @@ from datetime import datetime
 from geopy.geocoders import Nominatim
 
 
-
+database_connection_string="mongodb+srv://heart_health-G64:heart_health-G64@cluster0.2tz5hzd.mongodb.net/"
 name_values={'HighBloodPressure':{1:"Yes",3:"No",4:"Borderline high/Pre-hypertensive"},'HadHeartAttack':{1:"Yes",2:"No"},
              'AnyHeartStroke':{1:"Yes",2:"No"},'KidneyDisease':{1:"Yes",2:"No",999:"Don't Know"},
              'Diabetes':{1:"Yes",3:"No",4:"Pre Diabetes",999:"Don't Know"},
@@ -22,7 +22,7 @@ name_values={'HighBloodPressure':{1:"Yes",3:"No",4:"Borderline high/Pre-hyperten
 
 def user_idCheck(Username):
     try:
-        client=pymongo.MongoClient("mongodb+srv://heart_health-G64:heart_health-G64@cluster0.2tz5hzd.mongodb.net/")
+        client=pymongo.MongoClient(database_connection_string)
         db=client["Heart-health-dataBase"]
         coll=db["Users"]
         user=coll.find({'Username':Username})
@@ -63,7 +63,7 @@ def addressCheck(address):
         print(pin_code)
         geolocator=Nominatim(user_agent="address_validator")
         try:
-            location=geolocator.geocode(pin_code)
+            location=geolocator.geocode({"postalcode":pin_code})
             if location:
                 return True
         except:
@@ -73,7 +73,7 @@ def addressCheck(address):
 
 def verify_credentials(username, password):
     try:
-        client=pymongo.MongoClient("mongodb+srv://heart_health-G64:heart_health-G64@cluster0.2tz5hzd.mongodb.net/")
+        client=pymongo.MongoClient(database_connection_string)
         db=client["Heart-health-dataBase"]
         coll=db["Users"]
         user=coll.find({'Username':username,'password':password})
@@ -85,7 +85,7 @@ def verify_credentials(username, password):
 
 def updateCredentials(user):
     try:
-        client=pymongo.MongoClient("mongodb+srv://heart_health-G64:heart_health-G64@cluster0.2tz5hzd.mongodb.net/")
+        client=pymongo.MongoClient(database_connection_string)
         db=client["Heart-health-dataBase"]
         coll=db["Users"]
         user={
@@ -110,7 +110,7 @@ def emailValidate(email):
         return False
 
 def age_cal(username):
-    client=pymongo.MongoClient("mongodb+srv://heart_health-G64:heart_health-G64@cluster0.2tz5hzd.mongodb.net/")
+    client=pymongo.MongoClient(database_connection_string)
     db=client["Heart-health-dataBase"]
     coll=db["Users"]
     user=coll.find_one({"Username":username})
@@ -243,7 +243,7 @@ def prediction_cat(value,username):
         cat= 'Medium'
     else:
         cat='High'
-    client=pymongo.MongoClient("mongodb+srv://heart_health-G64:heart_health-G64@cluster0.2tz5hzd.mongodb.net/")
+    client=pymongo.MongoClient(database_connection_string)
     db=client["Heart-health-dataBase"]
     coll=db["Users"]
     user=coll.find_one({"Username":username})
