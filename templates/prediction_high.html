@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>High Risk: Heart Health</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: rgb(255, 213, 213);
+        color: #000000;
+        margin: 0;
+        padding: 0;
+        line-height: 1.6;
+      }
+
+      section {
+        max-width: 800px;
+        margin: 2em auto;
+        padding: 2em;
+        background-color: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        color: #dd0000;
+      }
+
+      h2,
+      h3 {
+        color: #e74c3c;
+      }
+
+      h2 {
+        border-bottom: 2px solid #e74c3c;
+        padding-bottom: 0.5em;
+        margin-bottom: 1em;
+      }
+
+      h3 {
+        margin-top: 1.5em;
+      }
+
+      p {
+        margin-bottom: 1.2em;
+      }
+
+      ul {
+        list-style-type: disc;
+        margin-left: 0.5em;
+        margin-bottom: 1.2em;
+      }
+
+      .recommendations {
+        background-color: #f9d9d9;
+        padding: 1.5em;
+        border-radius: 8px;
+        margin-top: 2em;
+      }
+
+      .recommendations h3 {
+        color: #c0392b;
+        margin-top: 0;
+      }
+
+      .address-input {
+        display: block;
+        margin-top: 1.5em;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+
+      label {
+        font-weight: bold;
+      }
+
+      input[type="text"] {
+        padding-top: 8px;
+        padding-bottom: 8px;
+        padding-right: 5x;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        margin-bottom: 10px;
+      }
+
+      input[type="submit"] {
+        padding: 10px 20px;
+        border: none;
+        background-color: #e74c3c;
+        color: #fff;
+        cursor: pointer;
+        border-radius: 4px;
+        font-size: 16px;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #c0392b;
+      }
+    </style>
+  </head>
+  <body>
+    <section>
+      <h2>Risk level: HIGH</h2>
+      <p>
+        According to the information provided, it seems you are at a
+        <b>high risk</b> of heart disease. Immediate attention and actions are
+        vital to improve your heart health.
+      </p>
+
+      <div class="recommendations">
+        <h3>Key Recommendations:</h3>
+        <ul>
+          <li>
+            Adopt a heart-healthy diet eating fruits and vegetables while
+            reducing saturated fats and processed foods.
+          </li>
+          <li>
+            Engage in regular and intensive physical activity to strengthen your
+            heart and improve cardiovascular health.
+          </li>
+          <li>
+            Frequently monitor and manage blood pressure, cholesterol, and blood
+            sugar levels.
+          </li>
+          <li>
+            Spend time on stress management through meditation, yoga, or
+            counseling.
+          </li>
+          <li>
+            Seek immediate medical advice and intervention for further
+            evaluation and personalized guidance.
+          </li>
+        </ul>
+
+        <h3>Please provide your area pin code:</h3>
+        <form id="addressForm" method="post">
+          <label for="user-address" style="color: #c0392b">pin-code:</label>
+          <input
+            type="text"
+            id="user-address"
+            name="user-address"
+            required
+          /><br /><br />
+          <input type="submit" onclick="openMaps()" value="Submit" />
+        </form>
+      </div>
+
+      <p>
+        It's crucial to take immediate steps towards better heart health.
+        Consult a healthcare professional for personalized guidance and a
+        comprehensive health assessment.
+      </p>
+    </section>
+    <script>
+      function openMaps(event) {
+        event.preventDefault(); // Prevent the default form submission behavior
+
+        var locationInput = document.getElementById("user-address");
+        var location = encodeURIComponent(
+          "cardiac hospitals near " + locationInput.value
+        );
+
+        // Open Google Maps in a new tab
+        window.open("https://www.google.com/maps?q=" + location, "_blank");
+      }
+
+      // Attach the event listener to the form submission
+      document
+        .getElementById("addressForm")
+        .addEventListener("submit", openMaps);
+    </script>
+  </body>
+</html>

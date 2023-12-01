@@ -1,11 +1,12 @@
 from flask import Flask,render_template,request,flash,redirect,url_for,session,get_flashed_messages
 import functions as fn
 import pandas as pd
+import random
+import numpy as np
 # import jsonify
 
 app = Flask(__name__)
 app.secret_key = 'secret-key'
-
 
 @app.route('/')
 def home():
@@ -89,7 +90,7 @@ def form():
     if (not flag):
       # flash("Unable to access the dataBase","error")
       return redirect(url_for("form"))
-    return render_template("prediction.html",val=predictionVal)
+    return redirect(url_for('result',cat=predictionVal))
   try:
     if session["Username"]:
       return render_template("form.html")
@@ -97,6 +98,35 @@ def form():
    return "Please "+ '<a href="'+url_for("login")+'"> login</a>'+' to continue'
    
   return render_template("form.html")
+# @app.roulte('/password-change/',methods=['GET','POST'])
+# def forgot_pass():
+#   if request.method=='POST':
+#     email = request.form['email']
+#     user_otp = request.form['otp']
+
+    
+  
+#   return render_template("otp.html")
+# @app.roulte('/email-validate/',methods=['GET'])
+# def validate():
+#    otp=str(random.randint(100000, 999999))
+@app.route("/result<cat>/",methods=["GET"])
+def result(cat):
+  if cat=="High":
+    # predictionVal=np.NaN
+    return render_template("prediction_high.html")
+  elif cat=="Medium":
+    return render_template("prediction_medium.html")
+  elif cat=='Low':
+    return render_template("prediction_low.html")
+  else:
+    return redirect(url_for('form'))
+  
+   
+
+      
+
+   
 
 if __name__ == "__main__":
   app.run(debug=True)
