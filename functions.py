@@ -60,7 +60,6 @@ def pinCodeFind(address):
 def addressCheck(address):
     pin_code=pinCodeFind(address=address)
     if pin_code:
-        print(pin_code)
         geolocator=Nominatim(user_agent="address_validator")
         try:
             location=geolocator.geocode({"postalcode":pin_code})
@@ -254,11 +253,13 @@ def prediction_cat(value,username):
 
 def dob_validate(dob):
     year,month,day=map(int,dob.split('-'))
+    # print(dob)
     today=datetime.today()
+    # print(today)
     if year>today.year:
         return False
-    if month>today.month:
+    if month>today.month and year==today.year:
         return False
-    if day>today.day:
+    if day>today.day and year==today.year and month==today.month:
         return False
     return True
