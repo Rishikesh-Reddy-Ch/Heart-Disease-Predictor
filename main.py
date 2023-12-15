@@ -29,10 +29,7 @@ def register():
     elif not fn.passwordCheck(user["password"]):
       flash("Password needs: Uppercase, Lowercase, Digit, Special Char.",'error')
       return redirect(url_for('register'))
-      
-    elif not fn.addressCheck(address=user["address"]):
-       flash("Mension a valid pin-code in Address!",'error') 
-       return redirect(url_for('register'))
+    
     elif fn.emailValidate(user["email"]) and fn.dob_validate(user["dob"]):
       updated=fn.updateCredentials(user)
       if not updated:
