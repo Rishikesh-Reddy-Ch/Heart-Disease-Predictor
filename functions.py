@@ -15,8 +15,7 @@ name_values={'HighBloodPressure':{1:"Yes",3:"No",4:"Borderline high/Pre-hyperten
              'AnyHeartStroke':{1:"Yes",2:"No"},'KidneyDisease':{1:"Yes",2:"No",999:"Don't Know"},
              'Diabetes':{1:"Yes",3:"No",4:"Pre Diabetes",999:"Don't Know"},
              'smoking':{1:"Yes",2:"Some times",3:"Former Smoker",4:"Not Smoker"},
-             'exercise':{1:"Yes",2:"No"},'HighCholLevel':{1:"Yes",2:"No"},
-             'Gender':{1:"Male",2:"Female"},'Drinker':{1:"Yes",2:"No"}}
+             'exercise':{1:"Yes",2:"No"},'HighCholLevel':{1:"Yes",2:"No"}, 'Drinker':{1:"Yes",2:"No"},}
 
 
 
@@ -65,7 +64,7 @@ def addressCheck(address):
             location=geolocator.geocode({"postalcode":pin_code})
             if location:
                 return True
-        except:
+        except :
             return False
     return False
 
@@ -82,8 +81,17 @@ def verify_credentials(username, password):
     except:
         return False
 
-def updateCredentials(user):
+def updateCredentials(user1):
     try:
+        user={}
+        for i in user1:
+            if i=='gender':
+                if user1[i]=='1':
+                    user[i]='Male'
+                else:
+                    user[i]='Female'
+                continue
+            user[i]=user1[i]
         client=pymongo.MongoClient(database_connection_string)
         db=client["Heart-health-dataBase"]
         coll=db["Users"]
@@ -92,8 +100,7 @@ def updateCredentials(user):
                 "password":user["password"],
                 "date-of-birth":user["dob"],
                 "email":user["email"],
-                'address':user['address'],
-                'pin-code':pinCodeFind(user["address"]),
+                'Gender':user['gender']
         }
         coll.insert_one(user)
         return True
@@ -108,13 +115,18 @@ def emailValidate(email):
     except:
         return False
 
-def age_cal(username):
+def age_cal_gender(username):
     client=pymongo.MongoClient(database_connection_string)
     db=client["Heart-health-dataBase"]
     coll=db["Users"]
     user=coll.find_one({"Username":username})
 
     dob=user["date-of-birth"]
+    gender=user['Gender']
+    if gender=='Male':
+        gender=1
+    else:
+        gender=2
     year,month,day = map(int,dob.split('-'))
     # print(year,month,day)
     today = datetime.today()
@@ -158,7 +170,7 @@ def age_cal(username):
     else:
         age_cat = 14
     
-    return age_cat,age
+    return age_cat,age,gender
 
 def BMI_cat(height,weight):
     height,weight = int(height),int(weight)*100
@@ -190,7 +202,7 @@ def record(data,user):
         # print(user_cal)
         for name in name_values:
             data[name]=name_values[name][data[name]]
-        # print(data)
+        del data["Gender"]
         cl.update_one(user_cal,{"$set":{"record":data}})
         return True
     except:
@@ -199,7 +211,7 @@ def record(data,user):
 def process_data(form_data,names,user):
     try:
         
-        form_data['Age Cat'],form_data['Age'] = age_cal(user)
+        form_data['Age Cat'],form_data['Age'],form_data['Gender'] = age_cal_gender(user)
         # del form_data['DateOfBirth']
         form_data['DiabetesAge']=dia_age_cal(form_data['DiabetesAge'])
         for i in names:

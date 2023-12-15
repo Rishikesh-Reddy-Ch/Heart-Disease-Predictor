@@ -2,11 +2,7 @@
 <html>
   <head>
     <title>Register</title>
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="../static/login_register.css"
-    />
+    <link rel="stylesheet" type="text/css" href="../static/register.css" />
     <link
       href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap"
       rel="stylesheet"
@@ -18,13 +14,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
   <body>
-    <script>
-      // Get today's date and format it as 'YYYY-MM-DD'
-      const today = new Date().toISOString().split("T")[0];
-
-      // Set the max attribute to today's date
-      document.getElementById("dateInput").setAttribute("max", today);
-    </script>
     <img class="wave" src="../static/wave.png" />
     <div class="container">
       <div class="img">
@@ -80,20 +69,46 @@
               />
             </div>
           </div>
-          <div class="input-div pass">
+          <div class="input-div pass" style="padding: 0px; margin-top: 7%">
             <div class="i">
-              <i class="fa-solid fa-map-location-dot"></i>
+              <i class="fa-solid fa-venus-mars"></i>
             </div>
-            <div class="div">
-              <input
-                placeholder="Address"
-                type="text"
-                style="color: rgb(118, 118, 118)"
-                class="input"
-                min="10"
-                name="address"
-                required
-              />
+            <div style="margin-inline-start: 0px; margin-bottom: 3px">
+              <span
+                style="
+                  margin-right: 9%;
+                  margin-left: 3px;
+                  color: rgb(118, 118, 118);
+                  font-size: 20px;
+                "
+                >Gender:</span
+              >
+              <span style="margin-right: 9%">
+                <input
+                  type="radio"
+                  style="color: rgb(118, 118, 118)"
+                  class="input"
+                  name="gender"
+                  id="male"
+                  value="1"
+                  required
+                />
+                <label style="color: rgb(87, 85, 85)" for="male">Male</label>
+              </span>
+              <span style="margin-right: 11%">
+                <input
+                  type="radio"
+                  style="color: rgb(118, 118, 118)"
+                  class="input"
+                  name="gender"
+                  value="2"
+                  id="female"
+                  required
+                />
+                <label style="color: rgb(87, 85, 85)" for="female"
+                  >Female</label
+                >
+              </span>
             </div>
           </div>
 
@@ -120,27 +135,6 @@
               </div>
             </div>
           </div>
-          <!-- <div class="input-div pass">
-            <div class="i">
-              <i class="fas fa-lock"></i>
-            </div>
-            <div class="div">
-              <input
-                placeholder=" Confirm Password"
-                type="password"
-                name="confirmPassword"
-                class="input"
-              />
-              <div class="i-eye">
-                <i
-                  id="confirmPassword"
-                  onclick="showpassword('confirmPassword')"
-                  class="fa-regular fa-eye eventPassword"
-                  style="color: rgb(157, 149, 149)"
-                ></i>
-              </div>
-            </div>
-          </div> -->
 
           <div>{% if messages%} {{messages[-1]}} {% endif %}</div>
 
