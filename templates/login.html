@@ -1,80 +1,76 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Login</title>
-    <link rel="stylesheet" type="text/css" href="../static/login.css  " />
-    <link
-      href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap"
-      rel="stylesheet"
-    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link href="../static/login.css" rel="stylesheet" />
     <script
       src="https://kit.fontawesome.com/7027708486.js"
       crossorigin="anonymous"
     ></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
   <body>
-    <img class="wave" src="../static/wave.png" />
-    <div class="container">
-      <div class="img">
-        <img src="../static/undraw_medical_care_movn.png" />
-      </div>
-      <div class="login-content">
-        <form method="post">
-          <img src="../static/undraw_Male_avatar_g98d.png" />
-          <h2 class="title">Login</h2>
-          <div class="input-div one">
-            <div class="i">
-              <i class="fas fa-user"></i>
-            </div>
-            <div class="div">
-              <input
-                placeholder="Username"
-                type="text"
-                class="input"
-                name="Username"
-                required
-              />
-            </div>
-          </div>
-          <div class="input-div pass">
-            <div class="i">
-              <i class="fas fa-lock"></i>
-            </div>
-            <div class="div">
-              <input
-                placeholder="Password"
-                type="password"
-                name="password"
-                class="input"
-                required
-              />
-              <div class="i-eye">
-                <i
-                  id="password"
-                  onclick="showpassword('password')"
-                  class="fa-regular fa-eye-slash eventPassword"
-                  style="color: rgb(157, 149, 149); position: relative"
-                ></i>
+    <section>
+      <div class="color"></div>
+      <div class="color"></div>
+      <div class="color"></div>
+      <div class="box">
+        <div class="square" style="--i: 0"></div>
+        <div class="square" style="--i: 1"></div>
+        <div class="square" style="--i: 2"></div>
+        <div class="square" style="--i: 3"></div>
+        <div class="square" style="--i: 4"></div>
+        <div class="container">
+          <div class="form">
+            <h2>Login</h2>
+            <form method="post">
+              <div class="inputBox user">
+                <div class="i">
+                  <i class="fas fa-user"></i>
+                </div>
+
+                <input type="text" placeholder="Username" name="Username" />
               </div>
-            </div>
-          </div>
+              <div class="inputBox">
+                <div class="i">
+                  <i class="fas fa-lock"></i>
+                </div>
+                <input type="password" placeholder="Password" name="password" />
+                <div class="i-eye">
+                  <i
+                    id="password"
+                    onclick="showpassword('password')"
+                    class="fa-regular fa-eye-slash eventPassword"
+                  ></i>
+                </div>
+              </div>
 
-          <div>{% if messages%} {{messages[-1]}} {% endif %}</div>
-
-          <input type="submit" class="btn" value="Login" />
-          <div class="register-link">
-            <p>
-              Don't have an account?
-              <a href="{{ url_for('register') }}">Sign Up</a>
-            </p>
+              <div
+                style="
+                  text-align: center;
+                  margin-top: 5%;
+                  color: rgb(245, 54, 54);
+                "
+              >
+                {% if messages%} {{messages[-1]}} {% endif %}
+              </div>
+              <div class="inputBox">
+                <input type="submit" value="Sign-in" />
+              </div>
+              <p class="forget">Forget Password ? <a href="#">Click Here</a></p>
+              <p class="forget">
+                Don't have an account ?
+                <a href="{{url_for('register')}}">Sign up</a>
+              </p>
+            </form>
           </div>
-        </form>
+        </div>
       </div>
-    </div>
-    <script
-      type="text/javascript"
-      src="{{ url_for('static', filename='scripts/login_register.js') }}"
-    ></script>
+      <script
+        type="text/javascript"
+        src="{{ url_for('static', filename='scripts/login_register.js') }}"
+      ></script>
+    </section>
   </body>
 </html>

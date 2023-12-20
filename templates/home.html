@@ -29,8 +29,7 @@
       </p>
       <button
         onclick="form_redirect()"
-        disabled
-        style="cursor: not-allowed"
+        style="cursor: pointer"
         class="btn-check"
       >
         check here
@@ -47,10 +46,9 @@
         loop: true,
       });
       if ("{{session['Username']}}") {
-        button = document.querySelector(".btn-check");
-        button.style.cursor = "pointer";
-        console.log(button);
-        button.disabled = false;
+        // button = document.querySelector(".btn-check");
+        // button.style.cursor = "pointer";
+        // button.disabled = false;
         document.querySelector(".btn-logo").textContent = "Logout";
       }
       function Loginredirect() {
@@ -61,7 +59,11 @@
         }
       }
       function form_redirect() {
-        window.location.href = "{{url_for('form')}}";
+        if ("{{session['Username']}}") {
+          window.location.href = "{{url_for('form')}}";
+        } else {
+          alert("***Please Login to continue!***");
+        }
       }
     </script>
   </body>
