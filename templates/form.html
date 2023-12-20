@@ -26,11 +26,6 @@
           placeholder="Weight"
           required
         />
-        <select id="genderInput" name="gender" class="select-box1" required>
-          <option value="" disabled selected class="op">Gender</option>
-          <option value="1">Male</option>
-          <option value="2">Female</option>
-        </select>
 
         <div class="btn-box">
           <button type="button" id="next2">Next</button>
@@ -186,7 +181,7 @@
 
         <div class="select-container3">
           <select name="Drinker" id="drinkingInput" class="select-box" required>
-            <option value="" disabled selected>Do you drink?</option>
+            <option value="" disabled selected>Do you drink Alcohol?</option>
             <option value="1">Yes</option>
             <option value="2">No</option>
             <!-- <option value="2">Not want to tell</option> -->
@@ -202,7 +197,6 @@
         <!-- Hidden fields to store the collected form data -->
         <input type="hidden" name="Height" id="height" />
         <input type="hidden" name="Weight" id="weight" />
-        <input type="hidden" name="Gender" id="gender" />
         <input type="hidden" name="HighBloodPressure" id="highBloodPressure" />
         <input type="hidden" name="HadHeartAttack" id="hadHeartAttack" />
         <input type="hidden" name="Diabetes" id="diabetes" />
@@ -255,7 +249,7 @@
       next2.onclick = function () {
         if (form2.checkValidity()) {
           saveFormData("form2");
-          formLength_dec();
+          formLength_inc();
           form2.style.left = "-550px";
           form3.style.left = "50px";
           progress.style.width = "240px";
@@ -284,7 +278,7 @@
       next3.onclick = function () {
         if (form3.checkValidity()) {
           saveFormData("form3");
-          formLength_inc();
+          formLength_dec();
           form3.style.left = "-550px";
           form4.style.left = "50px";
           progress.style.width = "360px";
@@ -311,7 +305,7 @@
       // };
 
       next4.onclick = function () {
-        if (form2.checkValidity()) {
+        if (form4.checkValidity()) {
           saveFormData("form4");
           form4.style.left = "-550px";
           form5.style.left = "50px";
@@ -353,14 +347,14 @@
       };
 
       back2.onclick = function () {
-        formLength_inc();
+        formLength_dec();
         form2.style.left = "40px";
         form3.style.left = "650px";
         progress.style.width = "120px";
       };
 
       back3.onclick = function () {
-        formLength_dec();
+        formLength_inc();
         form3.style.left = "40px";
         form4.style.left = "650px";
         progress.style.width = "240px";
@@ -390,8 +384,6 @@
             document.getElementById("heightInput").value;
           document.getElementById("weight").value =
             document.getElementById("weightInput").value;
-          document.getElementById("gender").value =
-            document.getElementById("genderInput").value;
         } else if (formId === "form3") {
           document.getElementById("highBloodPressure").value =
             document.getElementById("highBloodPressureInput").value;
@@ -420,12 +412,12 @@
         }
       }
       function formLength_dec() {
-        form3.style.top = "71px";
-        document.getElementById("chronicHealthConditions").style.marginBottom =
-          "28px";
+        container = document.querySelector(".container");
+        container.style.height = "400px";
       }
       function formLength_inc() {
-        form3.style.top = "100px";
+        container = document.querySelector(".container");
+        container.style.height = "430px";
       }
     </script>
   </body>

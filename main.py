@@ -80,7 +80,7 @@ def logout():
 def form():
   if request.method=='POST':
     names=['HadHeartAttack','HighBloodPressure','AnyHeartStroke','KidneyDisease','Diabetes',
-           'DiabetesAge','smoking','exercise','HighCholLevel','Gender','Height','Weight','Drinker']
+           'DiabetesAge','smoking','exercise','HighCholLevel','Height','Weight','Drinker']
     formdata={}
     formdata.update(request.form)
     flag,predictionVal=fn.process_data(formdata,names,session["Username"])
@@ -119,7 +119,7 @@ def result(cat):
   else:
     return redirect(url_for('form'))
   
-   
+# @app.route('/')
 
       
 

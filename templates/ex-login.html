@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="../static/login.css  " />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/7027708486.js"
+      crossorigin="anonymous"
+    ></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <img class="wave" src="../static/wave.png" />
+    <div class="container">
+      <div class="img">
+        <img src="../static/undraw_medical_care_movn.png" />
+      </div>
+      <div class="login-content">
+        <form method="post">
+          <img src="../static/undraw_Male_avatar_g98d.png" />
+          <h2 class="title">Login</h2>
+          <div class="input-div one">
+            <div class="i">
+              <i class="fas fa-user"></i>
+            </div>
+            <div class="div">
+              <input
+                placeholder="Username"
+                type="text"
+                class="input"
+                name="Username"
+                required
+              />
+            </div>
+          </div>
+          <div class="input-div pass">
+            <div class="i">
+              <i class="fas fa-lock"></i>
+            </div>
+            <div class="div">
+              <input
+                placeholder="Password"
+                type="password"
+                name="password"
+                class="input"
+                required
+              />
+              <div class="i-eye">
+                <i
+                  id="password"
+                  onclick="showpassword('password')"
+                  class="fa-regular fa-eye-slash eventPassword"
+                  style="color: rgb(157, 149, 149); position: relative"
+                ></i>
+              </div>
+            </div>
+          </div>
+
+          <div>{% if messages%} {{messages[-1]}} {% endif %}</div>
+
+          <input type="submit" class="btn" value="Login" />
+          <div
+            class="register-link"
+            style="margin-left: 41%; margin-bottom: 2%"
+          >
+            <a href="{{ url_for('register') }}">forgot password?</a>
+          </div>
+          <div class="register-link" style="display: inline-block">
+            <p>
+              Don't have an account?
+              <a href="{{ url_for('register') }}">Sign Up</a>
+            </p>
+          </div>
+        </form>
+        +
+      </div>
+    </div>
+    <script
+      type="text/javascript"
+      src="{{ url_for('static', filename='scripts/login_register.js') }}"
+    ></script>
+  </body>
+</html>

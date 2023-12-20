@@ -8,8 +8,10 @@ from email_validator import validate_email
 from sklearn.ensemble import  GradientBoostingClassifier
 from datetime import datetime
 from geopy.geocoders import Nominatim
+import warnings
 
 
+warnings.filterwarnings('ignore')
 database_connection_string="mongodb+srv://heart_health-G64:heart_health-G64@cluster0.2tz5hzd.mongodb.net/"
 name_values={'HighBloodPressure':{1:"Yes",3:"No",4:"Borderline high/Pre-hypertensive"},'HadHeartAttack':{1:"Yes",2:"No"},
              'AnyHeartStroke':{1:"Yes",2:"No"},'KidneyDisease':{1:"Yes",2:"No",999:"Don't Know"},
@@ -81,17 +83,8 @@ def verify_credentials(username, password):
     except:
         return False
 
-def updateCredentials(user1):
+def updateCredentials(user):
     try:
-        user={}
-        for i in user1:
-            if i=='gender':
-                if user1[i]=='1':
-                    user[i]='Male'
-                else:
-                    user[i]='Female'
-                continue
-            user[i]=user1[i]
         client=pymongo.MongoClient(database_connection_string)
         db=client["Heart-health-dataBase"]
         coll=db["Users"]

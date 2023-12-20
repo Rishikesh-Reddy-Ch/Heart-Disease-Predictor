@@ -1,150 +1,117 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Register</title>
-    <link rel="stylesheet" type="text/css" href="../static/register.css" />
-    <link
-      href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap"
-      rel="stylesheet"
-    />
+    <link href="../static/register.css" rel="stylesheet" />
     <script
       src="https://kit.fontawesome.com/7027708486.js"
       crossorigin="anonymous"
     ></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
   <body>
-    <img class="wave" src="../static/wave.png" />
-    <div class="container">
-      <div class="img">
-        <img src="../static/undraw_medical_care_movn.png" />
-      </div>
-      <div class="login-content">
-        <form method="post">
-          <img src="../static/undraw_Male_avatar_g98d.png" />
-          <h2 class="title">Sign Up</h2>
-          <div class="input-div one">
-            <div class="i">
-              <i class="fas fa-user"></i>
-            </div>
-            <div class="div">
-              <input
-                placeholder="Username"
-                type="text"
-                class="input"
-                name="Username"
-                required
-              />
-            </div>
-          </div>
-          <div class="input-div pass">
-            <div class="i">
-              <i class="fas fa-envelope"></i>
-            </div>
-            <div class="div">
-              <input
-                placeholder="Email"
-                type="text"
-                class="input"
-                name="email"
-                required
-              />
-            </div>
-          </div>
+    <section>
+      <div class="color"></div>
+      <div class="color"></div>
+      <div class="color"></div>
+      <div class="box">
+        <div class="square" style="--i: 0"></div>
+        <div class="square" style="--i: 1"></div>
+        <div class="square" style="--i: 2"></div>
+        <div class="square" style="--i: 3"></div>
+        <div class="square" style="--i: 4"></div>
+        <div class="container">
+          <div class="form">
+            <h2>Register</h2>
+            <form method="post">
+              <div class="inputBox user">
+                <div class="i">
+                  <i class="fas fa-user"></i>
+                </div>
 
-          <div class="input-div pass">
-            <div class="i">
-              <i class="fa-solid fa-calendar-day"></i>
-            </div>
-            <div class="div">
-              <input
-                placeholder="DOB"
-                type="date"
-                style="color: rgb(118, 118, 118)"
-                class="input"
-                id="dob"
-                name="dob"
-                max=""
-                required
-              />
-            </div>
-          </div>
-          <div class="input-div pass" style="padding: 0px; margin-top: 7%">
-            <div class="i">
-              <i class="fa-solid fa-venus-mars"></i>
-            </div>
-            <div style="margin-inline-start: 0px; margin-bottom: 3px">
-              <span
-                style="
-                  margin-right: 9%;
-                  margin-left: 3px;
-                  color: rgb(118, 118, 118);
-                  font-size: 20px;
-                "
-                >Gender:</span
-              >
-              <span style="margin-right: 9%">
                 <input
-                  type="radio"
-                  style="color: rgb(118, 118, 118)"
-                  class="input"
-                  name="gender"
-                  id="male"
-                  value="1"
+                  type="text"
+                  placeholder="Username"
+                  name="Username"
                   required
                 />
-                <label style="color: rgb(87, 85, 85)" for="male">Male</label>
-              </span>
-              <span style="margin-right: 11%">
+              </div>
+              <div class="inputBox user">
+                <div class="i">
+                  <i class="fas fa-envelope"></i>
+                </div>
+
+                <input type="email" placeholder="Email" name="email" required />
+              </div>
+              <div class="inputBox user">
+                <div class="i">
+                  <i class="fa-solid fa-calendar-day"></i>
+                </div>
+
+                <input
+                  type="date"
+                  style="padding-right: 20px"
+                  placeholder="DOB"
+                  name="dob"
+                  required
+                />
+              </div>
+              <div class="inputBox user">
+                <div class="i">
+                  <i class="fa-solid fa-venus-mars"></i>
+                </div>
+                <span class="gender">Gender:</span>
                 <input
                   type="radio"
-                  style="color: rgb(118, 118, 118)"
+                  class="gender-input"
+                  name="gender"
+                  id="male"
+                  value="Male"
+                  required
+                />
+                <label class="gender-label" for="male">Male</label>
+                <input
+                  type="radio"
                   class="input"
                   name="gender"
-                  value="2"
+                  value="Female"
                   id="female"
                   required
                 />
-                <label style="color: rgb(87, 85, 85)" for="female"
-                  >Female</label
-                >
-              </span>
-            </div>
-          </div>
-
-          <div class="input-div pass">
-            <div class="i">
-              <i class="fas fa-lock"></i>
-            </div>
-            <div class="div">
-              <input
-                placeholder="Password"
-                type="password"
-                name="password"
-                class="input"
-                required
-              />
-              <div class="i-eye">
-                <i
-                  id="password"
-                  class="fa-regular fa-eye-slash eventPassword"
-                  onclick="showpassword('password')"
-                  style="color: rgb(157, 149, 149); position: relative"
-                ></i>
-                <!-- <i aria-hidden="true" class="fa-regular fa-eye-slash"></i> -->
+                <label for="female" class="gender-label">Female</label>
               </div>
-            </div>
+              <div class="inputBox">
+                <div class="i">
+                  <i class="fas fa-lock"></i>
+                </div>
+                <input type="password" placeholder="password" name="password" />
+                <div class="i-eye">
+                  <i
+                    id="password"
+                    onclick="showpassword('password')"
+                    class="fa-regular fa-eye-slash eventPassword"
+                  ></i>
+                </div>
+              </div>
+
+              <div class="error-flash">
+                {% if messages%} {{messages[-1]}} {% endif %}
+              </div>
+              <div class="inputBox">
+                <input type="submit" value="Sign-up" />
+              </div>
+              <p class="login">
+                Have an Account? <a href="{{url_for('login')}}">Click Here</a>
+              </p>
+            </form>
           </div>
-
-          <div>{% if messages%} {{messages[-1]}} {% endif %}</div>
-
-          <input type="submit" class="btn" value="Sign Up" />
-        </form>
+        </div>
       </div>
-    </div>
-    <script
-      type="text/javascript"
-      src="{{ url_for('static', filename='scripts/login_register.js') }}"
-    ></script>
+      <script
+        type="text/javascript"
+        src="{{ url_for('static', filename='scripts/login_register.js') }}"
+      ></script>
+    </section>
   </body>
 </html>
