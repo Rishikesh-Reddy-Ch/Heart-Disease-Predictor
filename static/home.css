@@ -2,11 +2,6 @@ body {
   margin: 0;
   padding: 0;
   flex: 1;
-
-  /* background: linear-gradient(to right,#ca4e70,rgba(215,226,223,255)); */
-  /* background-image: url("heart-problems-cardiology-diseases-banner-with-man-who-has-heart-pain_605858-1894-transformed-removebg.png");
-    background-position: right 40% ; 
-      background-size: 55% auto;  */
   background: linear-gradient(to bottom, #f1f4f9, #dff1ff);
 
   height: 100vh;
@@ -17,10 +12,10 @@ body {
   background-repeat: no-repeat;
   overflow: hidden;
 }
-/* Add these styles to adjust the logo and text */
+
 .logo-img {
-  width: 30px; /* Adjust the size of the heart symbol */
-  margin-right: 5px; /* Adjust the space between the heart and text */
+  width: 30px; 
+  margin-right: 5px; 
 }
 
 .logo-text {
