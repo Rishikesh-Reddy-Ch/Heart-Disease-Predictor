@@ -23,7 +23,9 @@ section .color:nth-child(1) {
   top: -350px;
   width: 600px;
   height: 600px;
-  background: #de4792;
+  background: hsla(330, 70%, 57%, 0.642);
+  z-index: -0.7;
+
 }
 section .color:nth-child(2) {
   bottom: -150px;
@@ -31,6 +33,7 @@ section .color:nth-child(2) {
   height: 500px;
   background: #fffd87;
   left: 100px;
+  /* z-index: -1; */
 }
 section .color:nth-child(3) {
   bottom: 50px;
@@ -122,21 +125,22 @@ section .color:nth-child(3) {
 }
 .form h2 {
   position: relative;
-  color: #fff;
-  font-size: 24px;
+  color: hsla(0, 2%, 16%, 0.711);
+  font-size: 20px;
   font-weight: 600;
   letter-spacing: 1px;
-  margin-left: 36%;
+  margin-left: 10%;
   margin-bottom: 10%;
+  border-bottom: none;
 }
 .form h2::before {
   position: absolute;
   content: "";
   left: 0;
   bottom: -4px;
-  width: 106px;
+  width: 150px;
   height: 4px;
-  background: #fff;
+  background: hsla(0,2%,16%,0.711);
   padding-right: 0%;
 }
 .form .inputBox {
@@ -240,9 +244,82 @@ form .button input {
   font-size: 16px;
   font-weight: 400;
 }
-#container1 {
-  left: 50%;
+nav {
+  display: flex;
+  position: sticky;
+  font-weight: bold;
+  /* background-color: ; */
+  /* background-color: rgba(0, 0, 0, 0.5); */
+  /* background-color: #333; */
+  justify-content: space-between;
+  padding: 10px 20px;
+  z-index: 1000;
 }
+#login {
+  display: flex;
+  align-items: center;
+}
+
+.btn-login-container {
+  margin-right: 20px;
+}
+
+.btn-login {
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-login:hover {
+  background-color: deepskyblue;
+  color: black;
+}
+.nav-links {
+  display: flex;
+  margin-left: 30px;
+  color: black;
+}
+
+li {
+  list-style: none;
+  padding: 0px 30px;
+  color: black;
+}
+#login {
+  align-self: right;
+}
+.nav-text{
+  color: black;
+  text-decoration: none;
+}
+a::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  background: black; 
+  transition: width 0.6s;
+}
+
+a:hover::after {
+  width: 100%;
+}
+/* @media (min-width: 1080px) {
+  #container1 {
+    left: 50%;
+  }
+}
+
+@media (max-width: 11575px) {
+  #container1 {
+    left: 45%;
+  }
+}
+
 
 #container2 {
   left: 100%;
@@ -253,4 +330,4 @@ form .button input {
 }
 #container4 {
   left: 100%;
-}
+} */

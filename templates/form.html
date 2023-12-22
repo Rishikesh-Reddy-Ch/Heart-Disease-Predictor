@@ -11,11 +11,27 @@
     ></script>
   </head>
   <body>
+    <nav>
+      <ul class="nav-links">
+        <li style="padding-left: 15px">
+          <img src="../static/heart-pulse.svg" alt="Logo" class="logo-img" />
+          <span class="logo-text">Medico+</span>
+        </li>
+        <li ><a href="{{url_for('home')}}" class="nav-text">HOME</a></li>
+        <li ><a href="" class="nav-text">ABOUT</a></li>
+        <li ><a href="" class="nav-text">CONTACT</a></li>
+      </ul>
+      <div id="login" class="btn-login-container">
+        <button class="btn-login" onclick="Loginredirect()">Logout</button>
+      </div>
+    </nav>
     <section>
       <div class="color"></div>
       <div class="color"></div>
       <div class="color"></div>
+      
       <div class="box" id="container1">
+        
         <div class="square" style="--i: 0"></div>
         <div class="square" style="--i: 1"></div>
         <div class="square" style="--i: 2"></div>
@@ -23,7 +39,9 @@
         <div class="square" style="--i: 4"></div>
         <div class="container">
           <div class="form">
+            <h2 class="con1">Physical Info</h2>
             <form id="form1">
+              
               <div class="inputBox user">
                 <input
                   id="heightInput"
@@ -57,7 +75,8 @@
           </div>
         </div>
       </div>
-      <div class="box" id="container2">
+      <div class="box" id="container2" hidden>
+        
         <div class="square" style="--i: 0"></div>
         <div class="square" style="--i: 1"></div>
         <div class="square" style="--i: 2"></div>
@@ -65,6 +84,7 @@
         <div class="square" style="--i: 4"></div>
         <div class="container">
           <div class="form">
+            <h2>Chronic Health Conditions</h2>
             <form id="form2">
               <div class="inputBox user">
                 <select
@@ -126,7 +146,8 @@
           </div>
         </div>
       </div>
-      <div class="box" id="container3">
+      <div class="box" id="container3" hidden>
+        
         <div class="square" style="--i: 0"></div>
         <div class="square" style="--i: 1"></div>
         <div class="square" style="--i: 2"></div>
@@ -134,7 +155,9 @@
         <div class="square" style="--i: 4"></div>
         <div class="container">
           <div class="form">
+            <h2>Chronic Health Conditiions</h2>
             <form id="form3">
+              
               <div class="inputBox user"></div>
               <select
                 name="HighCholLevel"
@@ -182,7 +205,7 @@
           </div>
         </div>
       </div>
-      <div class="box" id="container4">
+      <div class="box" id="container4" hidden>
         <div class="square" style="--i: 0"></div>
         <div class="square" style="--i: 1"></div>
         <div class="square" style="--i: 2"></div>
@@ -190,7 +213,9 @@
         <div class="square" style="--i: 4"></div>
         <div class="container">
           <div class="form">
+            <h2 class="physicalh2">Physical Health</h2>
             <form id="form4">
+              
               <div class="inputBox user">
                 <select
                   name="exercise"
@@ -289,8 +314,10 @@
         if (form1.checkValidity()) {
           saveFormData("form1");
           //   formLength_inc();
-          con1.style.left = "-100%";
-          con2.style.left = "250px";
+          // con1.style.left = "-100%";
+          // con2.style.left = "250px";
+          con1.hidden = true;
+          con2.hidden = false;
           // progress.style.width = "240px";
         } else {
           form1.reportValidity();
@@ -301,8 +328,10 @@
         if (form2.checkValidity()) {
           saveFormData("form2");
           //   formLength_inc();
-          con2.style.left = "-100%";
-          con3.style.left = "-190px";
+          // con2.style.left = "-100%";
+          // con3.style.left = "-190px";
+          con2.hidden = true;
+          con3.hidden = false;
           // progress.style.width = "240px";
         } else {
           form2.reportValidity();
@@ -313,8 +342,10 @@
         if (form3.checkValidity()) {
           saveFormData("form3");
           //   formLength_inc();
-          con3.style.left = "-100%";
-          con4.style.left = "-630px";
+          // con3.style.left = "-100%";
+          // con4.style.left = "-630px";
+          con3.hidden = true;
+          con4.hidden = false;
           // progress.style.width = "240px";
         } else {
           form3.reportValidity();
@@ -333,24 +364,30 @@
       back1.onclick = function () {
         // formLength_dec();
         // con2.style.left = "0px";
-        con2.style.left = "100%";
-        con1.style.left = "45%";
+        // con2.style.left = "100%";
+        // con1.style.left = "45%";
+        con1.hidden = false;
+        con2.hidden = true;
         // progress.style.width = "120px";
       };
       back2.onclick = function () {
-        3;
+     
         // formLength_dec();
         // con2.style.left = "0px";
-        con3.style.left = "100%";
-        con2.style.left = "250px";
+        // con3.style.left = "100%";
+        // con2.style.left = "250px";
+        con2.hidden = false;
+        con3.hidden = true;
         // progress.style.width = "120px";
       };
       back3.onclick = function () {
-        3;
+        
         // formLength_dec();
         // con2.style.left = "0px";
-        con4.style.left = "100%";
-        con3.style.left = "-190px";
+        // con4.style.left = "100%";
+        // con3.style.left = "-190px";
+        con3.hidden = false;
+        con4.hidden = true;
         // progress.style.width = "120px";
       };
 
@@ -408,6 +445,11 @@
       //   container = document.querySelector(".container");
       //   container.style.height = "430px";
       // }
+      function Loginredirect() {
+        if (document.querySelector(".btn-login").textContent == "Logout") {
+          window.location.href = "{{url_for('logout')}}";
+        }
+      }
     </script>
   </body>
 </html>
