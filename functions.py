@@ -9,6 +9,7 @@ from sklearn.ensemble import  GradientBoostingClassifier
 from datetime import datetime
 from geopy.geocoders import Nominatim
 import warnings
+import bcrypt
 
 
 warnings.filterwarnings('ignore')
@@ -49,10 +50,6 @@ def passwordCheck(password):
         return False
     
     return True
-# def numCheck(num):
-#     if not re.search(r"[6-9]\d{9}$",num):
-#         return False
-#     return True
 def pinCodeFind(address):
     pin_code=re.findall(r"\d{6}",address)
     if len(pin_code)==1:
@@ -76,21 +73,25 @@ def verify_credentials(username, password):
         client=pymongo.MongoClient(database_connection_string)
         db=client["Heart-health-dataBase"]
         coll=db["Users"]
-        user=coll.find({'Username':username,'password':password})
-        if list(user):
-            return True
+        user=coll.find({'Username':username})
+        user_list = list(user)
+
+        if user_list:
+            if bcrypt.checkpw(password.encode('utf-8'),user_list[0]["password"]):
+                return True
         return False
     except:
         return False
 
 def updateCredentials(user):
     try:
+        new_password=bcrypt.hashpw(user["password"].encode("utf-8"),bcrypt.gensalt(11))
         client=pymongo.MongoClient(database_connection_string)
         db=client["Heart-health-dataBase"]
         coll=db["Users"]
         user={
                 "Username":user["Username"],
-                "password":user["password"],
+                "password":new_password,
                 "date-of-birth":user["dob"],
                 "email":user["email"],
                 'Gender':user['gender']

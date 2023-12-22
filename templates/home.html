@@ -4,55 +4,65 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="../static/home.css" />
+    <link type="text/css" rel="stylesheet" href="../static/home.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@300&family=Montserrat:wght@300;700&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <div class="container">
-      <header class="header">
-        <h2 class="logo">Logo</h2>
-        <nav class="navigation">
-          <a style="pointer-events: none; color: gray">Home</a>
-          <a href="{{url_for('about')}}">About</a>
-          <a href="">Services</a>
-          <a href="">Contact</a>
-          <button onclick="Loginredirect()" class="btn-logo">login</button>
-        </nav>
-      </header>
-      <h1>Check your <span class="auto-type"></span></h1>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias
-        exercitationem blanditiis consequatur dolorum delectus sunt ratione
-        odit, rerum quidem in, illum vitae. Architecto quam fugiat, dolorem
-        assumenda ipsam asperiores at dicta id aspernatur est quidem
-        consequuntur non nobis tempore, facere exercitationem quod quaerat
-        distinctio quae voluptas praesentium excepturi sit! Numquam?
-      </p>
-      <button
-        onclick="form_redirect()"
-        style="cursor: pointer"
-        class="btn-check"
-      >
-        check here
-      </button>
+    <div class="color"></div>
+    <div class="color"></div>
+    <div class="color"></div>
+    <nav>
+      <ul class="nav-links">
+        <li style="padding-left: 15px">
+          <img src="../static/heart-pulse.svg" alt="Logo" class="logo-img" />
+          <span class="logo-text">Medico+</span>
+        </li>
+        <li><a href="">HOME</a></li>
+        <li><a href="">ABOUT</a></li>
+        <li><a href="">CONTACT</a></li>
+      </ul>
+      <div id="login" class="btn-login-container">
+        <button class="btn-login" onclick="Loginredirect()">Login</button>
+      </div>
+    </nav>
+    <img
+      src="../static/heart-problems-cardiology-diseases-banner-with-man-who-has-heart-pain_605858-1894-transformed-removebg.png"
+      class="right-image"
+    />
 
-      <button class="learn-more">Learn more</button>
+    <div class="container">
+      <div class="content">
+        <h1>
+          CHECK YOUR <br />
+          <span class="auto-type"></span>
+        </h1>
+        <p>
+          Medico+ is a free online website to check heart health, it raises
+          awareness and gives tips and how to manage the risk of heart disease
+        </p>
+        <button class="btn" onclick="form_redirect()">Check here</button>
+      </div>
     </div>
     <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
     <script>
       var typed = new Typed(".auto-type", {
-        strings: ["heart health", "heart fitness", "cardiovascular well being"],
-        typeSpeed: 100,
+        // strings: ["heart health", "heart fitness", "cardiovascular well being"],
+        strings: ["heart health", "heart fitness"],
+
+        typeSpeed: 120,
         backSpeed: 100,
         loop: true,
       });
       if ("{{session['Username']}}") {
-        // button = document.querySelector(".btn-check");
-        // button.style.cursor = "pointer";
-        // button.disabled = false;
-        document.querySelector(".btn-logo").textContent = "Logout";
+        document.querySelector(".btn-login").textContent = "Logout";
       }
       function Loginredirect() {
-        if (document.querySelector(".btn-logo").textContent == "login") {
+        if (document.querySelector(".btn-login").textContent == "Login") {
           window.location.href = "{{url_for('login')}}";
         } else {
           window.location.href = "{{url_for('logout')}}";
