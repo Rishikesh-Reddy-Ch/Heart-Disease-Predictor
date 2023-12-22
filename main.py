@@ -4,13 +4,20 @@ import pandas as pd
 import random
 import numpy as np
 # import jsonify
+def session_username():
+  try:
+    if session['Username']:
+      return True
+    return False
+  except:
+    return False
 
 app = Flask(__name__)
 app.secret_key = 'secret-key'
 
 @app.route('/')
 def home():
-  return render_template('home.html')
+  return render_template('home.html',user=session_username())
 
 
 @app.route('/about')
@@ -73,7 +80,8 @@ def login():
 
 @app.route('/logout/')
 def logout():
-   session.pop("Username")
+   if "Username" in session:
+    session.pop("Username")
    return redirect(url_for('home'))
 
 @app.route('/form/',methods=['GET','POST'])

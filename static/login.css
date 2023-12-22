@@ -215,7 +215,7 @@ section .color:nth-child(3) {
 }
 .forget {
   margin-top: 5px;
-  color: #949494;
+  color: #333333;
 }
 .forget a {
   color: #3498db;

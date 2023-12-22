@@ -1,137 +1,200 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-.container {
-    height: 100%;
-    width: 100%;
-}
-
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-image: url('person-using-tensiometer-blood-pressure.jpg');
-    background-size: cover;
-    background-position: center;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+
+  /* background: linear-gradient(to right,#ca4e70,rgba(215,226,223,255)); */
+  /* background-image: url("heart-problems-cardiology-diseases-banner-with-man-who-has-heart-pain_605858-1894-transformed-removebg.png");
+    background-position: right 40% ; 
+      background-size: 55% auto;  */
+  background: linear-gradient(to bottom, #f1f4f9, #dff1ff);
+
+  height: 100vh;
+  font-family: "diazo-mvb-ex-cond", sans-serif;
+  font-style: normal;
+
+  font-weight: 700;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+/* Add these styles to adjust the logo and text */
+.logo-img {
+  width: 30px; /* Adjust the size of the heart symbol */
+  margin-right: 5px; /* Adjust the space between the heart and text */
 }
 
-header {
-    position: fixed;
+.logo-text {
+  font-family: "Alegreya Sans", sans-serif;
+  font-family: "Montserrat", sans-serif;
+  font-weight: bolder;
+  color: darkred;
+  font-size: 18px;
+  position: relative;
+}
+
+.color {
+  position: absolute;
+  filter: blur(150px);
+}
+.color:nth-child(1) {
+  top: -350px;
+  width: 600px;
+  height: 600px;
+  z-index: -1;
+  background: #ff359b;
+}
+.color:nth-child(2) {
+  bottom: -150px;
+  z-index: -1;
+  width: 500px;
+  height: 500px;
+  background: #fffd87;
+  left: 100px;
+}
+
+nav {
+  display: flex;
+
+  justify-content: space-between;
+  padding: 10px 20px;
+}
+
+#login {
+  display: flex;
+  align-items: center;
+}
+
+.btn-login-container {
+  margin-right: 20px;
+}
+
+.btn-login {
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-login:hover {
+  background-color: white;
+  color: black;
+}
+
+.nav-links {
+  display: flex;
+  margin-left: 20px;
+}
+
+li {
+  list-style: none;
+  padding: 0px 30px;
+}
+#login {
+  align-self: right;
+}
+
+a {
+  text-decoration: none;
+  font-family: "Alegreya Sans", sans-serif;
+  font-family: "Montserrat", sans-serif;
+  font-weight: bolder;
+  color: darkred;
+  font-size: 18px;
+  position: relative;
+}
+
+a::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 5px;
+  background: darkred;
+  transition: width 0.6s;
+}
+
+a:hover::after {
+  width: 100%;
+}
+
+.content h1 {
+  font-family: "Alegreya Sans", sans-serif;
+  font-family: "Montserrat", sans-serif;
+  font-weight: bolder;
+  font-size: 50px;
+  margin-top: 200px;
+  margin-left: 100px;
+  margin-bottom: 0px;
+  color: darksalmon;
+}
+.content .btn {
+  cursor: pointer;
+  margin-left: 100px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: bolder;
+  background-color: darkred;
+  color: white;
+  border-radius: 10px;
+  padding: 10px 20px;
+  border: none;
+}
+.content p {
+  font-family: "Alegreya Sans", sans-serif;
+  font-family: "Montserrat", sans-serif;
+  font-weight: bolder;
+  font-size: 20px;
+  margin-left: 100px;
+  max-width: 45%;
+  margin-bottom: 0px;
+  color: darkred;
+}
+@media (min-width: 1010px) {
+  img {
+    float: right;
+
+    width: 50%;
+    height: 70%;
+
     top: 0;
     left: 0;
+    background-size: cover;
+    z-index: 10;
+  }
+  .color:nth-child(3) {
+    bottom: 50px;
+    width: 300px;
+    height: 300px;
+    z-index: -1;
+    right: 100px;
+    background: #00d2ff;
+  }
+}
+@media (max-width: 1009px) {
+  img {
+    width: 70%;
+    height: auto;
+    background-size: cover;
+    z-index: 100;
+  }
+  .color:nth-child(3) {
+    bottom: 50px;
     width: 100%;
-    padding: 20px 100px;
-    
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    z-index: 99;
+    height: 100%;
+    z-index: -1;
+    right: 200px;
+    background: #00d2ff;
+  }
+}
+nav .btn-login {
+  margin-right: 20px;
+  border-radius: 5px;
 }
 
-.logo {
-    font-size: 2em;
-    color: white;
-    user-select: none;
-    
-}
-
-.navigation a {
-    position: relative;
-    text-decoration: none;
-    color: white;
-    margin: 40px;
-    font-size: 1.4em;
-    font-weight: 500;
-}
-
-.navigation a::after {
-    content: '';
-    position: absolute;
-    bottom: -6px;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: white;
-    border-radius: 5px;
-    transform-origin: left;
-    transform: scaleX(0);
-    transition: transform 0.5s;
-}
-
-.navigation a:hover::after {
-    transform: scaleX(1);
-}
-
-.btn-logo {
-    width: 130px;
-    height: 40px;
-    border-radius: 6px;
-    background: transparent;
-    cursor: pointer;
-    outline: none;
-    border: 2px solid white;
-    color: white;
-    font-size: 1.1em;
-    font-weight: 500;
-    margin-left: 40px;
-    transition: 0.5s;
-}
-
-.btn-logo:hover {
-    background-color: white;
-    color: #162938;
-}
-h1 {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 36px;
-    font-weight: 700;
-    margin: 0px 0 0 60px;
-    color: #333;
-    font-size: 60px;
-    
-}
-
-
-
-.btn-check {
-    background: #333;
-    color: white;
-    border: 1px solid #333;
-    padding: 10px 20px;
-
-    border-radius:5px;
-    margin: 0 0 0 60px;
-    
-    
-}
-.btn-check:hover{
-    cursor: pointer;
-}
-
-
-
-.learn-more {
-    background: transparent;
-    color: #333;
-    border: 1px solid #333;
-    padding: 10px 20px;
-    border-radius: 5px;
-}
-.learn-more:hover{
-    cursor: pointer;
-    }
-
-p {
-    width: 40%;
-    margin: 10px 0 20px 60px;
-
-}
-
-h1 span.auto-type {
-    background: transparent;
-    color: hotpink;
+.auto-type {
+  color: darkred;
+  white-space: nowrap;
 }
