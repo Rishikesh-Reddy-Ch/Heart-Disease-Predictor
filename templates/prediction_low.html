@@ -1,145 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Low Risk: Heart Health</title>
-<style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color:rgb(220, 255, 213);
-            color:green;
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-        }
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: rgb(220, 255, 213);
+        color: green;
+        margin: 0;
+        padding: 0;
+        line-height: 1.6;
+      }
 
-        section {
-            max-width: 800px;
-            margin: 10em auto;
-            padding: 2em;
-            background-color: #fff;
-            border-radius: 12px;
-            overflow: hidden; 
-            
-        }
+      section {
+        max-width: 800px;
+        margin: 10em auto;
+        padding: 2em;
+        background-color: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+      }
 
-        h2, h3 {
-            color: #27ae60;
-        }
+      h2,
+      h3 {
+        color: #27ae60;
+      }
 
-        h2 {
-            border-bottom: 2px solid #27ae60;
-            padding-bottom: 0.5em;
-            margin-bottom: 1em;
-        }
+      h2 {
+        border-bottom: 2px solid #27ae60;
+        padding-bottom: 0.5em;
+        margin-bottom: 1em;
+      }
 
-        h3 {
-            margin-top: 1.5em;
-        }
+      h3 {
+        margin-top: 1.5em;
+      }
 
-        p {
-            margin-bottom: 1.2em;
-        }
+      p {
+        margin-bottom: 1.2em;
+      }
 
-        ul {
-            list-style-type:disc;
-            margin-left: 2em;
-            margin-bottom: 1.2em;
-        }
+      ul {
+        list-style-type: disc;
+        margin-left: 2em;
+        margin-bottom: 1.2em;
+      }
 
-        .recommendations {
-            background-color: #ccfbe1;
-            padding: 1.5em;
-            border-radius: 8px;
-            margin-top: 2em;
-        }
+      .recommendations {
+        background-color: #ccfbe1;
+        padding: 1.5em;
+        border-radius: 8px;
+        margin-top: 2em;
+      }
 
-        .recommendations h3 {
-            color: #2ecc71;
-            margin-top: 0;
-        }
-                form {
+      .recommendations h3 {
+        color: #2ecc71;
+        margin-top: 0;
+      }
+      form {
         display: flex;
         flex-direction: column;
-        }
+      }
 
-        label {
+      label {
         font-weight: bold;
-        }
+      }
 
-        textarea {
+      textarea {
         resize: vertical;
         padding: 8px;
         border-radius: 4px;
         border: 1px solid #ccc;
         margin-bottom: 10px;
-        }
+      }
 
-        input[type="submit"] {
+      input[type="submit"] {
+        font-style: oblique;
         padding: 10px 20px;
         border: none;
-        background-color: #1d30ff;
+        background-color: #038218;
         color: #fff;
         cursor: pointer;
         border-radius: 4px;
         font-size: 16px;
-        }
+      }
 
-        input[type="submit"]:hover {
+      input[type="submit"]:hover {
+        font-style: normal;
         background-color: #00b330;
-        }        
-    </style>    
-</head>
-<body>
+      }
+      input[type="checkbox"] {
+        background-color: #27ae60;
+      }
+    </style>
+  </head>
+  <body>
     <section>
-        <h2>Risk level:LOW</h2>
-        <p>
-            Based on the information provided, it appears you have a low risk of heart disease. However, maintaining good habits is still important for heart health.
-        </p>
-
-        <div class="recommendations">
-            <h3>Key Recommendations:</h3>
-            <ul>
-                <li>Continue a balanced diet with a variety of nutrients.</li>
-                <li>Stay physically active to promote overall health.</li>
-                <li>Regularly check your blood pressure and cholesterol levels.</li>
-                <li>Practice stress management techniques for mental well-being.</li>
-            </ul>
-            <h3>Do you follow a diet plan?</h3>
-                <input type="checkbox" id="follow-diet-plan" name="follow-diet-plan">
-                <label for="follow-diet-plan">Yes, I follow a diet plan</label><br><br>
-
-                <div class="dietary-input" style="display: none;">
-                <h3>Please provide your daily dietary plans:</h3>
-                <form action="submit_dietary_endpoint" method="post">
-                    <label for="dietary-plans">Dietary Plans:</label>
-                    <textarea id="dietary-plans" name="dietary-plans" rows="4" cols="50"></textarea><br><br>
-                    <input type="submit" value="Submit">
-                </form>
-                </div>
-            </div>
-
-            <p>
-                Remember, it's always wise to seek advice from your healthcare professional for personalized guidance.
+      <h2>Risk level:LOW</h2>
+      <p>
+        Based on the information provided, it appears you have a
+        <b>low risk </b>of heart disease. However, maintaining good habits is
+        still important for heart health.
+      </p>
+      <div class="recommendations">
+        <h3>Key Recommendations:</h3>
+        <ul>
+          <li>Continue a balanced diet with a variety of nutrients.</li>
+          <li>Stay physically active to promote overall health.</li>
+          <li>Regularly check your blood pressure and cholesterol levels.</li>
+          <li>Practice stress management techniques for mental well-being.</li>
+        </ul>
+        <h3>Do you follow a diet plan?</h3>
+        <input
+          type="checkbox"
+          id="follow-diet-plan"
+          name="follow-diet-plan"
+          onclick="Dietary_plans()"
+        />
+        <label for="follow-diet-plan">Yes, I follow a diet plan</label>
+        <div class="dietary-input" style="display: none">
+          <h3 id="h1">Please provide your daily dietary plans:</h3>
+          <form id="dietary-form">
+            <label for="dietary-plans">Dietary Plans:</label>
+            <textarea
+              id="dietary-plans"
+              name="dietary-plans"
+              rows="4"
+              cols="50"
+            ></textarea
+            ><br /><br />
+            <input type="submit" value="Submit" />
+            <form action=""></form>
+            <p ac id="confirmation-message" style="display: none; color: green">
+              Thank you, information saved!
             </p>
+          </form>
         </div>
+      </div>
 
-        <p>
-            Keep up the good work and maintain a healthy lifestyle for continued heart health.
-        </p>
-        <script>
-            const followDietPlanCheckbox = document.getElementById('follow-diet-plan');
-            const dietaryInput = document.querySelector('.dietary-input');
-        
-            followDietPlanCheckbox.addEventListener('change', function () {
-              if (this.checked) {
-                dietaryInput.style.display = 'block';
-              } else {
-                dietaryInput.style.display = 'none';
-              }
-            });
-        </script>
+      <p>
+        Remember, it's always wise to seek advice from your healthcare
+        professional for personalized guidance.
+      </p>
+      <p style="text-align: center">
+        Keep up the good work and maintain a <b>healthy lifestyle</b> for
+        continued heart health.
+      </p>
     </section>
-</body>
+
+    <script>
+      function Dietary_plans() {
+        const followDietPlanCheckbox =
+          document.getElementById("follow-diet-plan");
+        const dietaryInput = document.querySelector(".dietary-input");
+
+        if (followDietPlanCheckbox.checked) {
+          dietaryInput.style.display = "block";
+        } else {
+          dietaryInput.style.display = "none";
+        }
+      }
+      document
+        .getElementById("dietary-form")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+          setTimeout(function () {
+            document.getElementById("h1").style.display = "none";
+            document.getElementById("dietary-form").style.display = "none"; // Hide the form
+            document.getElementById("confirmation-message").style.display =
+              "block"; // Show confirmation message
+          }, 1000);
+        });
+    </script>
+  </body>
 </html>

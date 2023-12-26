@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request,flash,redirect,url_for,session,get_flashed_messages
+from flask import Flask,render_template,request,flash,redirect,url_for,session,get_flashed_messages,jsonify
 import functions as fn
 import pandas as pd
 import random
@@ -115,9 +115,14 @@ def form():
 # @app.roulte('/email-validate/',methods=['GET'])
 # def validate():
 #    otp=str(random.randint(100000, 999999))
-@app.route("/result<cat>/",methods=["GET"])
+@app.route("/result<cat>/",methods=["GET","POST"])
 def result(cat):
   if cat=="High":
+    if request.method=="POST":
+      zipCode=request.form["user-address"]
+      if fn.addressCheck(zipCode):
+        location=request.form["location"]
+        return render_template('prediction_high.html',)
     # predictionVal=np.NaN
     return render_template("prediction_high.html")
   elif cat=="Medium":
@@ -127,7 +132,14 @@ def result(cat):
   else:
     return redirect(url_for('form'))
   
-# @app.route('/')
+@app.route('/address_check/', methods=["POST"])
+def addess_checking():
+    pin_code=request.json["pin-code"]
+    result=fn.addressCheck(pin_code)
+    response = jsonify({"valid": result})
+    return response
+
+
 
       
 

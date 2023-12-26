@@ -10,8 +10,10 @@ from datetime import datetime
 from geopy.geocoders import Nominatim
 import warnings
 import bcrypt
-
-
+from cryptography.fernet import Fernet
+with open('key.bin','rb') as Fkey:
+    key=Fkey.read()
+f=Fernet(key)
 warnings.filterwarnings('ignore')
 database_connection_string="mongodb+srv://heart_health-G64:heart_health-G64@cluster0.2tz5hzd.mongodb.net/"
 name_values={'HighBloodPressure':{1:"Yes",3:"No",4:"Borderline high/Pre-hypertensive"},'HadHeartAttack':{1:"Yes",2:"No"},
@@ -92,9 +94,9 @@ def updateCredentials(user):
         user={
                 "Username":user["Username"],
                 "password":new_password,
-                "date-of-birth":user["dob"],
-                "email":user["email"],
-                'Gender':user['gender']
+                "date-of-birth":f.encrypt(user["dob"].encode('utf-8')),
+                "email":f.encrypt(user["email"].encode('utf-8')),
+                'Gender':f.encrypt(user['gender'].encode('utf-8'))
         }
         coll.insert_one(user)
         return True
@@ -115,8 +117,8 @@ def age_cal_gender(username):
     coll=db["Users"]
     user=coll.find_one({"Username":username})
 
-    dob=user["date-of-birth"]
-    gender=user['Gender']
+    dob=f.decrypt(user["date-of-birth"]).decode('utf-8')
+    gender=f.decrypt(user['Gender']).decode('utf-8')
     if gender=='Male':
         gender=1
     else:
