@@ -84,7 +84,7 @@
         margin-bottom: 10px;
       }
 
-      input[type="submit"] {
+      input[type="button"] {
         padding: 10px 20px;
         border: none;
         background-color: #e74c3c;
@@ -94,7 +94,7 @@
         font-size: 16px;
       }
 
-      input[type="submit"]:hover {
+      input[type="button"]:hover {
         background-color: #c0392b;
       }
     </style>
@@ -136,13 +136,10 @@
         <h3>Please provide your area pin code:</h3>
         <form id="addressForm" method="post">
           <label for="user-address" style="color: #c0392b">pin-code:</label>
-          <input
-            type="text"
-            id="user-address"
-            name="user-address"
-            required
-          /><br /><br />
-          <input type="submit" onclick="openMaps()" value="Submit" />
+          <input type="text" id="user-address" name="user-address" required />
+          <input hidden type="text" id="location" value="" name="location" />
+          <br /><br />
+          <input type="button" onclick="openMaps()" value="Submit" />
         </form>
       </div>
 
@@ -153,22 +150,40 @@
       </p>
     </section>
     <script>
-      function openMaps(event) {
-        event.preventDefault(); // Prevent the default form submission behavior
+      function openMaps() {
+        // event.preventDefault(); // Prevent the default form submission behavior
 
-        var locationInput = document.getElementById("user-address");
-        var location = encodeURIComponent(
-          "cardiac hospitals near " + locationInput.value
+        const request = new XMLHttpRequest();
+        request.open("POST", "/address_check/");
+        request.setRequestHeader(
+          "Content-Type",
+          "application/json;charset=UTF-8"
         );
+        pin_code = document.getElementById("user-address").value;
+        request.send(JSON.stringify({ "pin-code": pin_code }));
 
-        // Open Google Maps in a new tab
-        window.open("https://www.google.com/maps?q=" + location, "_blank");
+        request.onload = function () {
+          const result = JSON.parse(request.responseText);
+          redirect(result.valid, pin_code);
+        };
+      }
+      function redirect(response, pin_code) {
+        if (response) {
+          const location = encodeURIComponent(
+            "cardiac hospitals near " + pin_code
+          );
+
+          // Open Google Maps in a new tab
+          window.location.href = "https://www.google.com/maps?q=" + location;
+        } else {
+          alert("Enter valid postal-Code");
+        }
       }
 
       // Attach the event listener to the form submission
-      document
-        .getElementById("addressForm")
-        .addEventListener("submit", openMaps);
+      // document
+      //   .getElementById("addressForm")
+      //   .addEventListener("button", openMaps);
     </script>
   </body>
 </html>
