@@ -166,9 +166,20 @@ def generateotp():
 
 @app.route('/changePassword/otpvalidation/',methods=['POST'])
 def otpValidation():
-  if(session['OTP']==request.json['OTP']):
-    return jsonify({'changed':'true'})
-  
+  response={'changed':True,'error':'success'}
+  # print(session['OTP'],request.json['OTP'])
+  if not fn.passwordCheck(request.json['password']):
+    response['changed']=False
+    response['error']="Password needs: Uppercase, Lowercase, Digit, Special Char."
+ 
+  elif(session['OTP']!=request.json['OTP']):
+    response['changed']=False
+    response['error']="Enter valid otp"
+  else:
+    response['changed'],response['error']=fn.change_password(request.json['password'],request.json['username'])
+  if(response['changed']):
+    session.pop('OTP')
+  return jsonify(response)
 
    
 

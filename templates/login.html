@@ -67,14 +67,36 @@
         
       >
       </script>
-      <script>function forgotRedirect(){
-        console.log("Hello")
-        const url='{{url_for("changePassword")}}';
-        var windowName = 'popupWindow' + Math.random().toString(36).substr(2, 10);
+      <script>
+        function forgotRedirect() {
+          console.log("Hello");
+          const url = '{{url_for("changePassword")}}';
+          var windowName =
+            "popupWindow" + Math.random().toString(36).substr(2, 10);
+
+          var windowWidth = 600; 
+          var windowHeight = 900; 
 
           
-          var newWindow = window.open(url, windowName, 'width=600,height=900');
-      }</script>
+          var leftPosition =
+            (window.innerWidth - windowWidth) / 2 + window.screenX;
+          var topPosition =
+            (window.innerHeight - windowHeight) / 2 + window.screenY;
+
+          var newWindow = window.open(
+            url,
+            windowName,
+            "width=" +
+              windowWidth +
+              ",height=" +
+              windowHeight +
+              ",left=" +
+              leftPosition +
+              ",top=" +
+              topPosition
+          );
+        }
+      </script>
     </section>
   </body>
 </html>
