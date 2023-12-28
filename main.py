@@ -3,6 +3,8 @@ import functions as fn
 import pandas as pd
 import random
 import numpy as np
+from flask_mail import Mail, Message
+
 # import jsonify
 def session_username():
   try:
@@ -13,8 +15,16 @@ def session_username():
     return False
 
 app = Flask(__name__)
-app.secret_key = 'secret-key'
 
+app.secret_key = 'secret-key'
+app.config.update(
+    MAIL_SERVER='smtp.gmail.com',
+    MAIL_PORT=465,
+    MAIL_USE_SSL=True,
+    MAIL_USERNAME='hearthealth.g64@gmail.com',
+    MAIL_PASSWORD='xzjc fxxd rxaw qafz'
+)
+mail = Mail(app)
 @app.route('/')
 def home():
   return render_template('home.html',user=session_username())
@@ -103,18 +113,7 @@ def form():
    return "Please "+ '<a href="'+url_for("login")+'"> login</a>'+' to continue'
    
   return render_template("form.html")
-# @app.roulte('/password-change/',methods=['GET','POST'])
-# def forgot_pass():
-#   if request.method=='POST':
-#     email = request.form['email']
-#     user_otp = request.form['otp']
 
-    
-  
-#   return render_template("otp.html")
-# @app.roulte('/email-validate/',methods=['GET'])
-# def validate():
-#    otp=str(random.randint(100000, 999999))
 @app.route("/result<cat>/",methods=["GET","POST"])
 def result(cat):
   if cat=="High":
@@ -139,9 +138,37 @@ def addess_checking():
     response = jsonify({"valid": result})
     return response
 
+@app.route('/changePassword/')
+def changePassword():
+  return render_template('change_password.html',messages=get_flashed_messages())
+
+@app.route('/changePassword/generateotp/',methods=['POST'])
+def generateotp():
+    email,error=fn.request_email(request.json["username"],request.json['password'])
+    response={'generated':True,'error':None}
+    if email:
+      otp=random.randint(100000,999999)
+      with mail.connect() as conn:
+        message = Message(
+            'Password Change OTP Request',
+            sender='cherukurishi95@gmail.com',
+            recipients=[email],
+            body="Dear %s, \n\nYou've requested to reset your password for your  account. To proceed, please use the following OTP to verify your identity and set a new password.\n\nOne-Time Password (OTP): %d"%(request.json["username"],otp)
+        )
+        session['OTP']=str(otp);
+        conn.send(message)
+        
+    else:
+      response['error']=error
+      response['generated']=False
+    return jsonify(response)
 
 
-      
+@app.route('/changePassword/otpvalidation/',methods=['POST'])
+def otpValidation():
+  if(session['OTP']==request.json['OTP']):
+    return jsonify({'changed':'true'})
+  
 
    
 

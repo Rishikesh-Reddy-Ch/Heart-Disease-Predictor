@@ -181,7 +181,8 @@ section .color:nth-child(3) {
 .form .inputBox input[type="password"] {
   padding-right: 45px;
 }
-.form .inputBox input[type="submit"] {
+.form .inputBox input[type="submit"],
+input[type="button"] {
   background: #fff;
   color: #666;
   max-width: 220px;
@@ -217,8 +218,9 @@ section .color:nth-child(3) {
   margin-top: 5px;
   color: #333333;
 }
-.forget a {
+.forget a,span {
   color: #3498db;
+  cursor: pointer;
   text-decoration: none;
   font-size: 16px;
   font-weight: 400;

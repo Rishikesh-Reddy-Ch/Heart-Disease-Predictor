@@ -75,7 +75,7 @@
         font-weight: bold;
       }
 
-      input[type="text"] {
+      input[type="number"] {
         padding-top: 8px;
         padding-bottom: 8px;
         padding-right: 5x;
@@ -136,8 +136,14 @@
         <h3>Please provide your area pin code:</h3>
         <form id="addressForm" method="post">
           <label for="user-address" style="color: #c0392b">pin-code:</label>
-          <input type="text" id="user-address" name="user-address" required />
-          <input hidden type="text" id="location" value="" name="location" />
+          <input
+            type="number"
+            id="user-address"
+            name="user-address"
+            min="100000"
+            max="999999"
+            required
+          />
           <br /><br />
           <input type="button" onclick="openMaps()" value="Submit" />
         </form>
@@ -152,7 +158,11 @@
     <script>
       function openMaps() {
         // event.preventDefault(); // Prevent the default form submission behavior
-
+        form = document.querySelector("form");
+        if (!form.checkValidity()) {
+          alert("Enter valid potal-Code");
+          return false;
+        }
         const request = new XMLHttpRequest();
         request.open("POST", "/address_check/");
         request.setRequestHeader(
