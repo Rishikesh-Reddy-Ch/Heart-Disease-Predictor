@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Login</title>
     <link href="../static/login.css" rel="stylesheet" />
     <script
       src="https://kit.fontawesome.com/7027708486.js"
@@ -52,7 +52,7 @@
               <div class="inputBox">
                 <input type="submit" value="Sign-in" />
               </div>
-              <p class="forget">Forget Password ? <a href="#">Click Here</a></p>
+              <p class="forget">Forget Password ? <span onclick="forgotRedirect()">Click Here</span></p>
               <p class="forget">
                 Don't have an account ?
                 <a href="{{url_for('register')}}">Sign up</a>
@@ -64,7 +64,17 @@
       <script
         type="text/javascript"
         src="{{ url_for('static', filename='scripts/login_register.js') }}"
-      ></script>
+        
+      >
+      </script>
+      <script>function forgotRedirect(){
+        console.log("Hello")
+        const url='{{url_for("changePassword")}}';
+        var windowName = 'popupWindow' + Math.random().toString(36).substr(2, 10);
+
+          
+          var newWindow = window.open(url, windowName, 'width=600,height=900');
+      }</script>
     </section>
   </body>
 </html>

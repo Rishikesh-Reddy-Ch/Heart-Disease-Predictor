@@ -11,6 +11,7 @@ from geopy.geocoders import Nominatim
 import warnings
 import bcrypt
 from cryptography.fernet import Fernet
+
 with open('key.bin','rb') as Fkey:
     key=Fkey.read()
 f=Fernet(key)
@@ -271,3 +272,22 @@ def dob_validate(dob):
     if day>today.day and year==today.year and month==today.month:
         return False
     return True
+
+def request_email(user,password):
+    try:
+        if not passwordCheck(password):
+            return False,'Password needs: Uppercase, Lowercase, Digit, Special Char.'
+        client=pymongo.MongoClient(database_connection_string)
+        db=client["Heart-health-dataBase"]
+        coll=db["Users"]
+        user=coll.find({"Username":user})
+        # print(list(user))
+        userinfo=list(user)
+        if userinfo:
+            print("Hi")
+            return f.decrypt(userinfo[0]["email"]).decode('utf-8'),'Success'
+        else:
+            return False,'Invalid Username'
+    except:
+        return False,'Cannot Access Database'
+
