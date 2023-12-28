@@ -290,4 +290,23 @@ def request_email(user,password):
             return False,'Invalid Username'
     except:
         return False,'Cannot Access Database'
+def change_password(password,username):
+    try:
+        client=pymongo.MongoClient(database_connection_string)
+        db=client["Heart-health-dataBase"]
+        coll=db["Users"]
+        user_cal={"Username":username}
+        user=coll.find_one(user_cal)
+        
+        if user:
+            new_password=new_password=bcrypt.hashpw(password.encode("utf-8"),bcrypt.gensalt(11))
+            coll.update_one({"Username":username},{'$set':{'password':new_password}})
+            print(password)
+            return True,'successful'
+        else:
+            return False,'Invalid Username'
+            
+        
+    except:
+        return False,'Cannot Access Database'
 
