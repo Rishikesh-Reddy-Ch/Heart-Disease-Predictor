@@ -11,14 +11,14 @@ from geopy.geocoders import Nominatim
 import warnings
 import bcrypt
 from cryptography.fernet import Fernet
+import google.generativeai as genai
 
 with open('key.bin','rb') as Fkey:
     key=Fkey.read()
 f=Fernet(key)
 warnings.filterwarnings('ignore')
 database_connection_string="mongodb+srv://heart_health-G64:heart_health-G64@cluster0.2tz5hzd.mongodb.net/"
-name_values={'HighBloodPressure':{1:"Yes",3:"No",4:"Borderline high/Pre-hypertensive"},'HadHeartAttack':{1:"Yes",2:"No"},
-             'AnyHeartStroke':{1:"Yes",2:"No"},'KidneyDisease':{1:"Yes",2:"No",999:"Don't Know"},
+name_values={'HighBloodPressure':{1:"Yes",3:"No",4:"Borderline high/Pre-hypertensive"},'KidneyDisease':{1:"Yes",2:"No",999:"Don't Know"},
              'Diabetes':{1:"Yes",3:"No",4:"Pre Diabetes",999:"Don't Know"},
              'smoking':{1:"Yes",2:"Some times",3:"Former Smoker",4:"Not Smoker"},
              'exercise':{1:"Yes",2:"No"},'HighCholLevel':{1:"Yes",2:"No"}, 'Drinker':{1:"Yes",2:"No"},}
@@ -199,14 +199,12 @@ def record(data,user):
         # print(user_cal)
         for name in name_values:
             data[name]=name_values[name][data[name]]
-        del data["Gender"]
         cl.update_one(user_cal,{"$set":{"record":data}})
-        return True
+        return True,data
     except:
-        return False
+        return False,{}
 
 def process_data(form_data,names,user):
-    try:
         
         form_data['Age Cat'],form_data['Age'],form_data['Gender'] = age_cal_gender(user)
         # del form_data['DateOfBirth']
@@ -221,17 +219,16 @@ def process_data(form_data,names,user):
         predictionVal,predicted=prediction(form_data,user)
         # print("fine")
         # print(form_data)
-        if record(form_data,user) and predicted:
+        recorded,Record=record(form_data,user)
+        if recorded and predicted:
             # print(predictionVal[0])
-            return True,prediction_cat(predictionVal[0],user)
-        return False,np.NaN
-    except:
-        return False,np.NaN
+            return True,prediction_cat(predictionVal[0],user),Record
+        return False,np.NaN,Record    
 def prediction(formData,username):
     try:
         with open("HeartHealth_classifier_model.pkl","rb") as f:
             model=pkl.load(f)
-        names=['HighBloodPressure','HadHeartAttack','AnyHeartStroke','KidneyDisease','Diabetes','DiabetesAge','smoking','exercise','HighCholLevel','Gender','Age Cat','bmi','Drinker']
+        names=['HighBloodPressure','KidneyDisease','Diabetes','DiabetesAge','smoking','exercise','HighCholLevel','Gender','Age Cat','bmi','Drinker']
         record=[]
         for i in names:
             record.append(int(formData[i]))
@@ -245,9 +242,9 @@ def prediction(formData,username):
 def prediction_cat(value,username):
     if value==np.NaN:
         cat= ""
-    elif value<0.047638726968383435:
+    elif value<0.06889006444901649:
         cat= 'Low'
-    elif value<0.19207434261195536:
+    elif value<0.2172120495116925:
         cat= 'Medium'
     else:
         cat='High'
@@ -284,7 +281,7 @@ def request_email(user,password):
         # print(list(user))
         userinfo=list(user)
         if userinfo:
-            print("Hi")
+            # print("Hi")
             return f.decrypt(userinfo[0]["email"]).decode('utf-8'),'Success'
         else:
             return False,'Invalid Username'
@@ -301,7 +298,7 @@ def change_password(password,username):
         if user:
             new_password=new_password=bcrypt.hashpw(password.encode("utf-8"),bcrypt.gensalt(11))
             coll.update_one({"Username":username},{'$set':{'password':new_password}})
-            print(password)
+            # print(password)
             return True,'successful'
         else:
             return False,'Invalid Username'
@@ -309,4 +306,14 @@ def change_password(password,username):
         
     except:
         return False,'Cannot Access Database'
+
+def dieteryResponse(record):
+        with open('llm_key.bin','rb') as llmkey:
+            key=llmkey.read()
+        GOOGLE_API_KEY=f.decrypt(key).decode('utf-8')
+        genai.configure(api_key=GOOGLE_API_KEY)
+        model = genai.GenerativeModel('gemini-pro')
+        response=model.generate_content('Create a dietery plan for a patient with following abnormalities:\n '+str(record)+ ',Just give the goals and how to achieve them and giv the response in the form of a innerhtml part  to display info')
+        print(response.text.strip('*'))
+        return True, response.text
 
