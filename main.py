@@ -97,22 +97,24 @@ def logout():
 @app.route('/form/',methods=['GET','POST'])
 def form():
   if request.method=='POST':
-    names=['HadHeartAttack','HighBloodPressure','AnyHeartStroke','KidneyDisease','Diabetes',
+    names=['HighBloodPressure','KidneyDisease','Diabetes',
            'DiabetesAge','smoking','exercise','HighCholLevel','Height','Weight','Drinker']
     formdata={}
     formdata.update(request.form)
-    flag,predictionVal=fn.process_data(formdata,names,session["Username"])
+    flag,predictionVal,record=fn.process_data(formdata,names,session["Username"])
     if (not flag):
       # flash("Unable to access the dataBase","error")
       return redirect(url_for("form"))
+    session['record']=record
+    print(record)
     return redirect(url_for('result',cat=predictionVal))
   try:
     if session["Username"]:
-      return render_template("form.html")
+      return render_template("form1.html")
   except:
    return "Please "+ '<a href="'+url_for("login")+'"> login</a>'+' to continue'
    
-  return render_template("form.html")
+  return render_template("form1.html")
 
 @app.route("/result<cat>/",methods=["GET","POST"])
 def result(cat):
@@ -125,7 +127,8 @@ def result(cat):
     # predictionVal=np.NaN
     return render_template("prediction_high.html")
   elif cat=="Medium":
-    return render_template("prediction_medium.html")
+    retrived,dietplan=fn.dieteryResponse(session['record'])
+    return render_template("prediction_medium.html",message=dietplan)
   elif cat=='Low':
     return render_template("prediction_low.html")
   else:

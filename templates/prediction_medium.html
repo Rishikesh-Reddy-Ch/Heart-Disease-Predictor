@@ -66,7 +66,13 @@
     </style>
 </head>
 <body>
-    
+    <script>
+        // Text containing newline characters
+        // var text = "{{message}}";
+        console.log("{{message}}")
+        // Replace \n with <br> and set the content inside the <p> tag
+        // document.getElementById('content').textContent = text.replace(/\n/g, "<br>");
+    </script>
     <section>
         <h2> Medium Risk</h2>
         <p>
@@ -75,16 +81,9 @@
 
         <div class="recommendations">
             <h3>Key Recommendations:</h3>
-            <ul>
-                <li>Maintain a balanced diet with plenty of fruits and vegetables.</li>
-                <li>Engage in regular physical activity to keep your heart strong.</li>
-                <li>Monitor your blood pressure and cholesterol levels regularly.</li>
-                <li>Manage stress through relaxation techniques.</li>
-            </ul>
+            
 
-            <p>
-                 consult with your healthcare professional for personalized advice and further evaluation like once in a month 
-            </p>
+            {% if message %}{{message | safe}}{% endif %}
         </div>
 </body>
 </html>
