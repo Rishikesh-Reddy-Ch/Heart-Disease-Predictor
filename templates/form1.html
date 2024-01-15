@@ -9,6 +9,23 @@
       src="https://kit.fontawesome.com/7027708486.js"
       crossorigin="anonymous"
     ></script>
+
+    <script>
+      // diabetes_click = function () {
+      //   const diabetes = document.getElementById("diabetesInput");
+      //   diabetesage = document.getElementById("diabetesAgeInput");
+      //   if (diabetes.value === "1") {
+      //     diabetesage.disabled = false;
+      //     diabetesage.style.cursor = "auto";
+      //     diabetesage.style.filter = "blur()";
+      //   } else {
+      //     diabetesage.value = "";
+      //     diabetesage.disabled = true;
+      //     diabetesage.style.cursor = "not-allowed";
+      //     diabetesage.style.filter = "blur(0.5px)";
+      //   }
+      // };
+    </script>
   </head>
   <body>
     <nav>
@@ -38,388 +55,151 @@
         <div class="square" style="--i: 4"></div>
         <div class="container">
           <div class="form">
-            <h2 class="con1">Physical Info</h2>
-            <form id="form1">
+            <h2 class="con1">FORM</h2>
+            <form method="post">
               <div class="inputBox user">
+                <label>Height</label>
                 <input
                   id="heightInput"
                   min="91"
                   max="244"
                   type="number"
+                  name="Height"
                   placeholder="Height"
                   required
                 />
               </div>
               <div class="inputBox user">
+                <label>Weight</label>
                 <input
                   id="weightInput"
                   min="23"
                   max="295"
                   type="number"
+                  name="Weight"
                   placeholder="Weight"
                   required
                 />
               </div>
-
-              <div class="inputBox">
-                <input
-                  type="button"
-                  style="margin-left: 17%; padding-left: 13%"
-                  value="next"
-                  id="next1"
-                />
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-      <div class="box" id="container2" hidden>
-        <div class="square" style="--i: 0"></div>
-        <div class="square" style="--i: 1"></div>
-        <div class="square" style="--i: 2"></div>
-        <div class="square" style="--i: 3"></div>
-        <div class="square" style="--i: 4"></div>
-        <div class="container">
-          <div class="form">
-            <h2>Chronic Health Conditions</h2>
-            <form id="form2">
               <div class="inputBox user">
+                <label>Do you have high blood pressure?</label>
                 <select
                   name="HighBloodPressure"
                   id="highBloodPressureInput"
                   class="select-box"
                   required
                 >
-                  <option value="" disabled selected>
-                    Do you have high blood pressure?
-                  </option>
+                  <option value="" disabled selected>Select</option>
                   <option value="1">Yes</option>
                   <option value="3">No</option>
                   <option value="4">Borderline high/Pre-hypertensive</option>
                 </select>
-                
+              </div>
+              <div class="inputBox user">
+                <label>Do you have Diabetes?</label>
                 <select
                   name="Diabetes"
                   id="diabetesInput"
+                  onclick="diabetes_click()"
                   class="select-box"
                   required
                 >
-                  <option value="" disabled selected>
-                    Do you have Diabetes?
-                  </option>
+                  <option value="" disabled selected>Select</option>
                   <option value="1">Yes</option>
                   <option value="3">No</option>
                   <option value="4">Pre Diabetes</option>
                   <option value="999">Don't Know</option>
                 </select>
+              </div>
+              <div class="inputBox user">
+                <label>Age when discovered diabetes?</label>
                 <input
                   id="diabetesAgeInput"
                   min="1"
                   max="97"
                   type="number"
+                  name="DiabetesAge"
                   style="cursor: not-allowed; filter: blur(0.63px)"
                   placeholder="Age When Told Had Diabetes"
-                  disabled
                 />
               </div>
-
-              <div class="inputBox button">
-                <input type="button" value="back" id="back1" />
-                <input type="button" value="next" id="next2" />
-                <!-- <div><input type="button" value="next" id="next2" /></div> -->
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-      <div class="box" id="container3" hidden>
-        <div class="square" style="--i: 0"></div>
-        <div class="square" style="--i: 1"></div>
-        <div class="square" style="--i: 2"></div>
-        <div class="square" style="--i: 3"></div>
-        <div class="square" style="--i: 4"></div>
-        <div class="container">
-          <div class="form">
-            <h2>Chronic Health Conditiions</h2>
-            <form id="form3">
-              <div class="inputBox user"></div>
-              <select
-                name="HighCholLevel"
-                id="highCholLevelInput"
-                class="select-box"
-                required
-              >
-                <option value="" disabled selected>
-                  Do you have high Cholestrol Levels?
-                </option>
-                <option value="1">Yes</option>
-                <option value="2">No</option>
-              </select>
-              <select
-                name="KidneyDisease"
-                id="kidneyDiseaseInput"
-                required
-                class="select-box"
-              >
-                <option value="" disabled selected>
-                  Did you have any kidney disease
-                </option>
-                <option value="1">Yes</option>
-                <option value="2">No</option>
-                <option value="999">Don't Know</option>
-              </select>
-              
-              <div class="inputBox button">
-                <input type="button" value="back" id="back2" />
-                <input type="button" value="next" id="next3" />
-                <!-- <div><input type="button" value="next" id="next2" /></div> -->
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-      <div class="box" id="container4" hidden>
-        <div class="square" style="--i: 0"></div>
-        <div class="square" style="--i: 1"></div>
-        <div class="square" style="--i: 2"></div>
-        <div class="square" style="--i: 3"></div>
-        <div class="square" style="--i: 4"></div>
-        <div class="container">
-          <div class="form">
-            <h2 class="physicalh2">Physical Health</h2>
-            <form id="form4">
               <div class="inputBox user">
+                <label>Do you have high cholestrol levels?</label>
+                <select
+                  name="HighCholLevel"
+                  id="highCholLevelInput"
+                  class="select-box"
+                  required
+                >
+                  <option value="" disabled selected>Select</option>
+                  <option value="1">Yes</option>
+                  <option value="2">No</option>
+                </select>
+              </div>
+              <div class="inputBox user">
+                <label>Do you have any kind of kidney diseases?</label>
+                <select
+                  name="KidneyDisease"
+                  id="kidneyDiseaseInput"
+                  required
+                  class="select-box"
+                >
+                  <option value="" disabled selected>Select</option>
+                  <option value="1">Yes</option>
+                  <option value="2">No</option>
+                  <option value="999">Don't Know</option>
+                </select>
+              </div>
+              <div class="inputBox user">
+                <label>Do you exercise regularly?</label>
                 <select
                   name="exercise"
                   id="exerciseInput"
                   class="select-box"
                   required
                 >
-                  <option value="" disabled selected>Do you exercise?</option>
+                  <option value="" disabled selected>Select</option>
                   <option value="1">Yes</option>
                   <option value="2">No</option>
                 </select>
+              </div>
+              <div class="inputBox user">
+                <label>Have you had any past of smoking?</label>
                 <select
                   name="smoking"
                   id="smokingInput"
                   required
                   class="select-box"
                 >
-                  <option value="" disabled selected>
-                    Have you had any past of smoking?
-                  </option>
+                  <option value="" disabled selected>Select</option>
                   <option value="1">Every Day</option>
                   <option value="2">Some times</option>
                   <option value="3">Former Smoker</option>
                   <option value="4">Not Smoker</option>
                 </select>
+              </div>
+              <div class="inputBox user">
+                <label>Do you have drink alcohol?</label>
                 <select
                   name="Drinker"
                   id="drinkingInput"
                   class="select-box"
                   required
                 >
-                  <option value="" disabled selected>
-                    Do you drink Alcohol?
-                  </option>
+                  <option value="" disabled selected>Select</option>
                   <option value="1">Yes</option>
                   <option value="2">No</option>
                   <!-- <option value="2">Not want to tell</option> -->
                 </select>
               </div>
-              <div class="inputBox button">
-                <input type="button" value="back" id="back3" />
-                <input type="button" value="submit" id="next4" />
-                <!-- <div><input type="button" value="next" id="next2" /></div> -->
+
+              <div class="inputBox">
+                <input type="submit" value="submit" />
               </div>
-            </form>
-            <form id="finalForm" method="post">
-              <!-- Hidden fields to store the collected form data -->
-              <input type="hidden" name="Height" id="height" />
-              <input type="hidden" name="Weight" id="weight" />
-              <input
-                type="hidden"
-                name="HighBloodPressure"
-                id="highBloodPressure"
-              />
-              <input type="hidden" name="Diabetes" id="diabetes" />
-              <input type="hidden" name="DiabetesAge" id="diabetesAge" />
-              <input type="hidden" name="HighCholLevel" id="highCholLevel" />
-              <input type="hidden" name="KidneyDisease" id="kidneyDisease" />
-              <input type="hidden" name="exercise" id="exercise" />
-              <input type="hidden" name="smoking" id="smoking" />
-              <input type="hidden" name="Drinker" id="drinker" />
-              <!-- Add more hidden fields as needed to collect all form data -->
             </form>
           </div>
         </div>
       </div>
     </section>
-    <script>
-      console.log(document.querySelector("h2").clientWidth);
-      //var form1 = document.getElementById("form1");
-      var form1 = document.getElementById("form1");
-      var form2 = document.getElementById("form2");
-      var form3 = document.getElementById("form3");
-      var form4 = document.getElementById("form4");
-      var con1 = document.getElementById("container1");
-      var con2 = document.getElementById("container2");
-      var con3 = document.getElementById("container3");
-      var con4 = document.getElementById("container4");
-
-      var next1 = document.getElementById("next1");
-      var next2 = document.getElementById("next2");
-      var next3 = document.getElementById("next3");
-      var next4 = document.getElementById("next4");
-      var back1 = document.getElementById("back1");
-      var back2 = document.getElementById("back2");
-      var back3 = document.getElementById("back3");
-      var progress = document.getElementById("progress");
-      var userinfo = document.getElementById("userInformation");
-      var data1 = document.getElementById("data1");
-      var data2 = document.getElementById("data2");
-      var activity = document.getElementById("activity");
-      var diabetes = document.getElementById("diabetesInput");
-
-      next1.onclick = function () {
-        if (form1.checkValidity()) {
-          saveFormData("form1");
-          //   formLength_inc();
-          // con1.style.left = "-100%";
-          // con2.style.left = "250px";
-          con1.style.opacity = 0;
-          con1.hidden = true;
-          con2.style.opacity = 1;
-          con2.hidden = false;
-          // progress.style.width = "240px";
-        } else {
-          form1.reportValidity();
-          return false;
-        }
-      };
-      next2.onclick = function () {
-        if (form2.checkValidity()) {
-          saveFormData("form2");
-          //   formLength_inc();
-          // con2.style.left = "-100%";
-          // con3.style.left = "-190px";
-          con2.hidden = true;
-          con3.hidden = false;
-          // progress.style.width = "240px";
-        } else {
-          form2.reportValidity();
-          return false;
-        }
-      };
-      next3.onclick = function () {
-        if (form3.checkValidity()) {
-          saveFormData("form3");
-          //   formLength_inc();
-          // con3.style.left = "-100%";
-          // con4.style.left = "-630px";
-          con3.hidden = true;
-          con4.hidden = false;
-          // progress.style.width = "240px";
-        } else {
-          form3.reportValidity();
-          return false;
-        }
-      };
-      next4.onclick = function () {
-        if (form4.checkValidity()) {
-          saveFormData("form4");
-        } else {
-          form4.reportValidity();
-          return false;
-        }
-      };
-
-      back1.onclick = function () {
-        // formLength_dec();
-        // con2.style.left = "0px";
-        // con2.style.left = "100%";
-        // con1.style.left = "45%";
-        con1.hidden = false;
-        con1.style.opacity = 1;
-        con2.hidden = true;
-        // progress.style.width = "120px";
-      };
-      back2.onclick = function () {
-        // formLength_dec();
-        // con2.style.left = "0px";
-        // con3.style.left = "100%";
-        // con2.style.left = "250px";
-        con2.hidden = false;
-        con3.hidden = true;
-        // progress.style.width = "120px";
-      };
-      back3.onclick = function () {
-        // formLength_dec();
-        // con2.style.left = "0px";
-        // con4.style.left = "100%";
-        // con3.style.left = "-190px";
-        con3.hidden = false;
-        con4.hidden = true;
-        // progress.style.width = "120px";
-      };
-
-      diabetes.onclick = function () {
-        diabetesage = document.getElementById("diabetesAgeInput");
-        if (diabetes.value === "1") {
-          diabetesage.disabled = false;
-          diabetesage.style.cursor = "auto";
-          diabetesage.style.filter = "blur()";
-        } else {
-          diabetesage.value = "";
-          diabetesage.disabled = true;
-          diabetesage.style.cursor = "not-allowed";
-          diabetesage.style.filter = "blur(0.5px)";
-        }
-      };
-      function saveFormData(formId) {
-        if (formId === "form1") {
-          document.getElementById("height").value =
-            document.getElementById("heightInput").value;
-          document.getElementById("weight").value =
-            document.getElementById("weightInput").value;
-        } else if (formId === "form2") {
-          document.getElementById("highBloodPressure").value =
-            document.getElementById("highBloodPressureInput").value;
-
-          document.getElementById("diabetes").value =
-            document.getElementById("diabetesInput").value;
-          document.getElementById("diabetesAge").value =
-            document.getElementById("diabetesAgeInput").value;
-        } else if (formId === "form3") {
-          document.getElementById("highCholLevel").value =
-            document.getElementById("highCholLevelInput").value;
-          document.getElementById("kidneyDisease").value =
-            document.getElementById("kidneyDiseaseInput").value;
-
-        } else if (formId === "form4") {
-          document.getElementById("exercise").value =
-            document.getElementById("exerciseInput").value;
-          document.getElementById("smoking").value =
-            document.getElementById("smokingInput").value;
-          document.getElementById("drinker").value =
-            document.getElementById("drinkingInput").value;
-          // Gather all form data and submit it together
-          document.getElementById("finalForm").submit();
-        }
-      }
-      // function formLength_dec() {
-      //   container = document.querySelector(".container");
-      //   container.style.height = "400px";
-      // }
-      // function formLength_inc() {
-      //   container = document.querySelector(".container");
-      //   container.style.height = "430px";
-      // }
-      function Loginredirect() {
-        if (document.querySelector(".btn-login").textContent == "Logout") {
-          window.location.href = "{{url_for('logout')}}";
-        }
-      }
-    </script>
   </body>
 </html>
