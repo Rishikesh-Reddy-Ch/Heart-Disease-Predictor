@@ -106,7 +106,6 @@ def form():
       # flash("Unable to access the dataBase","error")
       return redirect(url_for("form"))
     session['record']=record
-    print(record)
     return redirect(url_for('result',cat=predictionVal))
   try:
     if session["Username"]:

@@ -11,8 +11,11 @@ body {
 section {
   display: flex;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
+  padding-top: 3%;
+  margin-bottom: 40px;
   min-height: 100vh;
+
   background: linear-gradient(to bottom, #f1f4f9, #dff1ff);
 }
 section .color {
@@ -25,7 +28,6 @@ section .color:nth-child(1) {
   height: 600px;
   background: hsla(330, 70%, 57%, 0.642);
   z-index: -0.7;
-
 }
 section .color:nth-child(2) {
   bottom: -150px;
@@ -45,7 +47,7 @@ section .color:nth-child(3) {
 }
 .box {
   position: relative;
-  transition: 0.7s;
+  /* transition: 0.7s; */
 }
 .box .square {
   position: absolute;
@@ -103,14 +105,17 @@ section .color:nth-child(3) {
 }
 .container {
   position: relative;
-  width: 440px;
+  width: 470px;
   min-height: 400px;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   display: flex;
+  height: 77vh;
+
+  overflow: auto;
   justify-content: center;
-  align-items: center;
-  align-self: center;
+  /* align-items: center; */
+  /* align-self: center; */
   backdrop-filter: blur(5px);
   box-shadow: 0 25px 45px rgba(0, 0, 0, 0.45);
   border: 1px solid rgba(255, 255, 255, 0.5);
@@ -121,7 +126,7 @@ section .color:nth-child(3) {
   position: relative;
   width: 100%;
   padding: 35px 35px 35px 40px;
-  height: 100%;
+  /* height: 100%; */
 }
 .form h2 {
   position: relative;
@@ -129,18 +134,18 @@ section .color:nth-child(3) {
   font-size: 20px;
   font-weight: 600;
   letter-spacing: 1px;
-  margin-left: 10%;
+  margin-left: 40%;
   margin-bottom: 10%;
   border-bottom: none;
 }
 .form h2::before {
   position: absolute;
   content: "";
-  left: 0;
+  left: 0px;
   bottom: -4px;
-  width: 150px;
+  width: 62px;
   height: 4px;
-  background: hsla(0,2%,16%,0.711);
+  background: hsla(0, 2%, 16%, 0.711);
   padding-right: 0%;
 }
 .form .inputBox {
@@ -199,13 +204,13 @@ select option {
   padding-right: 45px;
 }
 
-.form .inputBox input[type="button"] {
+.form .inputBox input[type="submit"] {
   background: #fff;
   color: #666;
   max-width: 220px;
   cursor: pointer;
-  margin-left: 2%;
-  padding-left: 11%;
+  margin-left: 22%;
+  padding-left: 10%;
   margin-bottom: 10px;
   font-weight: 600;
 }
@@ -293,25 +298,25 @@ li {
 #login {
   align-self: right;
 }
-.nav-text{
+.nav-text {
   color: black;
   text-decoration: none;
 }
 a::after {
-  content: '';
+  content: "";
   display: block;
   width: 0;
   height: 2px;
-  background: black; 
+  background: black;
   transition: width 0.6s;
 }
 
 a:hover::after {
   width: 100%;
 }
-label{
+label {
   font-weight: 500;
-  margin-left: 10px;
+  margin-left: 0px;
 }
 /* @media (min-width: 1080px) {
   #container1 {
@@ -336,3 +341,16 @@ label{
 #container4 {
   left: 100%;
 } */
+.container::-webkit-scrollbar {
+  width: 5px;
+}
+
+.container::-webkit-scrollbar-track {
+  background: #ffffff; /* Track color */
+}
+
+.container::-webkit-scrollbar-thumb {
+  background: #b4b4b4; /* Thumb color */
+  border-radius: 10px;
+  height: 10px;
+}

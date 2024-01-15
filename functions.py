@@ -313,7 +313,9 @@ def dieteryResponse(record):
         GOOGLE_API_KEY=f.decrypt(key).decode('utf-8')
         genai.configure(api_key=GOOGLE_API_KEY)
         model = genai.GenerativeModel('gemini-pro')
-        response=model.generate_content('Create a dietery plan for a patient with following abnormalities:\n '+str(record)+ ',Just give the goals and how to achieve them and giv the response in the form of a innerhtml part  to display info')
-        print(response.text.strip('*'))
+        text='**'
+        while(re.search(r"\*\*",text)):
+            response=model.generate_content('Create a dietery plan for a patient with following abnormalities:\n '+str(record)+ ',Just give the goals and how to achieve them and also compulsorily give the whole rsponse in the form of a inner HTML part')
+            text=response.text
         return True, response.text
 
