@@ -94,18 +94,33 @@ def logout():
     session.pop("Username")
    return redirect(url_for('home'))
 
+@app.route('/med_form/',methods=['GET','POST'])
+def form2():
+  if request.method=='POST':
+    form_data={}
+    form_data.update(request.form)
+    cat,percent,Message,record=fn.process_data2(form_data,session['Username'])
+    session['record']=record
+    # print(cat,percent,Message,record)
+    print(percent,Message)
+    # return redirect(url_for('result',cat=cat))
+  try:
+    if session["Username"]:
+      return render_template("form.html")
+  except:
+   return "Please "+ '<a href="'+url_for("login")+'"> login</a>'+' to continue'
+
 @app.route('/form/',methods=['GET','POST'])
 def form():
   if request.method=='POST':
-    names=['HighBloodPressure','KidneyDisease','Diabetes',
-           'DiabetesAge','smoking','exercise','HighCholLevel','Height','Weight','Drinker']
     formdata={}
     formdata.update(request.form)
-    flag,predictionVal,record=fn.process_data(formdata,names,session["Username"])
+    flag,predictionVal,record=fn.process_data(formdata,session["Username"])
     if (not flag):
       # flash("Unable to access the dataBase","error")
       return redirect(url_for("form"))
     session['record']=record
+    
     return redirect(url_for('result',cat=predictionVal))
   try:
     if session["Username"]:
@@ -183,7 +198,7 @@ def otpValidation():
     session.pop('OTP')
   return jsonify(response)
 
-   
+
 
 if __name__ == "__main__":
   app.run(debug=True)
