@@ -42,7 +42,7 @@ body {
   width: 500px;
   height: 500px;
   background: #fffd87;
-  z-index: -1;
+  z-index: -5000000;
   left: 100px;
 }
 
@@ -52,6 +52,7 @@ body {
   height: 500px;
   right: 100px;
   background: #00d2ff;
+  z-index: -1;
 }
 
 nav {
