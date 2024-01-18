@@ -21,7 +21,8 @@ database_connection_string="mongodb+srv://heart_health-G64:heart_health-G64@clus
 name_values={'HighBloodPressure':{1:"Yes",3:"No",4:"Borderline high/Pre-hypertensive"},'KidneyDisease':{1:"Yes",2:"No",999:"Don't Know"},
              'Diabetes':{1:"Yes",3:"No",4:"Pre Diabetes",999:"Don't Know"},
              'smoking':{1:"Yes",2:"Some times",3:"Former Smoker",4:"Not Smoker"},
-             'exercise':{1:"Yes",2:"No"},'HighCholLevel':{1:"Yes",2:"No"}, 'Drinker':{1:"Yes",2:"No"},}
+             'exercise':{1:"Yes",2:"No"},'HighCholLevel':{1:"Yes",2:"No"}, 'Drinker':{1:"Yes",2:"No"}}
+
 
 
 
@@ -112,12 +113,11 @@ def emailValidate(email):
     except:
         return False
 
-def age_cal_gender(username):
+def age_cal_gender(username,iscat):
     client=pymongo.MongoClient(database_connection_string)
     db=client["Heart-health-dataBase"]
     coll=db["Users"]
     user=coll.find_one({"Username":username})
-
     dob=f.decrypt(user["date-of-birth"]).decode('utf-8')
     gender=f.decrypt(user['Gender']).decode('utf-8')
     if gender=='Male':
@@ -137,38 +137,38 @@ def age_cal_gender(username):
             age = today.year - year
     else:
         age = today.year - year - 1
+    if iscat:
+        if age>=18 and age<=24:
+            age_cat = 1
+        elif age>=25 and age<=29:
+            age_cat = 2
+        elif age>=30 and age<=34:
+            age_cat =3
+        elif age>=35 and age<=39:
+            age_cat = 4
+        elif age>=40 and age<=44:
+            age_cat = 5
+        elif age>=45 and age<=49:
+            age_cat = 6
+        elif age>=50 and age<=54:
+            age_cat = 7
+        elif age>=55 and age<=59:
+            age_cat = 8
+        elif age>=60 and age<=64:
+            age_cat = 9
+        elif age>=65 and age<=69:
+            age_cat = 10
+        elif age>=70 and age<=74:
+            age_cat = 11
+        elif age>=75 and age<=79:
+            age_cat = 12
+        elif age>=80:
+            age_cat = 13
+        else:
+            age_cat = 14
     
-    if age>=18 and age<=24:
-        age_cat = 1
-    elif age>=25 and age<=29:
-        age_cat = 2
-    elif age>=30 and age<=34:
-        age_cat =3
-    elif age>=35 and age<=39:
-        age_cat = 4
-    elif age>=40 and age<=44:
-        age_cat = 5
-    elif age>=45 and age<=49:
-        age_cat = 6
-    elif age>=50 and age<=54:
-        age_cat = 7
-    elif age>=55 and age<=59:
-        age_cat = 8
-    elif age>=60 and age<=64:
-        age_cat = 9
-    elif age>=65 and age<=69:
-        age_cat = 10
-    elif age>=70 and age<=74:
-        age_cat = 11
-    elif age>=75 and age<=79:
-        age_cat = 12
-    elif age>=80:
-        age_cat = 13
-    else:
-        age_cat = 14
-    
-    return age_cat,age,gender
-
+        return age_cat,age,gender
+    return age,gender
 def BMI_cat(height,weight):
     height,weight = int(height),int(weight)*100
     bmi = weight/(height**2)
@@ -204,10 +204,11 @@ def record(data,user):
     except:
         return False,{}
 
-def process_data(form_data,names,user):
-        
-        form_data['Age Cat'],form_data['Age'],form_data['Gender'] = age_cal_gender(user)
+def process_data(form_data,user):
+        names=list(form_data.keys())
+        form_data['Age Cat'],form_data['Age'],form_data['Gender'] = age_cal_gender(user,True)
         # del form_data['DateOfBirth']
+        
         form_data['DiabetesAge']=dia_age_cal(form_data['DiabetesAge'])
         for i in names:
             if i not in ['Weight','DateOfBirth']:
@@ -218,12 +219,13 @@ def process_data(form_data,names,user):
         form_data['bmi'] = BMI_cat(form_data['Height'],form_data['Weight'])
         predictionVal,predicted=prediction(form_data,user)
         # print("fine")
-        # print(form_data)
+        print(form_data['bmi'])
         recorded,Record=record(form_data,user)
         if recorded and predicted:
             # print(predictionVal[0])
             return True,prediction_cat(predictionVal[0],user),Record
         return False,np.NaN,Record    
+
 def prediction(formData,username):
     try:
         with open("HeartHealth_classifier_model.pkl","rb") as f:
@@ -240,11 +242,18 @@ def prediction(formData,username):
     except:
         return np.NaN,False
 def prediction_cat(value,username):
+    percent=(value/0.06889006444901649)*33.33
+    if percent>100:
+        percent=(value/0.2172120495116925)*66.66
+    if percent>100:
+        percent=value*100
+    print(percent)
     if value==np.NaN:
         cat= ""
     elif value<0.06889006444901649:
         cat= 'Low'
     elif value<0.2172120495116925:
+        # print((value/0.2172120495116925)*66.66)
         cat= 'Medium'
     else:
         cat='High'
@@ -308,14 +317,106 @@ def change_password(password,username):
         return False,'Cannot Access Database'
 
 def dieteryResponse(record):
-        with open('llm_key.bin','rb') as llmkey:
-            key=llmkey.read()
-        GOOGLE_API_KEY=f.decrypt(key).decode('utf-8')
-        genai.configure(api_key=GOOGLE_API_KEY)
-        model = genai.GenerativeModel('gemini-pro')
-        text='**'
-        while(re.search(r"\*\*",text)):
-            response=model.generate_content('Create a dietery plan for a patient with following abnormalities:\n '+str(record)+ ',Just give the goals and how to achieve them and also compulsorily give the whole rsponse in the form of a inner HTML part')
-            text=response.text
-        return True, response.text
+    with open('llm_key.bin','rb') as llmkey:
+        key=llmkey.read()
+    GOOGLE_API_KEY=f.decrypt(key).decode('utf-8')
+    genai.configure(api_key=GOOGLE_API_KEY)
+    model = genai.GenerativeModel('gemini-pro')
+    text='**'
+    while(re.search(r"\*\*",text)):
+        response=model.generate_content('Create a dietery plan for a patient with following abnormalities:\n '+str(record)+ ',Just give the goals and how to achieve them and also compulsorily give the whole rsponse in the form of a inner HTML part')
+        text=response.text
+    return True, response.text
 
+def process_data2(formData,user):
+    model_name='model2_all.pkl'
+    order=['age',
+    'gender',
+    'chest-pain',
+    'restingbloodPressure',
+    'cholestrol',
+    'fasting-glucose-levels',
+    'resting-ecg-result',
+    'max-heart-rate',
+    'angina-exercise',
+    'oldpeak',
+    'ST_slope',
+    'major-vessels']
+
+    formData["age"],formData['gender']=age_cal_gender(user,False)
+    if formData['oldpeak_unlock']!='1':
+        del formData['ST-at-stress']
+        del formData['ST-at-rest']
+        order.remove('oldpeak')
+        model_name='model2_without_Oldpeak.pkl'
+    else:
+        formData['oldpeak']=int(formData['ST-at-stress'])-int(formData['ST-at-rest'])
+        
+    if formData['coronaryAngiography']!='1':
+        del formData['major-vessels']
+        order.remove('major-vessels')
+        if formData['oldpeak_unlock']!='1':
+            model_name='model2_without_Oldpeak_caa.pkl'
+        else:
+            model_name='model2_without_caa.pkl'
+    del formData['oldpeak_unlock']
+    del formData['coronaryAngiography']
+    # print(formData)
+
+    flag,record=record_store(formData,user)
+    if not flag:
+        return '',0,"Unable to connect to database",{}
+    for i in formData:            
+        formData[i]=float(formData[i])
+    if formData['fasting-glucose-levels']<=120:
+        formData['fasting-glucose-levels']=0
+    else:
+        formData['fasting-glucose-levels']=1
+    predictionVal=prediction_form2(formData,model_name,order)
+    return prediction_cat2(predictionVal[0],user),predictionVal[0],'success',record
+
+def prediction_form2(formdata,model_name,order):
+    with open(model_name,'rb') as fh:
+        model=pkl.load(fh)
+    df=pd.DataFrame([formdata])
+    df=df[order]
+    return model.predict_proba(df)[:,0]
+def record_store(data,username):
+    try:
+        record={}
+        client = pymongo.MongoClient('mongodb+srv://heart_health-G64:heart_health-G64@cluster0.2tz5hzd.mongodb.net/')
+        db = client['Heart-health-dataBase']
+        cl=db['Users']
+        user_cal={"Username":username}
+        with open('name_values.json','r') as fh:
+            names=json.load(fh)[0]
+        data['gender']=str(data['gender'])
+        # print(record,names)
+        for name in data:
+            if name not in names:
+                record[name]=float(data[name])
+                continue
+            record[name]=names[name][data[name]]
+        temp=record['gender']
+        del record['gender']
+        cl.update_one(user_cal,{"$set":{"record":record}})
+        record['gender']=temp
+        return True,record
+    except:
+        return False,{}
+
+def prediction_cat2(value,username):
+    if value<0.33:
+        cat= 'Low'
+    elif value<0.66:
+        cat= 'Medium'
+    else:
+        cat='High'
+    client=pymongo.MongoClient(database_connection_string)
+    db=client["Heart-health-dataBase"]
+    coll=db["Users"]
+    user=coll.find_one({"Username":username})
+    coll.update_one(user,{"$set":{"prediction":value}})
+    coll.update_one(user,{"$set":{"prediction-category":cat}})
+    return cat
+    

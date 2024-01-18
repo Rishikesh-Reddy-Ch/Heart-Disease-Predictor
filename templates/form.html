@@ -85,9 +85,9 @@
         <div class="square" style="--i: 3"></div>
         <div class="square" style="--i: 4"></div>
         <div class="container">
-          <div class="form">
+          <div class="form" ,>
             <h2 class="con1">FORM</h2>
-            <form id="form">
+            <form id="form" method="post">
               <div class="inputBox user">
                 <label>Do you feel any sense of chest pain?</label>
                 <select
@@ -113,7 +113,9 @@
                   min="91"
                   max="170"
                   type="number"
+                  name="restingbloodPressure"
                   placeholder="Blood pressure"
+                  step="0.01"
                   required
                 />
               </div>
@@ -125,6 +127,7 @@
                 min=""
                 max="244"
                 type="number"
+                name="cholestrol"
                 placeholder="Enter value in mg/dl"
                 required
               />
@@ -137,15 +140,17 @@
                   min="1"
                   max="97"
                   type="number"
+                  name="fasting-glucose-levels"
                   placeholder="Enter value in mg/dl"
+                  required
                 />
               </div>
               <div class="inputBox user">
                 <label>What are your resting ECG results?</label>
                 <select
-                  name="ecg-result"
                   id="ecg-result"
                   class="select-box"
+                  name="resting-ecg-result"
                   required
                 >
                   <option value="" disabled selected>Select</option>
@@ -165,6 +170,7 @@
                   max="170"
                   type="number"
                   placeholder="Enter-value"
+                  name="max-heart-rate"
                   required
                 />
               </div>
@@ -178,12 +184,12 @@
                 >
                   <option value="" disabled selected>Select</option>
                   <option value="1">Yes</option>
-                  <option value="2">No</option>
+                  <option value="0">No</option>
                 </select>
               </div>
               <div class="inputBox user">
                 <label>The slope of the peak exercise ST segment</label>
-                <select name="slope" id="slope" required class="select-box">
+                <select name="ST_slope" id="slope" required class="select-box">
                   <option value="" disabled selected>Select</option>
                   <option value="0">Unsloping</option>
                   <option value="1">Flat</option>
@@ -195,7 +201,12 @@
                   Do you know the count of abnormal major vessels found in
                   coronary angiography?</label
                 >
-                <select id="coronaryAngiography" onclick="vesselqnUnlock()">
+                <select
+                  id="coronaryAngiography"
+                  name="coronaryAngiography"
+                  onclick="vesselqnUnlock()"
+                  required
+                >
                   <option value="" disabled selected>Select</option>
                   <option value="1">Yes</option>
                   <option value="0">No</option>
@@ -211,6 +222,7 @@
                   min="0"
                   max="3"
                   type="number"
+                  name="major-vessels"
                   placeholder="Enter value between 0 and 3"
                 />
               </div>
@@ -219,7 +231,12 @@
                   Do you have ST depression values measured during exercise and
                   rest</label
                 >
-                <select id="oldpeak_unlock" onclick="oldpeak_Unlock()">
+                <select
+                  id="oldpeak_unlock"
+                  name="oldpeak_unlock"
+                  onclick="oldpeak_Unlock()"
+                  required
+                >
                   <option value="" disabled selected>Select</option>
                   <option value="1">Yes</option>
                   <option value="0">No</option>
@@ -233,6 +250,7 @@
                   type="text"
                   placeholder="ST depression during exercise"
                   id="ST-at-stress"
+                  name="ST-at-stress"
                   hidden
                 />
               </div>
@@ -244,6 +262,7 @@
                   type="text"
                   placeholder="ST depression during rest"
                   id="ST-at-rest"
+                  name="ST-at-rest"
                   hidden
                 />
               </div>
@@ -302,13 +321,15 @@
         if (document.getElementById("oldpeak_unlock").value == "1") {
           input1.hidden = false;
           label1.hidden = false;
-          // input1.required,input2.required=true;
+          input1.required = true;
+          input2.required = true;
           label2.hidden = false;
           input2.hidden = false;
         } else {
           input1.hidden = true;
           label1.hidden = true;
-          // input1.required,input2.required=false;
+          input1.required = false;
+          input2.required = false;
           label2.hidden = true;
           input2.hidden = true;
         }
