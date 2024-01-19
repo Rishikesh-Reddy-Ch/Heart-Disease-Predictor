@@ -82,25 +82,63 @@
                 />
               </div>
               <div class="inputBox user">
-                <label>Do you have high blood pressure?</label>
-                <select
-                  name="HighBloodPressure"
-                  id="highBloodPressureInput"
-                  class="select-box"
-                  required
+                <label
+                  >How would you describe your overall health in general?</label
                 >
+                <select name="GeneralHealth" required class="select-box">
+                  <option value="" disabled selected>Select</option>
+                  <option value="1">Excellent</option>
+                  <option value="2">Very good</option>
+                  <option value="3">Good</option>
+                  <option value="4">Fair</option>
+                  <option value="5">Poor</option>
+                </select>
+              </div>
+              <div class="inputBox user">
+                <label>
+                  Have you ever faced challenges with your physical or mental
+                  health that impacted your usual activities, such as self-care,
+                  work, or recreation?</label
+                >
+                <select id="poorhealth" class="select-box" required>
                   <option value="" disabled selected>Select</option>
                   <option value="1">Yes</option>
-                  <option value="3">No</option>
-                  <option value="4">Borderline high/Pre-hypertensive</option>
+                  <option value="0">No</option>
                 </select>
+              </div>
+              <div class="inputBox user" id="poorhealthinputblock" hidden>
+                <label>
+                  How many days were your usual activities affected by poor
+                  physical or mental health?</label
+                >
+                <input
+                  id="poorhealthinput"
+                  min="1"
+                  max="30"
+                  value="88"
+                  type="number"
+                  name="PoorHealthDays"
+                  placeholder="No of Days"
+                  required
+                />
+              </div>
+              <div class="inputBox user">
+                <label>Mension your systollic blood pressure in mmHg</label>
+                <input
+                  name="BloodPressure"
+                  type="number"
+                  class="select-box"
+                  min="90"
+                  max="200"
+                  placeholder="Systollic BP in mmHg"
+                  required
+                />
               </div>
               <div class="inputBox user">
                 <label>Do you have Diabetes?</label>
                 <select
                   name="Diabetes"
                   id="diabetesInput"
-                  onclick="diabetes_click()"
                   class="select-box"
                   required
                 >
@@ -108,10 +146,9 @@
                   <option value="1">Yes</option>
                   <option value="3">No</option>
                   <option value="4">Pre Diabetes</option>
-                  <option value="999">Don't Know</option>
                 </select>
               </div>
-              <div class="inputBox user">
+              <div class="inputBox user" id="diabetesAgeInputBlock" hidden>
                 <label>Age when discovered diabetes?</label>
                 <input
                   id="diabetesAgeInput"
@@ -119,21 +156,34 @@
                   max="97"
                   type="number"
                   name="DiabetesAge"
-                  style="cursor: not-allowed; filter: blur(0.63px)"
                   placeholder="Age When Told Had Diabetes"
                 />
               </div>
               <div class="inputBox user">
-                <label>Do you have high cholestrol levels?</label>
-                <select
-                  name="HighCholLevel"
-                  id="highCholLevelInput"
+                <label>Enter your total Cholestrol levels in mg/dL?</label>
+                <input
+                  name="CholLevel"
+                  placeholder="Total Cholesterol in mg/dL"
                   class="select-box"
+                  min="100"
+                  max="300"
                   required
+                />
+              </div>
+              <div class="inputBox user">
+                <label>How Long since Cholesterol Checked?</label>
+                <select
+                  name="RecentCholesterolCheck"
+                  required
+                  class="select-box"
                 >
                   <option value="" disabled selected>Select</option>
-                  <option value="1">Yes</option>
-                  <option value="2">No</option>
+                  <option value="2">Within the past year</option>
+                  <option value="3">Within the past 2 years</option>
+                  <option value="4">Within the past 3 year</option>
+                  <option value="5">Within the past 4 year</option>
+                  <option value="6">Within the past 5 year</option>
+                  <option value="8">5 or more years ago</option>
                 </select>
               </div>
               <div class="inputBox user">
@@ -199,6 +249,10 @@
             </form>
           </div>
         </div>
+        <script
+          type="text/javascript"
+          src="{{ url_for('static', filename='scripts/form.js') }}"
+        ></script>
       </div>
     </section>
   </body>
