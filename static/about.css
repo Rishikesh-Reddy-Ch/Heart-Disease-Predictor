@@ -1,0 +1,141 @@
+body {
+  margin: 0;
+  padding: 0;
+  flex: 1;
+  background: linear-gradient(to bottom, #f1f4f9, #dff1ff);
+  height: 100vh;
+  font-family: 'diazo-mvb-ex-cond', sans-serif;
+  font-style: normal;
+  font-weight: 700; 
+  background-repeat: no-repeat;
+  overflow: auto;
+}
+
+.logo-img {
+  width: 30px;
+  margin-right: 5px;
+}
+
+.logo-text {
+  font-family: 'Alegreya Sans', sans-serif;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bolder;
+  color: darkred;
+  font-size: 18px;
+  position: relative;
+}
+
+.color {
+  position: absolute;
+  filter: blur(150px);
+}
+
+.color:nth-child(1) {
+  top: -350px;
+  width: 600px;
+  height: 600px;
+  background: #ff359b;
+}
+
+.color:nth-child(2) {
+  bottom: -150px;
+  width: 500px;
+  height: 500px;
+  background: #fffd87;
+  z-index: -5000000;
+  left: 100px;
+}
+
+.color:nth-child(3) {
+  bottom: 50px;
+  width: 400px;
+  height: 500px;
+  right: 100px;
+  background: #00d2ff;
+  z-index: -1;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+}
+
+#login {
+  display: flex;
+  align-items: center;
+}
+
+.btn-login-container {
+  margin-right: 20px;
+}
+
+.btn-login {
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-login:hover {
+  background-color: white;
+  color: black;
+}
+
+.nav-links {
+  display: flex;
+  margin-left: 20px;
+}
+
+li {
+  list-style: none;
+  padding: 0px 15px;
+}
+
+#login {
+  align-self: right;
+}
+
+a {
+  text-decoration: none;
+  font-family: 'Alegreya Sans', sans-serif;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bolder;
+  color: darkred;
+  font-size: 18px;
+  position: relative;
+}
+
+a::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 5px;
+  background: darkred;
+  transition: width 0.6s;
+}
+
+a:hover::after, a.active::after {
+  width: 100%;
+  
+}
+
+.glassy-box-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin: 40px;
+}
+
+.glassy-box {
+  background: rgba(255, 255, 255, 0.4);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
