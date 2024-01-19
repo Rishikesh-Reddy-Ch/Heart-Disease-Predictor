@@ -8,7 +8,6 @@ from email_validator import validate_email
 from sklearn.ensemble import  GradientBoostingClassifier
 from datetime import datetime
 from geopy.geocoders import Nominatim
-import warnings
 import bcrypt
 from cryptography.fernet import Fernet
 import google.generativeai as genai
@@ -16,15 +15,8 @@ import google.generativeai as genai
 with open('key.bin','rb') as Fkey:
     key=Fkey.read()
 f=Fernet(key)
-warnings.filterwarnings('ignore')
+
 database_connection_string="mongodb+srv://heart_health-G64:heart_health-G64@cluster0.2tz5hzd.mongodb.net/"
-name_values={'HighBloodPressure':{1:"Yes",3:"No",4:"Borderline high/Pre-hypertensive"},'KidneyDisease':{1:"Yes",2:"No",999:"Don't Know"},
-             'Diabetes':{1:"Yes",3:"No",4:"Pre Diabetes",999:"Don't Know"},
-             'smoking':{1:"Yes",2:"Some times",3:"Former Smoker",4:"Not Smoker"},
-             'exercise':{1:"Yes",2:"No"},'HighCholLevel':{1:"Yes",2:"No"}, 'Drinker':{1:"Yes",2:"No"}}
-
-
-
 
 def user_idCheck(Username):
     try:
@@ -170,7 +162,7 @@ def age_cal_gender(username,iscat):
         return age_cat,age,gender
     return age,gender
 def BMI_cat(height,weight):
-    height,weight = int(height),int(weight)*100
+    height,weight = int(height)/100,int(weight)
     bmi = weight/(height**2)
     if(bmi<18.5):
         cat=1 
@@ -182,77 +174,104 @@ def BMI_cat(height,weight):
         cat = 4
     return cat
 
-def dia_age_cal(dia_age):
-    if dia_age=="":
-        return "999"
-    return dia_age
+# def dia_age_cal(dia_age):
+#     if dia_age=="":
+#         return "999"
+#     return dia_age
     
 def record(data,user):
     # print("Hello",user)
     try:
+        record={}
+        record.update(data)
         client = pymongo.MongoClient('mongodb+srv://heart_health-G64:heart_health-G64@cluster0.2tz5hzd.mongodb.net/')
         db = client['Heart-health-dataBase']
         cl=db['Users']
         user_cal={"Username":user}
-        if data['DiabetesAge']==999:
-            data["DiabetesAge"]="dont know"
+        
         # print(user_cal)
-        for name in name_values:
-            data[name]=name_values[name][data[name]]
-        cl.update_one(user_cal,{"$set":{"record":data}})
-        return True,data
+        with open('name_values.json','r') as fp:
+            name_values=json.load(fp)[1]
+        for name in data:
+            if name not in name_values:
+                record[name]=int(data[name])
+            else:
+                record[name]=name_values[name][record[name]] 
+        if record['DiabetesAge']==999:
+            record["DiabetesAge"]="dont know"
+        del record['Gender'],record['bmi'],record['HighBloodPressure'],record['HighCholLevel'],record['Age Cat'],  
+        cl.update_one(user_cal,{"$set":{"record":record}})
+        return True,record
     except:
         return False,{}
-
+def BloodpressureCat(Bp):
+    if Bp<120:
+        return 3;
+    if Bp<140:
+        return 4;
+    return 1;
+def CholesterolHigh(colValue):
+    if colValue<200:
+        return 2;
+    return 1;
 def process_data(form_data,user):
         names=list(form_data.keys())
-        form_data['Age Cat'],form_data['Age'],form_data['Gender'] = age_cal_gender(user,True)
-        # del form_data['DateOfBirth']
-        
-        form_data['DiabetesAge']=dia_age_cal(form_data['DiabetesAge'])
+        form_data['Age Cat'],form_data['Age'],form_data['Gender'] = age_cal_gender(user,True)  
+        form_data['HighBloodPressure']=str(BloodpressureCat(int(form_data["BloodPressure"])))
+        form_data['HighCholLevel']=str(CholesterolHigh(int(form_data["CholLevel"])))
+        form_data["Weight"]=float(form_data["Weight"])
+        form_data['bmi'] = BMI_cat(form_data['Height'],form_data['Weight'])     
+        recorded,Record=record(form_data,user)
         for i in names:
-            if i not in ['Weight','DateOfBirth']:
+            if i not in ['Weight']:
                 form_data[i]=int(form_data[i])
                 # print(int(form_data[i]))
-        form_data["Weight"]=float(form_data["Weight"])
-        # print("Upto here is Fine!")
-        form_data['bmi'] = BMI_cat(form_data['Height'],form_data['Weight'])
-        predictionVal,predicted=prediction(form_data,user)
-        # print("fine")
-        print(form_data['bmi'])
-        recorded,Record=record(form_data,user)
+
+        predictionVal,predicted=prediction(form_data)
+        
         if recorded and predicted:
             # print(predictionVal[0])
-            return True,prediction_cat(predictionVal[0],user),Record
-        return False,np.NaN,Record    
+            return True,prediction_cat(predictionVal[0],user),predictionVal[0],Record
+        return False,np.NaN,0,{}    
 
-def prediction(formData,username):
-    try:
+def prediction(formData):
+    # try:
         with open("HeartHealth_classifier_model.pkl","rb") as f:
             model=pkl.load(f)
-        names=['HighBloodPressure','KidneyDisease','Diabetes','DiabetesAge','smoking','exercise','HighCholLevel','Gender','Age Cat','bmi','Drinker']
-        record=[]
-        for i in names:
-            record.append(int(formData[i]))
-        record=np.array(record).reshape((1,-1))
+        names=['GeneralHealth',
+               'PoorHealthDays',
+               'HighBloodPressure',
+               'RecentCholesterolCheck',
+               'HighCholLevel',
+               'KidneyDisease',
+               'Diabetes',
+               'DiabetesAge',
+               'exercise',
+               'Gender',
+               'Age Cat',
+               'bmi',
+               'smoking',
+               'Drinker']
+        record=pd.DataFrame([formData])
+        # record=np.array(record).reshape((1,-1))
+        record=record[names]
         # print(record,"fine")
         predictionval=model.predict_proba(record)[:,1]
-        # print(prediction)
+        # print(predictionval)
         return predictionval,True
-    except:
-        return np.NaN,False
+    # except:
+    #     return np.NaN,False
 def prediction_cat(value,username):
-    percent=(value/0.06889006444901649)*33.33
-    if percent>100:
-        percent=(value/0.2172120495116925)*66.66
-    if percent>100:
-        percent=value*100
-    print(percent)
+    # percent=(value/0.06889006444901649)*33.33
+    # if percent>100:
+    #     percent=(value/0.2172120495116925)*66.66
+    # if percent>100:
+    #     percent=value*100
     if value==np.NaN:
         cat= ""
-    elif value<0.06889006444901649:
+    elif value<0.25:
         cat= 'Low'
-    elif value<0.2172120495116925:
+    elif value<0.40:
         # print((value/0.2172120495116925)*66.66)
         cat= 'Medium'
     else:

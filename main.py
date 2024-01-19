@@ -115,13 +115,14 @@ def form():
   if request.method=='POST':
     formdata={}
     formdata.update(request.form)
-    flag,predictionVal,record=fn.process_data(formdata,session["Username"])
+    flag,predictioncat,percent,record=fn.process_data(formdata,session["Username"])
     if (not flag):
       # flash("Unable to access the dataBase","error")
       return redirect(url_for("form"))
     session['record']=record
     
-    return redirect(url_for('result',cat=predictionVal))
+    return redirect(url_for('result',cat=predictioncat,percent=percent))
+    # return "percent: "+str(percent)
   try:
     if session["Username"]:
       return render_template("form1.html")
@@ -130,15 +131,15 @@ def form():
    
   return render_template("form1.html")
 
-@app.route("/result<cat>/",methods=["GET","POST"])
-def result(cat):
+@app.route("/result<cat>&<percent>/",methods=["GET","POST"])
+def result(cat,percent):
   if cat=="High":
     if request.method=="POST":
       zipCode=request.form["user-address"]
       if fn.addressCheck(zipCode):
         location=request.form["location"]
         return render_template('prediction_high.html',)
-    # predictionVal=np.NaN
+    # predictioncat=np.NaN
     return render_template("prediction_high.html")
   elif cat=="Medium":
     retrived,dietplan=fn.dieteryResponse(session['record'])
