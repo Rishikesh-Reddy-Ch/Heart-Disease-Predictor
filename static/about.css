@@ -6,7 +6,7 @@ body {
   height: 100vh;
   font-family: 'diazo-mvb-ex-cond', sans-serif;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 700; 
   background-repeat: no-repeat;
   overflow: auto;
 }
