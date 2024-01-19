@@ -24,5 +24,56 @@
       "1": "Flat",
       "2": "Downsloping"
     }
+  },
+  {
+    "HighBloodPressure": {
+      "1": "Yes",
+      "3": "No",
+      "4": "Borderline high/Pre-hypertensive"
+    },
+    "KidneyDisease": {
+      "1": "Yes",
+      "2": "No",
+      "999": "Don't Know"
+    },
+    "Diabetes": {
+      "1": "Yes",
+      "3": "No",
+      "4": "Pre Diabetes",
+      "999": "Don't Know"
+    },
+    "smoking": {
+      "1": "Yes",
+      "2": "Some times",
+      "3": "Former Smoker",
+      "4": "Not Smoker"
+    },
+    "exercise": {
+      "1": "Yes",
+      "2": "No"
+    },
+    "HighCholLevel": {
+      "1": "Yes",
+      "2": "No"
+    },
+    "Drinker": {
+      "1": "Yes",
+      "2": "No"
+    },
+    "RecentCholesterolCheck": {
+      "2": "Within the past year",
+      "3": "Within the past 2 years",
+      "4": "Within the past 3 years",
+      "5": "Within the past 4 years",
+      "6": "Within the past 5 years",
+      "8": "5 or more years ago"
+    },
+    "GeneralHealth": {
+      "1": "Excellent",
+      "2": "Very good",
+      "3": "Good",
+      "4": "Fair",
+      "5": "Poor"
+    }
   }
 ]
