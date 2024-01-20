@@ -222,6 +222,8 @@ def process_data(form_data,user):
         form_data["Weight"]=float(form_data["Weight"])
         form_data['bmi'] = BMI_cat(form_data['Height'],form_data['Weight'])     
         recorded,Record=record(form_data,user)
+        names.append('HighBloodPressure')
+        names.append('HighCholLevel')
         for i in names:
             if i not in ['Weight']:
                 form_data[i]=int(form_data[i])
@@ -255,7 +257,7 @@ def prediction(formData):
         record=pd.DataFrame([formData])
         # record=np.array(record).reshape((1,-1))
         record=record[names]
-        # print(record,"fine")
+        # print(list(record.values))
         predictionval=model.predict_proba(record)[:,1]
         # print(predictionval)
         return predictionval,True
