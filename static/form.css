@@ -105,7 +105,7 @@ section .color:nth-child(3) {
 }
 .container {
   position: relative;
-  width: 470px;
+  width: 500px;
   min-height: 400px;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
