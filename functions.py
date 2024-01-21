@@ -25,10 +25,10 @@ def user_idCheck(Username):
         coll=db["Users"]
         user=coll.find({'Username':Username})
         if list(user):
-            return False
-        return True
+            return False,""
+        return True,""
     except:
-        return False
+        return False,"UnableToAccessDatabase"
 def passwordCheck(password):
     if len(password) < 8:
         return False
@@ -74,10 +74,10 @@ def verify_credentials(username, password):
 
         if user_list:
             if bcrypt.checkpw(password.encode('utf-8'),user_list[0]["password"]):
-                return True
-        return False
+                return True,''
+        return False,''
     except:
-        return False
+        return False,"Unable to access database"
 
 def updateCredentials(user):
     try:
@@ -95,7 +95,7 @@ def updateCredentials(user):
         coll.insert_one(user)
         return True
     except:
-        return False
+        return False,'Cannot access database'
 
 def emailValidate(email):
     try:

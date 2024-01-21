@@ -24,7 +24,7 @@
         <div class="container">
           <div class="form">
             <h2>Register</h2>
-            <form method="post">
+            <form method="post" id="form">
               <div class="inputBox user">
                 <div class="i">
                   <i class="fas fa-user"></i>
@@ -34,9 +34,11 @@
                   type="text"
                   placeholder="Username"
                   name="Username"
+                  id="Username"
                   required
                 />
               </div>
+              <p id="Id_msg" hidden>Username already taken</p>
               <div class="inputBox user">
                 <div class="i">
                   <i class="fas fa-envelope"></i>
@@ -85,7 +87,7 @@
                 <div class="i">
                   <i class="fas fa-lock"></i>
                 </div>
-                <input type="password" placeholder="password" name="password" />
+                <input type="password" required placeholder="password" name="password" />
                 <div class="i-eye">
                   <i
                     id="password"
@@ -99,7 +101,7 @@
                 {% if messages%} {{messages[-1]}} {% endif %}
               </div>
               <div class="inputBox">
-                <input type="submit" value="Sign-up" />
+                <input id="submitbtn" type="submit" value="Sign-up" />
               </div>
               <p class="login">
                 Have an Account? <a href="{{url_for('login')}}">Click Here</a>

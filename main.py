@@ -34,16 +34,22 @@ def home():
 def about():
   return render_template('about.html')
 
+@app.route('/register/usercheck/',methods=['POST'])
+def usercheck():
+  user=request.json["UserID"]
+  flag,msg=fn.user_idCheck(user)
+  if flag:
+    valid=True
+  else:
+    valid=False
+  response = jsonify({"valid": valid,"msg":msg})
+  return response
 
 @app.route('/register/',methods=['POST','GET'])
 def register():
   if request.method == "POST":
-    user=request.form
-    if not fn.user_idCheck(user["Username"]):
-      flash('Username already taken','error')
-      return redirect(url_for('register'))
-    
-    elif not fn.passwordCheck(user["password"]):
+    user=request.form    
+    if not fn.passwordCheck(user["password"]):
       flash("Password needs: Uppercase, Lowercase, Digit, Special Char.",'error')
       return redirect(url_for('register'))
     
@@ -71,13 +77,16 @@ def login():
     if request.method == "POST":
         user=request.form
 
-        isuser = fn.verify_credentials(user["Username"], user["password"])
+        isuser,msg = fn.verify_credentials(user["Username"], user["password"])
 
         if isuser:
             session["Username"]=user["Username"]
             return redirect(url_for('home'))
         else:
-            flash('Invalid credentials, please try again.', 'error')
+            if msg:
+              flash(msg,'error')
+            else:
+              flash('Invalid credentials, please try again.', 'error')
             return(redirect(url_for('login')))
 
     messages = get_flashed_messages()
@@ -131,14 +140,14 @@ def form():
    
   return render_template("form1.html")
 
-@app.route("/result<cat>&<percent>/",methods=["GET","POST"])
+@app.route("/result<cat>&<percent>/",methods=["GET"])
 def result(cat,percent):
   if cat=="High":
-    if request.method=="POST":
-      zipCode=request.form["user-address"]
-      if fn.addressCheck(zipCode):
-        location=request.form["location"]
-        return render_template('prediction_high.html',)
+    # if request.method=="POST":
+    #   zipCode=request.form["user-address"]
+    #   if fn.addressCheck(zipCode):
+    #     location=request.form["location"]
+    # return render_template('prediction_high.html',)
     # predictioncat=np.NaN
     return render_template("prediction_high.html")
   elif cat=="Medium":

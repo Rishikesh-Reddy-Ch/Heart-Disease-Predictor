@@ -134,7 +134,7 @@
         </ul>
 
         <h3>Please provide your area pin code:</h3>
-        <form id="addressForm" method="post">
+        <form id="addressForm">
           <label for="user-address" style="color: #c0392b">pin-code:</label>
           <input
             type="number"
@@ -156,27 +156,37 @@
       </p>
     </section>
     <script>
-      function openMaps() {
+      async function openMaps() {
         // event.preventDefault(); // Prevent the default form submission behavior
-        form = document.querySelector("form");
+        const form = document.querySelector("form");
+
         if (!form.checkValidity()) {
-          alert("Enter valid potal-Code");
+          alert("Enter valid postal code");
           return false;
         }
-        const request = new XMLHttpRequest();
-        request.open("POST", "/address_check/");
-        request.setRequestHeader(
-          "Content-Type",
-          "application/json;charset=UTF-8"
-        );
-        pin_code = document.getElementById("user-address").value;
-        request.send(JSON.stringify({ "pin-code": pin_code }));
 
-        request.onload = function () {
-          const result = JSON.parse(request.responseText);
-          redirect(result.valid, pin_code);
-        };
+        const pinCode = document.getElementById("user-address").value;
+
+        try {
+          const response = await fetch("/address_check/", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json;charset=UTF-8",
+            },
+            body: JSON.stringify({ "pin-code": pinCode }),
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+
+          const result = await response.json();
+          redirect(result.valid, pinCode);
+        } catch (error) {
+          console.error("Error:", error);
+        }
       }
+
       function redirect(response, pin_code) {
         if (response) {
           const location = encodeURIComponent(
