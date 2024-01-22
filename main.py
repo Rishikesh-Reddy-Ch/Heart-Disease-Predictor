@@ -48,21 +48,16 @@ def usercheck():
 @app.route('/register/',methods=['POST','GET'])
 def register():
   if request.method == "POST":
-    user=request.form    
-    if not fn.passwordCheck(user["password"]):
-      flash("Password needs: Uppercase, Lowercase, Digit, Special Char.",'error')
-      return redirect(url_for('register'))
-    
-    elif fn.emailValidate(user["email"]) and fn.dob_validate(user["dob"]):
+    user=request.form   
+    print(fn.emailValidate(user["email"]))
+    if fn.emailValidate(user["email"]):
       updated=fn.updateCredentials(user)
       if not updated:
          flash("Unable to connect to database","error")
          return redirect(url_for('register'))
       return redirect(url_for('login'))
-    
     else:
-      flash("Invalid email or Date-of-birth",'error')
-
+      flash("Invalid email",'error')
       return redirect(url_for('register'))
   try:
       if session["Username"]:
@@ -143,12 +138,6 @@ def form():
 @app.route("/result<cat>&<percent>/",methods=["GET"])
 def result(cat,percent):
   if cat=="High":
-    # if request.method=="POST":
-    #   zipCode=request.form["user-address"]
-    #   if fn.addressCheck(zipCode):
-    #     location=request.form["location"]
-    # return render_template('prediction_high.html',)
-    # predictioncat=np.NaN
     return render_template("prediction_high.html")
   elif cat=="Medium":
     retrived,dietplan=fn.dieteryResponse(session['record'])
