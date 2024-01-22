@@ -208,7 +208,9 @@ def otpValidation():
     session.pop('OTP')
   return jsonify(response)
 
-
+@app.route('/googleUserLogin/',methods=['GET'])
+def googleUserLogin():
+  return render_template('temp.html')
 
 if __name__ == "__main__":
   app.run(debug=True)
