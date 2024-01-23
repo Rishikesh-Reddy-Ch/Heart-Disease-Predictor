@@ -141,7 +141,8 @@ def form():
 @app.route("/result<cat>&<percent>/",methods=["GET"])
 def result(cat,percent):
   if cat=="High":
-    return render_template("prediction_high.html")
+    retrived,dietplan=fn.dieteryResponse(session['record'])
+    return render_template("prediction_high.html",message=dietplan)
   elif cat=="Medium":
     retrived,dietplan=fn.dieteryResponse(session['record'])
     return render_template("prediction_medium.html",message=dietplan)
@@ -200,9 +201,12 @@ def otpValidation():
     session.pop('OTP')
   return jsonify(response)
 
+@app.route('/dietStore/',methods=['POST'])
+def dietStore():
+  diet=request.json["dietStore"]
+  return jsonify({'stored':fn.storediet(diet,session["Username"])})
 @app.route('/googleUserLogin/',methods=['GET'])
 def googleUserLogin():
   return render_template('temp.html')
-
 if __name__ == "__main__":
   app.run(debug=True)
