@@ -1,22 +1,5 @@
 const inputs = document.querySelectorAll(".input");
 
-// function addcl() {
-//   let parent = this.parentNode.parentNode;
-//   parent.classList.add("focus");
-// }
-
-// function remcl() {
-//   let parent = this.parentNode.parentNode;
-//   if (this.value == "") {
-//     parent.classList.remove("focus");
-//   }
-// }
-
-// inputs.forEach((input) => {
-//   input.addEventListener("focus", addcl);
-//   input.addEventListener("blur", remcl);
-// });
-
 function showpassword(name) {
   const passInput = document.querySelector('input[name="' + name + '"]');
   // console.log(passInput);
@@ -189,11 +172,11 @@ async function isEmailvalid() {
     if (!result.valid) {
       submit.disabled = true;
       msg.textContent = "Invalid emaid address";
-      return true;
+      return false;
     } else {
       submit.disabled = false;
       msg.textContent = "";
-      return false;
+      return true;
     }
   }
 }
