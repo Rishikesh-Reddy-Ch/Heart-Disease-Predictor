@@ -440,4 +440,15 @@ def prediction_cat2(value,username):
     coll.update_one(user,{"$set":{"prediction":value}})
     coll.update_one(user,{"$set":{"prediction-category":cat}})
     return cat
-    
+
+def storediet(diet,username):
+    try:
+        client=pymongo.MongoClient(database_connection_string)
+        db=client["Heart-health-dataBase"]
+        coll=db["Users"]
+        user=coll.find_one({"Username":username})
+        coll.update_one(user,{"$set":{"diet":diet}})
+        return True
+    except:
+        return False
+        

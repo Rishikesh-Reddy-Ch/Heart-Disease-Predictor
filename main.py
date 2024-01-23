@@ -149,7 +149,8 @@ def result(cat,percent):
     #     location=request.form["location"]
     # return render_template('prediction_high.html',)
     # predictioncat=np.NaN
-    return render_template("prediction_high.html")
+    retrived,dietplan=fn.dieteryResponse(session['record'])
+    return render_template("prediction_high.html",message=dietplan)
   elif cat=="Medium":
     retrived,dietplan=fn.dieteryResponse(session['record'])
     return render_template("prediction_medium.html",message=dietplan)
@@ -208,7 +209,9 @@ def otpValidation():
     session.pop('OTP')
   return jsonify(response)
 
-
-
+@app.route('/dietStore/',methods=['POST'])
+def dietStore():
+  diet=request.json["dietStore"]
+  return jsonify({'stored':fn.storediet(diet,session["Username"])})
 if __name__ == "__main__":
   app.run(debug=True)
