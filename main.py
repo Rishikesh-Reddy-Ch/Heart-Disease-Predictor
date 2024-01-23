@@ -49,16 +49,12 @@ def usercheck():
 def register():
   if request.method == "POST":
     user=request.form   
-    print(fn.emailValidate(user["email"]))
-    if fn.emailValidate(user["email"]):
-      updated=fn.updateCredentials(user)
-      if not updated:
-         flash("Unable to connect to database","error")
-         return redirect(url_for('register'))
-      return redirect(url_for('login'))
-    else:
-      flash("Invalid email",'error')
+  
+    updated=fn.updateCredentials(user)
+    if not updated:
+      flash("Unable to connect to database","error")
       return redirect(url_for('register'))
+    return redirect(url_for('login'))
   try:
       if session["Username"]:
         return "Already logged in, "+ '<a href="'+url_for("logout")+'"> logout</a>'+' to register a new account.'
@@ -66,7 +62,14 @@ def register():
     return render_template('register.html',messages=get_flashed_messages())
   return render_template('register.html',messages=get_flashed_messages())
 
-  
+@app.route('/register/email-validate/',methods=['POST'])
+def emailValidate():
+  email=request.json['email']
+  if fn.emailValidate(email):
+    return jsonify({'valid':True})
+  return jsonify({'valid':False})
+
+
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
     if request.method == "POST":
