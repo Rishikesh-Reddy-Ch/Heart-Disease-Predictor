@@ -141,18 +141,8 @@ def form():
 @app.route("/result<cat>&<percent>/",methods=["GET"])
 def result(cat,percent):
   if cat=="High":
-<<<<<<< HEAD
-    # if request.method=="POST":
-    #   zipCode=request.form["user-address"]
-    #   if fn.addressCheck(zipCode):
-    #     location=request.form["location"]
-    # return render_template('prediction_high.html',)
-    # predictioncat=np.NaN
     retrived,dietplan=fn.dieteryResponse(session['record'])
     return render_template("prediction_high.html",message=dietplan)
-=======
-    return render_template("prediction_high.html")
->>>>>>> b0a4004593f9ae868c6d4a43613e1f095b8ce478
   elif cat=="Medium":
     retrived,dietplan=fn.dieteryResponse(session['record'])
     return render_template("prediction_medium.html",message=dietplan)
@@ -211,16 +201,12 @@ def otpValidation():
     session.pop('OTP')
   return jsonify(response)
 
-<<<<<<< HEAD
 @app.route('/dietStore/',methods=['POST'])
 def dietStore():
   diet=request.json["dietStore"]
   return jsonify({'stored':fn.storediet(diet,session["Username"])})
-=======
 @app.route('/googleUserLogin/',methods=['GET'])
 def googleUserLogin():
   return render_template('temp.html')
-
->>>>>>> b0a4004593f9ae868c6d4a43613e1f095b8ce478
 if __name__ == "__main__":
   app.run(debug=True)
