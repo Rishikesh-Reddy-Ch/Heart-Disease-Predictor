@@ -76,7 +76,7 @@
         margin-bottom: 10px;
       }
 
-      input[type="submit"] {
+      input[type="button"] {
         font-style: oblique;
         padding: 10px 20px;
         border: none;
@@ -87,7 +87,7 @@
         font-size: 16px;
       }
 
-      input[type="submit"]:hover {
+      input[type="button"]:hover {
         font-style: normal;
         background-color: #00b330;
       }
@@ -131,7 +131,7 @@
               cols="50"
             ></textarea
             ><br /><br />
-            <input type="submit" value="Submit" />
+            <input type="button" id="submit" value="Submit" />
             <form action=""></form>
             <p ac id="confirmation-message" style="display: none; color: green">
               Thank you, information saved!
@@ -163,16 +163,37 @@
         }
       }
       document
-        .getElementById("dietary-form")
-        .addEventListener("submit", function (event) {
+        .getElementById("submit")
+        .addEventListener("click", async function (event) {
           event.preventDefault();
-          setTimeout(function () {
-            document.getElementById("h1").style.display = "none";
-            document.getElementById("dietary-form").style.display = "none"; // Hide the form
-            document.getElementById("confirmation-message").style.display =
-              "block"; // Show confirmation message
-          }, 1000);
+          stored = await storeDiet();
+          if (stored) {
+            setTimeout(function () {
+              document.getElementById("h1").style.display = "none";
+              document.getElementById("dietary-form").style.display = "none"; // Hide the form
+              document.getElementById("confirmation-message").style.display =
+                "block"; // Show confirmation message
+            }, 1000);
+          }
+          else{
+            alert("Cannot access database")
+          }
         });
+
+      async function storeDiet() {
+        const input = document.getElementById("dietary-plans");
+        response = await fetch("/dietStore/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json;charset=UTF-8",
+          },
+          //console.log(input.value);
+          body: JSON.stringify({ dietStore: input.value }),
+        });
+        const result = await response.json();
+        if (result.stored) return true;
+        return false;
+      }
     </script>
   </body>
 </html>

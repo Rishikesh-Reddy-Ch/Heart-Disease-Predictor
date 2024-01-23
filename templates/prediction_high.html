@@ -110,32 +110,13 @@
 
       <div class="recommendations">
         <h3>Key Recommendations:</h3>
-        <ul>
-          <li>
-            Adopt a heart-healthy diet eating fruits and vegetables while
-            reducing saturated fats and processed foods.
-          </li>
-          <li>
-            Engage in regular and intensive physical activity to strengthen your
-            heart and improve cardiovascular health.
-          </li>
-          <li>
-            Frequently monitor and manage blood pressure, cholesterol, and blood
-            sugar levels.
-          </li>
-          <li>
-            Spend time on stress management through meditation, yoga, or
-            counseling.
-          </li>
-          <li>
-            Seek immediate medical advice and intervention for further
-            evaluation and personalized guidance.
-          </li>
-        </ul>
 
-        <h3>Please provide your area pin code:</h3>
+        {% if message %}{{message | safe}}{% endif %}
+      
+
+        <h3>Please provide your area PIN code:</h3>
         <form id="addressForm">
-          <label for="user-address" style="color: #c0392b">pin-code:</label>
+          <label for="user-address" style="color: #c0392b">PIN CODE:</label>
           <input
             type="number"
             id="user-address"
