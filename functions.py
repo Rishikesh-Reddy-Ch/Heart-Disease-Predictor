@@ -99,7 +99,7 @@ def updateCredentials(user):
 
 def emailValidate(email):
     try:
-        if validate_email(email):
+        if validate_email(email,check_deliverability=True):
             return True
         return False
     except:
