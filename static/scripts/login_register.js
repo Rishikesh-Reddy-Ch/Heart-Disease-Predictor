@@ -37,6 +37,7 @@ function showpassword(name) {
 const submit = document.getElementById("submitbtn");
 const form = document.getElementById("form");
 user = document.getElementById("Username");
+email = document.getElementById("Email");
 var typingTimer;
 var doneTypingInterval = 1000;
 user.onblur = function () {
@@ -161,10 +162,38 @@ form.addEventListener("submit", async function (event) {
   const isUsernameValid = await Id_available();
   const isPasswordValid = passwordCheck(pass.value);
   const isDOBValid = dobCheck();
+  const isemaiValid = await isEmailvalid();
 
-  if (!isUsernameValid || !isPasswordValid || !isDOBValid) {
+  if (!isUsernameValid || !isPasswordValid || !isDOBValid || !isemaiValid) {
     return;
   }
 
   form.submit();
 });
+console.log(email.value);
+email.onblur = function () {
+  isEmailvalid();
+};
+async function isEmailvalid() {
+  if (email.value !== "") {
+    const response = await fetch("/register/email-validate/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+      },
+      // prettier-ignore
+      body: JSON.stringify({ 'email': email.value }),
+    });
+    result = await response.json();
+    // console.log(result);
+    if (!result.valid) {
+      submit.disabled = true;
+      msg.textContent = "Invalid emaid address";
+      return true;
+    } else {
+      submit.disabled = false;
+      msg.textContent = "";
+      return false;
+    }
+  }
+}
