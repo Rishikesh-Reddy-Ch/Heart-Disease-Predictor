@@ -69,11 +69,11 @@ def verify_credentials(username, password):
         client=pymongo.MongoClient(database_connection_string)
         db=client["Heart-health-dataBase"]
         coll=db["Users"]
-        user=coll.find({'Username':username})
-        user_list = list(user)
+        user=coll.find_one({'Username':username})
+        user_list = dict(user)
 
         if user_list:
-            if bcrypt.checkpw(password.encode('utf-8'),user_list[0]["password"]):
+            if bcrypt.checkpw(password.encode('utf-8'),user_list["password"]):
                 return True,''
         return False,''
     except:
