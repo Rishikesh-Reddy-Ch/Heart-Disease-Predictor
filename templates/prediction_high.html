@@ -59,6 +59,7 @@
       .recommendations h3 {
         color: #c0392b;
         margin-top: 0;
+        align-items: center;
       }
 
       .address-input {
@@ -87,34 +88,38 @@
       input[type="button"] {
         padding: 10px 20px;
         border: none;
-        background-color: #e74c3c;
+        background-color: #fb6a5a;
         color: #fff;
         cursor: pointer;
         border-radius: 4px;
         font-size: 16px;
+      }
+      .DietPlanBut {
+        margin-left: 35%;
       }
 
       input[type="button"]:hover {
         background-color: #c0392b;
       }
       .progress-container {
-        box-shadow: 0 4px 5px rgb(0, 0, 0, 0.1)
+        box-shadow: 0 4px 5px rgb(0, 0, 0, 0.1);
       }
-      
-      .progress-container, .progress {
+
+      .progress-container,
+      .progress {
         background-color: #eee;
         border-radius: 5px;
         position: relative;
         height: 7px;
         width: 800px;
       }
-      
+
       .progress {
         background-color: red;
         width: 0;
         transition: width 0.4s linear;
       }
-      
+
       .percentage {
         background-color: red;
         border-radius: 5px;
@@ -130,10 +135,10 @@
         text-align: center;
         transition: left 0.4s linear;
       }
-      
+
       .percentage::after {
         background-color: red;
-        content: '';
+        content: "";
         position: absolute;
         top: -5px;
         left: 50%;
@@ -142,28 +147,62 @@
         width: 10px;
         z-index: -1;
       }
+      .loading-container p {
+        margin-left: 40%;
+      }
+      .loading-spinner {
+        border: 8px solid #3498db;
+        border-top: 8px solid #f9d9d9;
+        border-radius: 500%;
+        width: 50px;
+        margin-left: 45%;
+        height: 50px;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        /* 0% {
+          transform: rotate(0deg);
+        } */
+        100% {
+          transform: rotate(360deg);
+        }
+      }
     </style>
+    <script
+      type="text/javascript"
+      src="{{ url_for('static', filename='scripts/result.js') }}"
+    ></script>
   </head>
   <body>
     <section>
       <h2>Risk level: HIGH</h2>
 
-      <div class="progress-container" data-percentage='67'>
+      <div
+        class="progress-container"
+        data-percentage="{{percent}}"
+        prediction="{{prediction}}"
+      >
         <div class="progress"></div>
-        <div class="percentage">67%</div>
+        <div class="percentage"></div>
       </div>
       <p>
         According to the information provided, it seems you are at a
         <b>high risk</b> of heart disease. Immediate attention and actions are
         vital to improve your heart health.
       </p>
-
+      <input
+        type="button"
+        class="DietPlanBut"
+        value="Get a AI generated diet plan?"
+      />
       <div class="recommendations">
-        <h3>Key Recommendations:</h3>
-
-        {% if message %}{{message | safe}}{% endif %}
-      
-
+        <h3 id="KeyRecommendationsText" hidden>Key Recommendations:</h3>
+        <div id="KeyRecommendations"></div>
+        <div class="loading-container" hidden>
+          <div class="loading-spinner"></div>
+          <p>Fetching a diet plan...</p>
+        </div>
         <h3>Please provide your area PIN code:</h3>
         <form id="addressForm">
           <label for="user-address" style="color: #c0392b">PIN CODE:</label>
@@ -186,69 +225,5 @@
         comprehensive health assessment.
       </p>
     </section>
-    <script>
-      async function openMaps() {
-        // event.preventDefault(); // Prevent the default form submission behavior
-        const form = document.querySelector("form");
-
-        if (!form.checkValidity()) {
-          alert("Enter valid postal code");
-          return false;
-        }
-
-        const pinCode = document.getElementById("user-address").value;
-
-        try {
-          const response = await fetch("/address_check/", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json;charset=UTF-8",
-            },
-            body: JSON.stringify({ "pin-code": pinCode }),
-          });
-
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-
-          const result = await response.json();
-          redirect(result.valid, pinCode);
-        } catch (error) {
-          console.error("Error:", error);
-        }
-      }
-
-      function redirect(response, pin_code) {
-        if (response) {
-          const location = encodeURIComponent(
-            "cardiac hospitals near " + pin_code
-          );
-
-          // Open Google Maps in a new tab
-          window.location.href = "https://www.google.com/maps?q=" + location;
-        } else {
-          alert("Enter valid postal-Code");
-        }
-      }
-
-      const progressContainer = document.querySelector('.progress-container');  
-      setPercentage();
-
-      function setPercentage() {
-        const percentage = progressContainer.getAttribute('data-percentage') + '%';
-        
-        const progressEl = progressContainer.querySelector('.progress');
-        const percentageEl = progressContainer.querySelector('.percentage');
-        
-        progressEl.style.width = percentage;
-        percentageEl.innerText = percentage;
-        percentageEl.style.left = percentage;
-      }
-
-      // Attach the event listener to the form submission
-      // document
-      //   .getElementById("addressForm")
-      //   .addEventListener("button", openMaps);
-    </script>
   </body>
 </html>

@@ -75,3 +75,6 @@ function oldpeak_Unlock() {
 
 //   }
 // }
+function Loginredirect() {
+  window.location.href = "{{url_for('logout')}}";
+}
