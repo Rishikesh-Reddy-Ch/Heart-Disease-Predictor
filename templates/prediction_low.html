@@ -94,11 +94,56 @@
       input[type="checkbox"] {
         background-color: #27ae60;
       }
+      .progress-container, .progress {
+        background-color: #eee;
+        border-radius: 5px;
+        position: relative;
+        height: 7px;
+        width: 800px;
+      }
+      
+      .progress {
+        background-color: green;
+        width: 0;
+        transition: width 0.4s linear;
+      }
+      
+      .percentage {
+        background-color: green;
+        border-radius: 5px;
+        box-shadow: 0 4px 5px rgb(0, 0, 0, 0.2);
+        color: #fff;
+        font-size: 12px;
+        padding: 4px;
+        position: absolute;
+        top: 20px;
+        left: 0;
+        transform: translateX(-50%);
+        width: 40px;
+        text-align: center;
+        transition: left 0.4s linear;
+      }
+      
+      .percentage::after {
+        background-color: green;
+        content: '';
+        position: absolute;
+        top: -5px;
+        left: 50%;
+        transform: translateX(-50%) rotate(45deg);
+        height: 10px;
+        width: 10px;
+        z-index: -1;
+      }
     </style>
   </head>
   <body>
     <section>
       <h2>Risk level:LOW</h2>
+      <div class="progress-container" data-percentage='67'>
+        <div class="progress"></div>
+        <div class="percentage">67%</div>
+      </div>
       <p>
         Based on the information provided, it appears you have a
         <b>low risk </b>of heart disease. However, maintaining good habits is
@@ -193,6 +238,19 @@
         const result = await response.json();
         if (result.stored) return true;
         return false;
+      }
+      const progressContainer = document.querySelector('.progress-container');  
+      setPercentage();
+
+      function setPercentage() {
+        const percentage = progressContainer.getAttribute('data-percentage') + '%';
+        
+        const progressEl = progressContainer.querySelector('.progress');
+        const percentageEl = progressContainer.querySelector('.percentage');
+        
+        progressEl.style.width = percentage;
+        percentageEl.innerText = percentage;
+        percentageEl.style.left = percentage;
       }
     </script>
   </body>

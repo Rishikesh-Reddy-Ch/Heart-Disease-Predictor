@@ -60,21 +60,61 @@
             color: orange;
             margin-top: 0;
         }
+        .progress-container, .progress {
+            background-color: #eee;
+            border-radius: 5px;
+            position: relative;
+            height: 7px;
+            width: 800px;
+          }
+          
+          .progress {
+            background-color: orange;
+            width: 0;
+            transition: width 0.4s linear;
+          }
+          
+          .percentage {
+            background-color: orange;
+            border-radius: 5px;
+            box-shadow: 0 4px 5px rgb(0, 0, 0, 0.2);
+            color: #fff;
+            font-size: 12px;
+            padding: 4px;
+            position: absolute;
+            top: 20px;
+            left: 0;
+            transform: translateX(-50%);
+            width: 40px;
+            text-align: center;
+            transition: left 0.4s linear;
+          }
+          
+          .percentage::after {
+            background-color: orange;
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%) rotate(45deg);
+            height: 10px;
+            width: 10px;
+            z-index: -1;
+          }
 
       
 
     </style>
 </head>
 <body>
-    <script>
-        // Text containing newline characters
-        // var text = "{{message}}";
-        console.log("{{message}}")
-        // Replace \n with <br> and set the content inside the <p> tag
-        // document.getElementById('content').textContent = text.replace(/\n/g, "<br>");
-    </script>
+    
     <section>
         <h2> Medium Risk</h2>
+        <div class="progress-container" data-percentage="{{ percent }}">
+            <div class="progress"></div>
+            <div class="percentage">{{ percent }}%</div>
+        </div>
+        
         <p>
             It seems you have a medium risk of heart disease based on the information provided. Don't worry, there are steps you can take to improve your heart health.
         </p>
@@ -85,5 +125,41 @@
 
             {% if message %}{{message | safe}}{% endif %}
         </div>
+    </section>
+    <scr>
+        // Text containing newline characters
+        // var text = "{{message}}";
+        console.log("{{message}}")
+        // Replace \n with <br> and set the content inside the <p> tag
+        // document.getElementById('content').textContent = text.replace(/\n/g, "<br>");
+        const progressContainer = document.querySelector('.progress-container');
+        setPercentage();
+    
+        const progressContainer = document.querySelector('.progress-container');
+    setPercentage();
+
+    function setPercentage() {
+        // Retrieve the percentage from the data-percentage attribute
+        const percentage = parseFloat(progressContainer.getAttribute('data-percentage'));
+
+        // Ensure that the percentage is a valid number
+        if (!isNaN(percentage) && percentage >= 0 && percentage <= 100) {
+            // Calculate the width of the progress bar
+            const progressWidth = percentage + '%';
+
+            // Set the width of the progress bar
+            const progressEl = progressContainer.querySelector('.progress');
+            progressEl.style.width = progressWidth;
+
+            // Set the left position of the percentage element
+            const percentageEl = progressContainer.querySelector('.percentage');
+            percentageEl.innerText = percentage + '%';
+            percentageEl.style.left = progressWidth;
+        } else {
+            console.error('Invalid percentage value:', percentage);
+        }
+    }
+        
+    </script>
 </body>
 </html>
