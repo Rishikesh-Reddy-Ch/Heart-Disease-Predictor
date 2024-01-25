@@ -338,16 +338,19 @@ def change_password(password,username):
         return False,'Cannot Access Database'
 
 def dieteryResponse(record):
-    with open('llm_key.bin','rb') as llmkey:
-        key=llmkey.read()
-    GOOGLE_API_KEY=f.decrypt(key).decode('utf-8')
-    genai.configure(api_key=GOOGLE_API_KEY)
-    model = genai.GenerativeModel('gemini-pro')
-    text='**'
-    while(re.search(r"\*\*",text)):
-        response=model.generate_content('Create a dietery plan for a patient with following abnormalities:\n '+str(record)+ ',Just give the goals and how to achieve them and also compulsorily give the whole rsponse in the form of a inner HTML part')
-        text=response.text
-    return True, response.text
+    try:
+        with open('llm_key.bin','rb') as llmkey:
+            key=llmkey.read()
+        GOOGLE_API_KEY=f.decrypt(key).decode('utf-8')
+        genai.configure(api_key=GOOGLE_API_KEY)
+        model = genai.GenerativeModel('gemini-pro')
+        text='**'
+        while(re.search(r"\*\*",text)):
+            response=model.generate_content('Create a dietery plan for a patient with following abnormalities:\n '+str(record)+ ',Just give the goals and how to achieve them and also compulsorily give the whole response in the form of a inner html part without html tag')
+            text=response.text
+        return True, text
+    except:
+        return True, ''
 
 def process_data2(formData,user):
     model_name='model2_all.pkl'

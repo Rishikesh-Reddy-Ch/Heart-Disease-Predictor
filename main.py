@@ -141,16 +141,21 @@ def form():
 @app.route("/result<cat>&<percent>/",methods=["GET"])
 def result(cat,percent):
   if cat=="High":
-    retrived,dietplan=fn.dieteryResponse(session['record'])
-    return render_template("prediction_high.html",message=dietplan,percent=percent)
+    # retrived,dietplan=fn.dieteryResponse(session['record'])
+    return render_template("prediction_high.html",prediction=cat,percent=str(round(float(percent),ndigits=2)))
   elif cat=="Medium":
-    retrived,dietplan=fn.dieteryResponse(session['record'])
-    return render_template("prediction_medium.html",message=dietplan,percent=percent)
+    # retrived,dietplan=fn.dieteryResponse(session['record'])
+    return render_template("prediction_medium.html",prediction=cat,percent=str(round(float(percent),ndigits=2)))
   elif cat=='Low':
-    return render_template("prediction_low.html",percent=percent)
+    return render_template("prediction_low.html",percent=str(round(float(percent),ndigits=2)),prediction=cat)
   else:
     return redirect(url_for('form'))
-  
+
+@app.route("/result/requestDietPlan/")
+def requestDietPlan():
+  retrived,dietplan=fn.dieteryResponse(session['record'])
+  return jsonify({'retrived':retrived,'dietplan':dietplan})
+
 @app.route('/address_check/', methods=["POST"])
 def addess_checking():
     pin_code=request.json["pin-code"]

@@ -1,165 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Medium Risk: Heart Health</title>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: antiquewhite;
-            color: rgb(161, 108, 9);
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: antiquewhite;
+        color: rgb(161, 108, 9);
+        margin: 0;
+        padding: 0;
+        line-height: 1.6;
+      }
+
+      section {
+        max-width: 800px;
+        margin: 3em auto;
+        padding: 2em;
+        background-color: #fff;
+
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      h1,
+      h2,
+      h3 {
+        color: orange;
+      }
+
+      h2 {
+        border-bottom: 2px solid orange;
+        padding-bottom: 0.5em;
+        margin-bottom: 1em;
+      }
+
+      h3 {
+        margin-top: 1.5em;
+      }
+
+      p {
+        margin-bottom: 1.2em;
+      }
+
+      ul {
+        list-style-type: disc;
+        margin-left: 2em;
+        margin-bottom: 1.2em;
+      }
+
+      .recommendations {
+        background-color: #ffeacb;
+        padding: 1.5em;
+        border-radius: 8px;
+        margin-top: 2em;
+      }
+
+      .recommendations h3 {
+        color: orange;
+        margin-top: 0;
+      }
+      .progress-container,
+      .progress {
+        background-color: #eee;
+        border-radius: 5px;
+        position: relative;
+        height: 7px;
+        width: 800px;
+      }
+
+      .progress {
+        background-color: orange;
+        width: 0;
+        transition: width 0.4s linear;
+      }
+
+      .percentage {
+        background-color: orange;
+        border-radius: 5px;
+        box-shadow: 0 4px 5px rgb(0, 0, 0, 0.2);
+        color: #fff;
+        font-size: 12px;
+        padding: 4px;
+        position: absolute;
+        top: 20px;
+        left: 0;
+        transform: translateX(-50%);
+        width: 40px;
+        text-align: center;
+        transition: left 0.4s linear;
+      }
+
+      .percentage::after {
+        background-color: orange;
+        content: "";
+        position: absolute;
+        top: -5px;
+        left: 50%;
+        transform: translateX(-50%) rotate(45deg);
+        height: 10px;
+        width: 10px;
+        z-index: -1;
+      }
+      .loading-container p {
+        margin-left: 40%;
+      }
+      .loading-spinner {
+        border: 8px solid #3498db;
+        border-top: 8px solid #ffeacb;
+        border-radius: 500%;
+        width: 50px;
+        margin-left: 45%;
+        height: 50px;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
         }
-
-        
-        section {
-            max-width: 800px;
-            margin: 3em auto;
-            padding: 2em;
-            background-color: #fff;
-          
-            border-radius: 12px;
-            overflow: hidden;
+        100% {
+          transform: rotate(360deg);
         }
-
-        h1, h2, h3 {
-            color:orange;
-        }
-
-        h2 {
-            border-bottom: 2px solid orange;
-            padding-bottom: 0.5em;
-            margin-bottom: 1em;
-        }
-
-        h3 {
-            margin-top: 1.5em;
-        }
-
-        p {
-            margin-bottom: 1.2em;
-        }
-
-        ul {
-            list-style-type: disc;
-            margin-left: 2em;
-            margin-bottom: 1.2em;
-        }
-
-        .recommendations {
-            background-color: #ffeacb;
-            padding: 1.5em;
-            border-radius: 8px;
-            margin-top: 2em;
-        }
-
-        .recommendations h3 {
-            color: orange;
-            margin-top: 0;
-        }
-        .progress-container, .progress {
-            background-color: #eee;
-            border-radius: 5px;
-            position: relative;
-            height: 7px;
-            width: 800px;
-          }
-          
-          .progress {
-            background-color: orange;
-            width: 0;
-            transition: width 0.4s linear;
-          }
-          
-          .percentage {
-            background-color: orange;
-            border-radius: 5px;
-            box-shadow: 0 4px 5px rgb(0, 0, 0, 0.2);
-            color: #fff;
-            font-size: 12px;
-            padding: 4px;
-            position: absolute;
-            top: 20px;
-            left: 0;
-            transform: translateX(-50%);
-            width: 40px;
-            text-align: center;
-            transition: left 0.4s linear;
-          }
-          
-          .percentage::after {
-            background-color: orange;
-            content: '';
-            position: absolute;
-            top: -5px;
-            left: 50%;
-            transform: translateX(-50%) rotate(45deg);
-            height: 10px;
-            width: 10px;
-            z-index: -1;
-          }
-
-      
-
+      }
     </style>
-</head>
-<body>
-    
+  </head>
+  <body>
     <section>
-        <h2> Medium Risk</h2>
-        <div class="progress-container" data-percentage="{{ percent }}">
-            <div class="progress"></div>
-            <div class="percentage">{{ percent }}%</div>
-        </div>
-        
-        <p>
-            It seems you have a medium risk of heart disease based on the information provided. Don't worry, there are steps you can take to improve your heart health.
-        </p>
+      <h2>Medium Risk</h2>
+      <div
+        class="progress-container"
+        data-percentage="{{percent}}"
+        prediction="{{prediction}}"
+      >
+        <div class="progress"></div>
+        <div class="percentage"></div>
+      </div>
 
-        <div class="recommendations">
-            <h3>Key Recommendations:</h3>
-            
+      <p>
+        It seems you have a medium risk of heart disease based on the
+        information provided. Don't worry, there are steps you can take to
+        improve your heart health.
+      </p>
 
-            {% if message %}{{message | safe}}{% endif %}
+      <div class="recommendations">
+        <h3>Key Recommendations:</h3>
+        <div id="KeyRecommendations"></div>
+        <div class="loading-container">
+          <div class="loading-spinner"></div>
+          <p>Fetching a diet plan...</p>
         </div>
+
+        {% if message %}{{message | safe}}{% endif %}
+      </div>
     </section>
-    <scr>
-        // Text containing newline characters
-        // var text = "{{message}}";
-        console.log("{{message}}")
-        // Replace \n with <br> and set the content inside the <p> tag
-        // document.getElementById('content').textContent = text.replace(/\n/g, "<br>");
-        const progressContainer = document.querySelector('.progress-container');
-        setPercentage();
-    
-        const progressContainer = document.querySelector('.progress-container');
-    setPercentage();
-
-    function setPercentage() {
-        // Retrieve the percentage from the data-percentage attribute
-        const percentage = parseFloat(progressContainer.getAttribute('data-percentage'));
-
-        // Ensure that the percentage is a valid number
-        if (!isNaN(percentage) && percentage >= 0 && percentage <= 100) {
-            // Calculate the width of the progress bar
-            const progressWidth = percentage + '%';
-
-            // Set the width of the progress bar
-            const progressEl = progressContainer.querySelector('.progress');
-            progressEl.style.width = progressWidth;
-
-            // Set the left position of the percentage element
-            const percentageEl = progressContainer.querySelector('.percentage');
-            percentageEl.innerText = percentage + '%';
-            percentageEl.style.left = progressWidth;
-        } else {
-            console.error('Invalid percentage value:', percentage);
-        }
-    }
-        
-    </script>
-</body>
+    <script
+      type="text/javascript"
+      src="{{ url_for('static', filename='scripts/result.js') }}"
+    ></script>
+  </body>
 </html>

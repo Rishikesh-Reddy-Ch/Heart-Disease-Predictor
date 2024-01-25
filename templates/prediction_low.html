@@ -94,20 +94,21 @@
       input[type="checkbox"] {
         background-color: #27ae60;
       }
-      .progress-container, .progress {
+      .progress-container,
+      .progress {
         background-color: #eee;
         border-radius: 5px;
         position: relative;
         height: 7px;
         width: 800px;
       }
-      
+
       .progress {
         background-color: green;
         width: 0;
         transition: width 0.4s linear;
       }
-      
+
       .percentage {
         background-color: green;
         border-radius: 5px;
@@ -123,10 +124,10 @@
         text-align: center;
         transition: left 0.4s linear;
       }
-      
+
       .percentage::after {
         background-color: green;
-        content: '';
+        content: "";
         position: absolute;
         top: -5px;
         left: 50%;
@@ -136,11 +137,14 @@
         z-index: -1;
       }
     </style>
+    <script>
+      percent = "{{percent}}";
+    </script>
   </head>
   <body>
     <section>
       <h2>Risk level:LOW</h2>
-      <div class="progress-container" data-percentage='67'>
+      <div class="progress-container" data-percentage="{{percent}}">
         <div class="progress"></div>
         <div class="percentage">67%</div>
       </div>
@@ -194,64 +198,9 @@
         continued heart health.
       </p>
     </section>
-
-    <script>
-      function Dietary_plans() {
-        const followDietPlanCheckbox =
-          document.getElementById("follow-diet-plan");
-        const dietaryInput = document.querySelector(".dietary-input");
-
-        if (followDietPlanCheckbox.checked) {
-          dietaryInput.style.display = "block";
-        } else {
-          dietaryInput.style.display = "none";
-        }
-      }
-      document
-        .getElementById("submit")
-        .addEventListener("click", async function (event) {
-          event.preventDefault();
-          stored = await storeDiet();
-          if (stored) {
-            setTimeout(function () {
-              document.getElementById("h1").style.display = "none";
-              document.getElementById("dietary-form").style.display = "none"; // Hide the form
-              document.getElementById("confirmation-message").style.display =
-                "block"; // Show confirmation message
-            }, 1000);
-          }
-          else{
-            alert("Cannot access database")
-          }
-        });
-
-      async function storeDiet() {
-        const input = document.getElementById("dietary-plans");
-        response = await fetch("/dietStore/", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json;charset=UTF-8",
-          },
-          //console.log(input.value);
-          body: JSON.stringify({ dietStore: input.value }),
-        });
-        const result = await response.json();
-        if (result.stored) return true;
-        return false;
-      }
-      const progressContainer = document.querySelector('.progress-container');  
-      setPercentage();
-
-      function setPercentage() {
-        const percentage = progressContainer.getAttribute('data-percentage') + '%';
-        
-        const progressEl = progressContainer.querySelector('.progress');
-        const percentageEl = progressContainer.querySelector('.percentage');
-        
-        progressEl.style.width = percentage;
-        percentageEl.innerText = percentage;
-        percentageEl.style.left = percentage;
-      }
-    </script>
+    <script
+      type="text/javascript"
+      src="{{ url_for('static', filename='scripts/result.js') }}"
+    ></script>
   </body>
 </html>
