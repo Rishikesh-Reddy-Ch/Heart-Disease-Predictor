@@ -128,7 +128,7 @@ def form():
       return redirect(url_for("form"))
     session['record']=record
     
-    return redirect(url_for('result',cat=predictioncat,percent=percent))
+    return redirect(url_for('result',cat=predictioncat,percent=int(percent*100)))
     # return "percent: "+str(percent)
   try:
     if session["Username"]:
@@ -142,12 +142,12 @@ def form():
 def result(cat,percent):
   if cat=="High":
     retrived,dietplan=fn.dieteryResponse(session['record'])
-    return render_template("prediction_high.html",message=dietplan)
+    return render_template("prediction_high.html",message=dietplan,percent=percent)
   elif cat=="Medium":
     retrived,dietplan=fn.dieteryResponse(session['record'])
-    return render_template("prediction_medium.html",message=dietplan)
+    return render_template("prediction_medium.html",message=dietplan,percent=percent)
   elif cat=='Low':
-    return render_template("prediction_low.html")
+    return render_template("prediction_low.html",percent=percent)
   else:
     return redirect(url_for('form'))
   
