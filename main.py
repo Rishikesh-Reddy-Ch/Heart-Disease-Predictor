@@ -27,7 +27,7 @@ app.config.update(
 mail = Mail(app)
 @app.route('/')
 def home():
-  return render_template('home.html',user=session_username())
+  return render_template('home.html')
 
 
 @app.route('/about')
