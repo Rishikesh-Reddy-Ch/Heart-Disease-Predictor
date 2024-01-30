@@ -11,10 +11,13 @@ from geopy.geocoders import Nominatim
 import bcrypt
 from cryptography.fernet import Fernet
 import google.generativeai as genai
-
+from openai import OpenAI
 with open('key.bin','rb') as Fkey:
     key=Fkey.read()
 f=Fernet(key)
+with open('llm_key.bin','rb') as llmkey:
+    key=llmkey.read()
+client=OpenAI(api_key=f.decrypt(key).decode('utf-8'))
 
 database_connection_string="mongodb+srv://heart_health-G64:heart_health-G64@cluster0.2tz5hzd.mongodb.net/"
 
@@ -240,7 +243,7 @@ def prediction(formData):
     # try:
         with open("HeartHealth_classifier_model.pkl","rb") as f:
             model=pkl.load(f)
-        names=['GeneralHealth',
+        names=[
                'PoorHealthDays',
                'HighBloodPressure',
                'RecentCholesterolCheck',
@@ -264,17 +267,11 @@ def prediction(formData):
     # except:
     #     return np.NaN,False
 def prediction_cat(value,username):
-    # percent=(value/0.06889006444901649)*33.33
-    # if percent>100:
-    #     percent=(value/0.2172120495116925)*66.66
-    # if percent>100:
-    #     percent=value*100
     if value==np.NaN:
         cat= ""
     elif value<0.25:
         cat= 'Low'
     elif value<0.40:
-        # print((value/0.2172120495116925)*66.66)
         cat= 'Medium'
     else:
         cat='High'
@@ -338,19 +335,28 @@ def change_password(password,username):
         return False,'Cannot Access Database'
 
 def dieteryResponse(record):
-    try:
-        with open('llm_key.bin','rb') as llmkey:
-            key=llmkey.read()
-        GOOGLE_API_KEY=f.decrypt(key).decode('utf-8')
-        genai.configure(api_key=GOOGLE_API_KEY)
-        model = genai.GenerativeModel('gemini-pro')
-        text='**'
-        while(re.search(r"\*\*",text)):
-            response=model.generate_content('Create a dietery plan for a patient with following abnormalities:\n '+str(record)+ ',Just give the goals and how to achieve them and also compulsorily give the whole response in the form of a inner html part without html tag')
-            text=response.text
+    # try:
+
+        completion = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are a  diet planner for typical heart health, Just give the goals, recomendations and how to achieve them without any other uneccesary info and also compulsorily give the whole response in the form of a inner html part without html tag"},
+                {"role": "user", "content": "Create a dietery plan for a patient with following abnormalities:\n "+str(record)}
+            ]
+        )
+        # print(completion.choices[0].message)
+        text=completion.choices[0].message.content
+
+        # GOOGLE_API_KEY=f.decrypt(key).decode('utf-8')
+        # genai.configure(api_key=GOOGLE_API_KEY)
+        # model = genai.GenerativeModel('gemini-pro')
+        # text='**'
+        # while(re.search(r"\*\*",text)):
+        #     response=model.generate_content('Create a dietery plan for a patient with following abnormalities:\n '+str(record)+ ',Just give the goals and how to achieve them and also compulsorily give the whole response in the form of a inner html part without html tag')
+        #     text=response.text
         return True, text
-    except:
-        return True, ''
+    # except:
+    #     return True, ''
 
 def process_data2(formData,user):
     model_name='model2_all.pkl'
