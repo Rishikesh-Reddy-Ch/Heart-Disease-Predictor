@@ -11,7 +11,10 @@
       href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@300&family=Montserrat:wght@300;700&display=swap"
       rel="stylesheet"
     />
-    <meta name="google-site-verification" content="gEaHFUwoLCKCEFUI0H6or0Axz_vGmmMKjkecZVJq-mk" />
+    <meta
+      name="google-site-verification"
+      content="gEaHFUwoLCKCEFUI0H6or0Axz_vGmmMKjkecZVJq-mk"
+    />
   </head>
   <body>
     <div class="color"></div>
@@ -64,7 +67,7 @@
       }
       function Loginredirect() {
         if (document.querySelector(".btn-login").textContent == "Login") {
-          window.location.href = "{{url_for('login')}}";
+          window.location.href = "{{url_for('signinMethod')}}";
         } else {
           window.location.href = "{{url_for('logout')}}";
         }

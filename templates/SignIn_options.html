@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign in buttons</title>
+    <link
+      rel="stylesheet"
+      href="{{url_for('static',filename='SignIn_options.css')}}"
+    />
+  </head>
+  <body>
+    <section>
+      <div class="color"></div>
+      <div class="color"></div>
+      <div class="color"></div>
+      <div class="box">
+        <div class="container">
+          <div class="form">
+            <div class="inputBox user">
+              <div class="i">
+                <i class="fas fa-user"></i>
+              </div>
+
+              <button class="google-signin-button" onclick="signInWithGoogle()">
+                <img
+                  src="https://img.icons8.com/color/48/000000/google-logo.png"
+                  class="button-icon"
+                  alt="Google Icon"
+                />
+                Sign in with Google
+              </button>
+
+              <button class="signin-button" onclick="signInWithUsername()">
+                <img
+                  src="https://static.vecteezy.com/system/resources/thumbnails/007/033/146/small/profile-icon-login-head-icon-vector.jpg"
+                  class="custom-image"
+                  alt="Username Icon"
+                />
+                Sign in with Username
+              </button>
+            </div>
+            <p class="forget">
+              Don't have an account ?
+              <a href="{{url_for('register')}}">Sign up</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      function signInWithGoogle() {
+        console.log("hello");
+        window.location.href = '{{url_for("googlelogin")}}';
+      }
+
+      function signInWithUsername() {
+        window.location.href = "{{url_for('login')}}";
+      }
+    </script>
+  </body>
+</html>

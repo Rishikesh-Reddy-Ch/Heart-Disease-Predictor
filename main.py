@@ -4,7 +4,25 @@ import pandas as pd
 import random
 import numpy as np
 from flask_mail import Mail, Message
+from authlib.integrations.flask_client import OAuth
+from flask import Flask, url_for, redirect, session,request
 
+app = Flask(__name__)
+app.secret_key = 'secret-key'
+oauth = OAuth(app)
+
+
+google = oauth.register(
+    name='google',
+    client_id='121737871171-5603if7oi2reg13gkg2pfgh94ucjd5mh.apps.googleusercontent.com',
+    client_secret="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",
+    access_token_url="https://accounts.google.com/o/oauth2/token",
+    authorize_url='https://accounts.google.com/o/oauth2/auth',
+    api_base_url='https://www.googleapis.com/oauth2/v1/',
+    client_kwargs={'scope': 'openid profile email https://www.googleapis.com/auth/user.gender.read https://www.googleapis.com/auth/user.birthday.read'},
+    jwks_uri='https://www.googleapis.com/oauth2/v3/certs',
+    _AUTHORIZE_PARAMS={'approval_prompt': 'auto'}  
+)
 # import jsonify
 def session_username():
   try:
@@ -13,10 +31,6 @@ def session_username():
     return False
   except:
     return False
-
-app = Flask(__name__)
-
-app.secret_key = 'secret-key'
 app.config.update(
     MAIL_SERVER='smtp.gmail.com',
     MAIL_PORT=465,
@@ -44,6 +58,58 @@ def usercheck():
     valid=False
   response = jsonify({"valid": valid,"msg":msg})
   return response
+
+@app.route('/login/method/')
+def signinMethod():
+  # print(url_for('googlelogin'))
+  return render_template('SignIn_options.html')
+
+@app.route('/login/googlelogin/')
+def googlelogin():
+    google = oauth.create_client('google')
+    redirect_uri = url_for('authorize', _external=True)
+    
+    return google.authorize_redirect(redirect_uri, approval_prompt='auto')
+
+@app.route('/authorize')
+def authorize():
+    google = oauth.create_client('google')
+    token = google.authorize_access_token()
+    resp1 = google.get('userinfo')
+
+    user_info1 = resp1.json()
+    # print(user_info1)
+    
+    flag,msg=fn.user_idCheck(user_info1['name'])
+    if msg:
+      return msg
+    if not flag:
+      session['Username']=user_info1.get('name',None)
+      # print(user_info1['name'])
+    else:
+      try:
+        resp2 = google.get('https://people.googleapis.com/v1/people/me?personFields=genders,birthdays')
+        user_info2=resp2.json()
+        gender_info = user_info2.get('genders', [{}])[0].get('formattedValue', None)
+        birthday_info = user_info2.get('birthdays', [{}])[0].get('date', {})
+        birthday=str(birthday_info['year'])+'-'+str(birthday_info['month'])+'-'+ str(birthday_info['day'])
+        user_info={}
+        user_info.update({'gender':gender_info})
+        user_info.update({'Username':user_info1.get('name',None)})
+        user_info.update({'dob':birthday})
+        user_info.update({'email':user_info1.get('email',None)})
+        user_info.update({'password':'GoogleUser'})
+        for i in user_info:
+          if not user_info[i]:
+            return "unable to obtain your account info, "+ '<a href="'+url_for("googlelogin")+'">try relogin</a>'
+          updated=fn.updateCredentials(user_info)
+          print(updated,user_info)
+          session['Username']=user_info['Username']
+      except:
+        "unable to obtain your account info, "+ '<a href="'+url_for("googlelogin")+'">try relogin</a>'
+      del user_info2,user_info
+    del user_info1    
+    return redirect(url_for('home'))
 
 @app.route('/register/',methods=['POST','GET'])
 def register():
