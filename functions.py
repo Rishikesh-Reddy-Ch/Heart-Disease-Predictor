@@ -21,7 +21,7 @@ client=OpenAI(api_key=f.decrypt(key).decode('utf-8'))
 
 database_connection_string="mongodb+srv://heart_health-G64:heart_health-G64@cluster0.2tz5hzd.mongodb.net/"
 
-def user_idCheck(Username):
+async def user_idCheck(Username):
     try:
         client=pymongo.MongoClient(database_connection_string)
         db=client["Heart-health-dataBase"]
@@ -54,7 +54,7 @@ def pinCodeFind(address):
     if len(pin_code)==1:
         return pin_code[0]
     return False
-def addressCheck(address):
+async def addressCheck(address):
     pin_code=pinCodeFind(address=address)
     if pin_code:
         geolocator=Nominatim(user_agent="address_validator")
@@ -67,7 +67,7 @@ def addressCheck(address):
     return False
 
 
-def verify_credentials(username, password):
+async def verify_credentials(username, password):
     try:
         client=pymongo.MongoClient(database_connection_string)
         db=client["Heart-health-dataBase"]
@@ -82,7 +82,7 @@ def verify_credentials(username, password):
     except:
         return False,"Unable to access database"
 
-def updateCredentials(user):
+async def updateCredentials(user):
     try:
         new_password=bcrypt.hashpw(user["password"].encode("utf-8"),bcrypt.gensalt(11))
         client=pymongo.MongoClient(database_connection_string)
@@ -108,7 +108,7 @@ def emailValidate(email):
     except:
         return False
 
-def age_cal_gender(username,iscat):
+async def age_cal_gender(username,iscat):
     client=pymongo.MongoClient(database_connection_string)
     db=client["Heart-health-dataBase"]
     coll=db["Users"]
@@ -182,7 +182,7 @@ def BMI_cat(height,weight):
 #         return "999"
 #     return dia_age
     
-def record(data,user):
+async def record(data,user):
     # print("Hello",user)
     try:
         record={}
@@ -217,14 +217,14 @@ def CholesterolHigh(colValue):
     if colValue<200:
         return 2;
     return 1;
-def process_data(form_data,user):
+async def process_data(form_data,user):
         names=list(form_data.keys())
-        form_data['Age Cat'],form_data['Age'],form_data['Gender'] = age_cal_gender(user,True)  
+        form_data['Age Cat'],form_data['Age'],form_data['Gender'] =await age_cal_gender(user,True)  
         form_data['HighBloodPressure']=str(BloodpressureCat(int(form_data["BloodPressure"])))
         form_data['HighCholLevel']=str(CholesterolHigh(int(form_data["CholLevel"])))
         form_data["Weight"]=float(form_data["Weight"])
         form_data['bmi'] = BMI_cat(form_data['Height'],form_data['Weight'])     
-        recorded,Record=record(form_data,user)
+        recorded,Record=await record(form_data,user)
         names.append('HighBloodPressure')
         names.append('HighCholLevel')
         for i in names:
@@ -232,14 +232,16 @@ def process_data(form_data,user):
                 form_data[i]=int(form_data[i])
                 # print(int(form_data[i]))
 
-        predictionVal,predicted=prediction(form_data)
+        predictionVal,predicted=await prediction(form_data)
         
         if recorded and predicted:
             # print(predictionVal[0])
-            return True,prediction_cat(predictionVal[0],user),predictionVal[0],Record
+            cat,value=await prediction_cat(predictionVal[0],user)
+            print(value)
+            return True,cat,value,Record
         return False,np.NaN,0,{}    
 
-def prediction(formData):
+async def prediction(formData):
     # try:
         with open("HeartHealth_classifier_model.pkl","rb") as f:
             model=pkl.load(f)
@@ -266,22 +268,27 @@ def prediction(formData):
         return predictionval,True
     # except:
     #     return np.NaN,False
-def prediction_cat(value,username):
+async def prediction_cat(value,username):
     if value==np.NaN:
         cat= ""
-    elif value<0.25:
+        
+    elif value<0.16:
         cat= 'Low'
-    elif value<0.40:
+        value=value*100  * (33.33 / 16)
+    elif value<0.35:
         cat= 'Medium'
+        # print(33.33 + (value*100 - 16) * ((66.66 - 33.33) / 19))
+        value=33.33 + (value*100  - 16) * ((66.66 - 33.33) / 19)
     else:
         cat='High'
+        value=66.66 + (value*100  - 35) * ((100 - 66.66) / (100 - 35))
     client=pymongo.MongoClient(database_connection_string)
     db=client["Heart-health-dataBase"]
     coll=db["Users"]
     user=coll.find_one({"Username":username})
     coll.update_one(user,{"$set":{"prediction":value}})
     coll.update_one(user,{"$set":{"prediction-category":cat}})
-    return cat
+    return cat,value
     
 
 def dob_validate(dob):
@@ -297,7 +304,7 @@ def dob_validate(dob):
         return False
     return True
 
-def request_email(user,password):
+async def request_email(user,password):
     try:
         if not passwordCheck(password):
             return False,'Password needs: Uppercase, Lowercase, Digit, Special Char.'
@@ -314,7 +321,7 @@ def request_email(user,password):
             return False,'Invalid Username'
     except:
         return False,'Cannot Access Database'
-def change_password(password,username):
+async def change_password(password,username):
     try:
         client=pymongo.MongoClient(database_connection_string)
         db=client["Heart-health-dataBase"]
@@ -334,7 +341,7 @@ def change_password(password,username):
     except:
         return False,'Cannot Access Database'
 
-def dieteryResponse(record):
+async def dieteryResponse(record):
     # try:
 
         completion = client.chat.completions.create(
@@ -358,7 +365,7 @@ def dieteryResponse(record):
     # except:
     #     return True, ''
 
-def process_data2(formData,user):
+async def process_data2(formData,user):
     model_name='model2_all.pkl'
     order=['age',
     'gender',
@@ -373,7 +380,7 @@ def process_data2(formData,user):
     'ST_slope',
     'major-vessels']
 
-    formData["age"],formData['gender']=age_cal_gender(user,False)
+    formData["age"],formData['gender']=await age_cal_gender(user,False)
     if formData['oldpeak_unlock']!='1':
         del formData['ST-at-stress']
         del formData['ST-at-rest']

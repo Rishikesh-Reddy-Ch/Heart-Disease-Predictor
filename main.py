@@ -3,6 +3,7 @@ import functions as fn
 import pandas as pd
 import random
 import numpy as np
+import asyncio
 from flask_mail import Mail, Message
 from authlib.integrations.flask_client import OAuth
 from flask import Flask, url_for, redirect, session,request
@@ -40,47 +41,47 @@ app.config.update(
 )
 mail = Mail(app)
 @app.route('/')
-def home():
+async def home():
   return render_template('home.html')
 
 
 @app.route('/about')
-def about():
+async def about():
   return render_template('about.html')
 
 @app.route('/register/usercheck/',methods=['POST'])
-def usercheck():
+async def usercheck():
   user=request.json["UserID"]
-  flag,msg=fn.user_idCheck(user)
+  flag,msg=await fn.user_idCheck(user)
   if flag:
     valid=True
   else:
     valid=False
-  response = jsonify({"valid": valid,"msg":msg})
+  response =await jsonify({"valid": valid,"msg":msg})
   return response
 
 @app.route('/login/method/')
-def signinMethod():
+async def signinMethod():
   # print(url_for('googlelogin'))
   return render_template('SignIn_options.html')
 
 @app.route('/login/googlelogin/')
-def googlelogin():
+async def googlelogin():
     google = oauth.create_client('google')
     redirect_uri = url_for('authorize', _external=True)
     
     return google.authorize_redirect(redirect_uri, approval_prompt='auto')
 
 @app.route('/authorize')
-def authorize():
+async def authorize():
     google = oauth.create_client('google')
-    token = google.authorize_access_token()
-    resp1 = google.get('userinfo')
+    token =  google.authorize_access_token()
+    resp1 =  google.get('userinfo')
 
     user_info1 = resp1.json()
     # print(user_info1)
     
-    flag,msg=fn.user_idCheck(user_info1['name'])
+    flag,msg=await fn.user_idCheck(user_info1['name'])
     if msg:
       return msg
     if not flag:
@@ -112,7 +113,7 @@ def authorize():
     return redirect(url_for('home'))
 
 @app.route('/register/',methods=['POST','GET'])
-def register():
+async def register():
   if request.method == "POST":
     user=request.form   
   
@@ -129,7 +130,7 @@ def register():
   return render_template('register.html',messages=get_flashed_messages())
 
 @app.route('/register/email-validate/',methods=['POST'])
-def emailValidate():
+async def emailValidate():
   email=request.json['email']
   if fn.emailValidate(email):
     return jsonify({'valid':True})
@@ -137,11 +138,11 @@ def emailValidate():
 
 
 @app.route('/login/', methods=['GET', 'POST'])
-def login():
+async def login():
     if request.method == "POST":
         user=request.form
 
-        isuser,msg = fn.verify_credentials(user["Username"], user["password"])
+        isuser,msg =await fn.verify_credentials(user["Username"], user["password"])
 
         if isuser:
             session["Username"]=user["Username"]
@@ -162,13 +163,13 @@ def login():
     return render_template('login.html', messages=messages)
 
 @app.route('/logout/')
-def logout():
+async def logout():
    if "Username" in session:
     session.pop("Username")
    return redirect(url_for('home'))
 
 @app.route('/med_form/',methods=['GET','POST'])
-def form2():
+async def form2():
   if request.method=='POST':
     form_data={}
     form_data.update(request.form)
@@ -184,17 +185,17 @@ def form2():
    return "Please "+ '<a href="'+url_for("login")+'"> login</a>'+' to continue'
 
 @app.route('/form/',methods=['GET','POST'])
-def form():
+async def form():
   if request.method=='POST':
     formdata={}
     formdata.update(request.form)
-    flag,predictioncat,percent,record=fn.process_data(formdata,session["Username"])
+    flag,predictioncat,percent,record=await fn.process_data(formdata,session["Username"])
     if (not flag):
       # flash("Unable to access the dataBase","error")
       return redirect(url_for("form"))
     session['record']=record
     
-    return redirect(url_for('result',cat=predictioncat,percent=int(percent*100)))
+    return redirect(url_for('result',cat=predictioncat,percent=int(percent)))
     # return "percent: "+str(percent)
   try:
     if session["Username"]:
@@ -205,7 +206,7 @@ def form():
   return render_template("form1.html")
 
 @app.route("/result<cat>&<percent>/",methods=["GET"])
-def result(cat,percent):
+async def result(cat,percent):
   if cat=="High":
     # retrived,dietplan=fn.dieteryResponse(session['record'])
     return render_template("prediction_high.html",prediction=cat,percent=str(round(float(percent),ndigits=2)))
@@ -218,23 +219,23 @@ def result(cat,percent):
     return redirect(url_for('form'))
 
 @app.route("/result/requestDietPlan/")
-def requestDietPlan():
-  retrived,dietplan=fn.dieteryResponse(session['record'])
+async def requestDietPlan():
+  retrived,dietplan=await fn.dieteryResponse(session['record'])
   return jsonify({'retrived':retrived,'dietplan':dietplan})
 
 @app.route('/address_check/', methods=["POST"])
-def addess_checking():
+async def addess_checking():
     pin_code=request.json["pin-code"]
-    result=fn.addressCheck(pin_code)
+    result=await fn.addressCheck(pin_code)
     response = jsonify({"valid": result})
     return response
 
 @app.route('/changePassword/')
-def changePassword():
+async def changePassword():
   return render_template('change_password.html',messages=get_flashed_messages())
 
 @app.route('/changePassword/generateotp/',methods=['POST'])
-def generateotp():
+async def generateotp():
     email,error=fn.request_email(request.json["username"],request.json['password'])
     response={'generated':True,'error':None}
     if email:
@@ -256,7 +257,7 @@ def generateotp():
 
 
 @app.route('/changePassword/otpvalidation/',methods=['POST'])
-def otpValidation():
+async def otpValidation():
   response={'changed':True,'error':'success'}
   # print(session['OTP'],request.json['OTP'])
   if not fn.passwordCheck(request.json['password']):
@@ -267,17 +268,14 @@ def otpValidation():
     response['changed']=False
     response['error']="Enter valid otp"
   else:
-    response['changed'],response['error']=fn.change_password(request.json['password'],request.json['username'])
+    response['changed'],response['error']=await fn.change_password(request.json['password'],request.json['username'])
   if(response['changed']):
     session.pop('OTP')
   return jsonify(response)
 
 @app.route('/dietStore/',methods=['POST'])
-def dietStore():
+async def dietStore():
   diet=request.json["dietStore"]
-  return jsonify({'stored':fn.storediet(diet,session["Username"])})
-@app.route('/googleUserLogin/',methods=['GET'])
-def googleUserLogin():
-  return render_template('temp.html')
+  return jsonify({'stored':await fn.storediet(diet,session["Username"])})
 if __name__ == "__main__":
   app.run(debug=True)
