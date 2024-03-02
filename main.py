@@ -74,21 +74,22 @@ async def googlelogin():
 
 @app.route('/authorize')
 async def authorize():
-    google = oauth.create_client('google')
-    token =  google.authorize_access_token()
-    resp1 =  google.get('userinfo')
+    try:
+      google = oauth.create_client('google')
+      token =  google.authorize_access_token()
+      resp1 =  google.get('userinfo')
 
-    user_info1 = resp1.json()
-    # print(user_info1)
-    
-    flag,msg=await fn.user_idCheck(user_info1['name'])
-    if msg:
-      return msg
-    if not flag:
-      session['Username']=user_info1.get('name',None)
-      # print(user_info1['name'])
-    else:
-      try:
+      user_info1 = resp1.json()
+      # print(user_info1)
+      
+      flag,msg=await fn.user_idCheck(user_info1['name'])
+      if msg:
+        return msg
+      if not flag:
+        session['Username']=user_info1.get('name',None)
+        # print(user_info1['name'])
+      else:
+      
         resp2 = google.get('https://people.googleapis.com/v1/people/me?personFields=genders,birthdays')
         user_info2=resp2.json()
         gender_info = user_info2.get('genders', [{}])[0].get('formattedValue', None)
@@ -103,13 +104,13 @@ async def authorize():
         for i in user_info:
           if not user_info[i]:
             return "unable to obtain your account info, "+ '<a href="'+url_for("googlelogin")+'">try relogin</a>'
-          updated=fn.updateCredentials(user_info)
-          print(updated,user_info)
-          session['Username']=user_info['Username']
-      except:
-        "unable to obtain your account info, "+ '<a href="'+url_for("googlelogin")+'">try relogin</a>'
-      del user_info2,user_info
-    del user_info1    
+        updated=await fn.updateCredentials(user_info)
+        session['Username']=user_info['Username']
+        del user_info2,user_info
+        del user_info1  
+    except:
+      return "unable to obtain your account info, "+ '<a href="'+url_for("googlelogin")+'">try relogin</a>'
+      
     return redirect(url_for('home'))
 
 @app.route('/register/',methods=['POST','GET'])
@@ -117,7 +118,7 @@ async def register():
   if request.method == "POST":
     user=request.form   
   
-    updated=fn.updateCredentials(user)
+    updated=await fn.updateCredentials(user)
     if not updated:
       flash("Unable to connect to database","error")
       return redirect(url_for('register'))
