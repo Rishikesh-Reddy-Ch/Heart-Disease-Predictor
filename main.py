@@ -25,13 +25,6 @@ google = oauth.register(
     _AUTHORIZE_PARAMS={'approval_prompt': 'auto'}  
 )
 # import jsonify
-def session_username():
-  try:
-    if session['Username']:
-      return True
-    return False
-  except:
-    return False
 app.config.update(
     MAIL_SERVER='smtp.gmail.com',
     MAIL_PORT=465,
@@ -57,7 +50,7 @@ async def usercheck():
     valid=True
   else:
     valid=False
-  response =await jsonify({"valid": valid,"msg":msg})
+  response = jsonify({"valid": valid,"msg":msg})
   return response
 
 @app.route('/login/method/')
@@ -237,7 +230,7 @@ async def changePassword():
 
 @app.route('/changePassword/generateotp/',methods=['POST'])
 async def generateotp():
-    email,error=fn.request_email(request.json["username"],request.json['password'])
+    email,error=await fn.request_email(request.json["username"],request.json['password'])
     response={'generated':True,'error':None}
     if email:
       otp=random.randint(100000,999999)
