@@ -215,7 +215,7 @@ async def record(data,user):
     try:
         record={}
         record.update(data)
-        client = pymongo.MongoClient('mongodb+srv://heart_health-G64:heart_health-G64@cluster0.2tz5hzd.mongodb.net/')
+        client = pymongo.MongoClient(database_connection_string)
         db = client['Heart-health-dataBase']
         cl=db['Users']
         user_cal={"Username":user}
@@ -267,6 +267,7 @@ async def process_data(form_data,user):
             cat,value=await prediction_cat(predictionVal[0],user)
             print(value)
             return True,cat,value,Record
+        print(recorded,predicted)
         return False,np.NaN,0,{}    
 
 async def prediction(formData):
@@ -449,7 +450,7 @@ def prediction_form2(formdata,model_name,order):
 def record_store(data,username):
     try:
         record={}
-        client = pymongo.MongoClient('mongodb+srv://heart_health-G64:heart_health-G64@cluster0.2tz5hzd.mongodb.net/')
+        client = pymongo.MongoClient(database_connection_string)
         db = client['Heart-health-dataBase']
         cl=db['Users']
         user_cal={"Username":username}
@@ -467,7 +468,8 @@ def record_store(data,username):
         cl.update_one(user_cal,{"$set":{"record":record}})
         record['gender']=temp
         return True,record
-    except:
+    except Exception as e:
+        print(e)
         return False,{}
 
 def prediction_cat2(value,username):

@@ -188,7 +188,6 @@ async def form():
       # flash("Unable to access the dataBase","error")
       return redirect(url_for("form"))
     session['record']=record
-    
     return redirect(url_for('result',cat=predictioncat,percent=int(percent)))
     # return "percent: "+str(percent)
   try:
