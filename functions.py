@@ -47,7 +47,7 @@ if not llm_key_enc:
 
 client = OpenAI(api_key=f.decrypt(llm_key_enc).decode('utf-8'))
 
-database_connection_string="mongodb+srv://heart_health-G64:heart_health-G64@cluster0.2tz5hzd.mongodb.net/"
+database_connection_string = os.environ.get('MONGODB_URI', "mongodb://localhost:27017/")
 
 async def user_idCheck(Username):
     try:
