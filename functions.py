@@ -12,12 +12,40 @@ import bcrypt
 from cryptography.fernet import Fernet
 import google.generativeai as genai
 from openai import OpenAI
-with open('key.bin','rb') as Fkey:
-    key=Fkey.read()
-f=Fernet(key)
-with open('llm_key.bin','rb') as llmkey:
-    key=llmkey.read()
-client=OpenAI(api_key=f.decrypt(key).decode('utf-8'))
+import os
+
+# Load Fernet key from environment variable FERNET_KEY (preferred) or fallback to key.bin
+fernet_key = None
+if os.environ.get('FERNET_KEY'):
+    # Stored in .env as text
+    fernet_key = os.environ.get('FERNET_KEY').encode('utf-8')
+else:
+    try:
+        with open('key.bin','rb') as Fkey:
+            fernet_key = Fkey.read()
+    except Exception:
+        fernet_key = None
+
+if not fernet_key:
+    raise RuntimeError('FERNET key not found in environment or key.bin')
+
+f = Fernet(fernet_key)
+
+# Load encrypted LLM key (LLM_KEY_ENC) from environment or fallback to llm_key.bin
+llm_key_enc = None
+if os.environ.get('LLM_KEY_ENC'):
+    llm_key_enc = os.environ.get('LLM_KEY_ENC').encode('utf-8')
+else:
+    try:
+        with open('llm_key.bin','rb') as llmkey:
+            llm_key_enc = llmkey.read()
+    except Exception:
+        llm_key_enc = None
+
+if not llm_key_enc:
+    raise RuntimeError('Encrypted LLM key not found in environment or llm_key.bin')
+
+client = OpenAI(api_key=f.decrypt(llm_key_enc).decode('utf-8'))
 
 database_connection_string="mongodb+srv://heart_health-G64:heart_health-G64@cluster0.2tz5hzd.mongodb.net/"
 
